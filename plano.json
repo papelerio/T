@@ -178,42 +178,67 @@
     {
       "nombre": "Oficina gerencial",
       "conexiones": ["Secretaría y sala de espera", "Contabilidad", "Cocineta", "Archivos"],
-      "capa": [4]
+      "capa": [3]
     },
     {
       "nombre": "Secretaría y sala de espera",
       "conexiones": ["Vestíbulo", "Oficina gerencial", "Contabilidad"],
-      "capa": [4]
+      "capa": [3]
     },
     {
       "nombre": "Contabilidad",
       "conexiones": ["Secretaría y sala de espera", "Oficina gerencial", "Cocineta", "Archivos"],
-      "capa": [4]
+      "capa": [3]
     },
     {
       "nombre": "Archivos",
       "conexiones": ["Oficina gerencial", "Contabilidad", "Vigilancia"],
-      "capa": [4]
+      "capa": [3]
     },
     {
       "nombre": "Vigilancia",
       "conexiones": ["Archivos", "Sala de reuniones", "Pasillos"],
-      "capa": [4]
+      "capa": [3]
     },
     {
       "nombre": "Sala de reuniones",
       "conexiones": ["Vigilancia", "Pasillos", "Lobby"],
-      "capa": [4]
+      "capa": [3]
     },
     {
       "nombre": "Lobby",
-      "conexiones": ["Sala de reuniones", "Pasillos", "Departamentos"],
+      "conexiones": ["Sala de reuniones", "Pasillos", "Monoambiente 1", "Apartamento 2Dorm 1"],
       "capa": [4]
     },
     {
-      "nombre": "Departamentos",
+      "nombre": "Monoambiente 1",
+      "conexiones": ["Pasillos", "Baños", "Lobby"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Apartamento 2Dorm 1",
+      "conexiones": ["Pasillos", "Baños", "Lobby"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Monoambiente 2",
       "conexiones": ["Pasillos", "Baños"],
-      "capa": [4, 5, 6, 7, 8, 9, 10]
+      "capa": [5]
+    },
+    {
+      "nombre": "Monoambiente 3",
+      "conexiones": ["Pasillos", "Baños"],
+      "capa": [6]
+    },
+    {
+      "nombre": "Apartamento 2Dorm 2",
+      "conexiones": ["Pasillos", "Baños"],
+      "capa": [7]
+    },
+    {
+      "nombre": "Apartamento 3Dorm",
+      "conexiones": ["Pasillos", "Baños"],
+      "capa": [8]
     }
   ]
 }
