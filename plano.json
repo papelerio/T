@@ -1,0 +1,219 @@
+{
+  "habitaciones": [
+    {
+      "nombre": "Ascensor y escaleras",
+      "conexiones": ["Vestíbulo", "Pasillos", "Escaleras de emergencia"],
+      "capa": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Vestíbulo",
+      "conexiones": ["Ascensor y escaleras", "Pasillos", "Secretaría y sala de espera", "Caseta de seguridad", "Farmacia", "Supermercado", "Café bar", "Cajeros automáticos"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Escaleras de emergencia",
+      "conexiones": ["Ascensor y escaleras", "Pasillos", "Vestíbulo"],
+      "capa": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Pasillos",
+      "conexiones": ["Ascensor y escaleras", "Escaleras de emergencia", "Vestíbulo", "Departamentos", "Baños", "Gimnasio", "Piscina", "SUM", "Sala de juegos", "Oficina gerencial", "Archivos", "Vigilancia", "Sala de reuniones"],
+      "capa": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Shaft",
+      "conexiones": ["Tanques cisternas y bombas", "Transformador", "Baño y vestidor", "Cocineta", "Baños", "Departamentos"],
+      "capa": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Almacenamiento de basura",
+      "conexiones": ["Ingreso de servicio y circulación", "Depósito de mantenimiento"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Transformador",
+      "conexiones": ["Shaft", "Tanques cisternas y bombas"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Tanques cisternas y bombas",
+      "conexiones": ["Shaft", "Transformador", "Baño y vestidor", "Baños", "Cocineta"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Baño y vestidor",
+      "conexiones": ["Tanques cisternas y bombas", "Gimnasio", "Piscina", "Saunas seco", "Saunas vapor"],
+      "capa": [2, 3]
+    },
+    {
+      "nombre": "Cocineta",
+      "conexiones": ["Comedor", "SUM", "Salón", "Oficina gerencial", "Contabilidad"],
+      "capa": [1, 2, 3, 4]
+    },
+    {
+      "nombre": "Comedor",
+      "conexiones": ["Cocineta", "SUM", "Salón"],
+      "capa": [2]
+    },
+    {
+      "nombre": "Ingreso de servicio y circulación",
+      "conexiones": ["Almacenamiento de basura", "Depósito de mantenimiento", "Estacionamientos de paso"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Depósito de mantenimiento",
+      "conexiones": ["Ingreso de servicio y circulación", "Almacenamiento de basura"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Caseta de seguridad",
+      "conexiones": ["Vestíbulo", "Estacionamiento de visitas"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Estacionamiento para departamento",
+      "conexiones": ["Ascensor y escaleras", "Estacionamiento de discapacitados", "Estacionamientos de paso"],
+      "capa": [1, 2]
+    },
+    {
+      "nombre": "Estacionamiento de discapacitados",
+      "conexiones": ["Estacionamiento para departamento", "Ascensor y escaleras"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Estacionamientos de paso",
+      "conexiones": ["Estacionamiento para departamento", "Ingreso de servicio y circulación"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Estacionamiento de visitas",
+      "conexiones": ["Caseta de seguridad", "Ascensor y escaleras"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Farmacia",
+      "conexiones": ["Vestíbulo", "Supermercado", "Baños públicos"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Supermercado",
+      "conexiones": ["Vestíbulo", "Farmacia", "Baños públicos"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Baños públicos",
+      "conexiones": ["Vestíbulo", "Farmacia", "Supermercado", "Café bar"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Cajeros automáticos",
+      "conexiones": ["Vestíbulo", "Café bar"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Café bar",
+      "conexiones": ["Vestíbulo", "Cajeros automáticos", "Baños públicos", "Snack"],
+      "capa": [1]
+    },
+    {
+      "nombre": "Sala de juegos",
+      "conexiones": ["Pasillos", "SUM", "Baños"],
+      "capa": [2]
+    },
+    {
+      "nombre": "SUM",
+      "conexiones": ["Pasillos", "Salón", "Cocineta", "Comedor", "Baños"],
+      "capa": [2]
+    },
+    {
+      "nombre": "Salón",
+      "conexiones": ["SUM", "Cocineta", "Comedor", "Baños"],
+      "capa": [2]
+    },
+    {
+      "nombre": "Depósito",
+      "conexiones": ["SUM", "Salón", "Pasillos"],
+      "capa": [2]
+    },
+    {
+      "nombre": "Baños",
+      "conexiones": ["Pasillos", "SUM", "Salón", "Sala de juegos", "Gimnasio", "Piscina", "Departamentos"],
+      "capa": [2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Snack",
+      "conexiones": ["Café bar", "Piscina", "Churrasquera"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Churrasquera",
+      "conexiones": ["Snack", "Piscina", "Parques infantiles"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Parques infantiles",
+      "conexiones": ["Churrasquera", "Piscina"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Piscina",
+      "conexiones": ["Baño y vestidor", "Gimnasio", "Snack", "Churrasquera", "Parques infantiles", "Saunas seco", "Saunas vapor"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Saunas seco",
+      "conexiones": ["Piscina", "Baño y vestidor", "Saunas vapor"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Saunas vapor",
+      "conexiones": ["Piscina", "Baño y vestidor", "Saunas seco"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Gimnasio",
+      "conexiones": ["Baño y vestidor", "Piscina", "Pasillos"],
+      "capa": [3]
+    },
+    {
+      "nombre": "Oficina gerencial",
+      "conexiones": ["Secretaría y sala de espera", "Contabilidad", "Cocineta", "Archivos"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Secretaría y sala de espera",
+      "conexiones": ["Vestíbulo", "Oficina gerencial", "Contabilidad"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Contabilidad",
+      "conexiones": ["Secretaría y sala de espera", "Oficina gerencial", "Cocineta", "Archivos"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Archivos",
+      "conexiones": ["Oficina gerencial", "Contabilidad", "Vigilancia"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Vigilancia",
+      "conexiones": ["Archivos", "Sala de reuniones", "Pasillos"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Sala de reuniones",
+      "conexiones": ["Vigilancia", "Pasillos", "Lobby"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Lobby",
+      "conexiones": ["Sala de reuniones", "Pasillos", "Departamentos"],
+      "capa": [4]
+    },
+    {
+      "nombre": "Departamentos",
+      "conexiones": ["Pasillos", "Baños"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
+    }
+  ]
+}
