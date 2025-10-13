@@ -17,12 +17,12 @@
     },
     {
       "nombre": "Pasillos",
-      "conexiones": ["Ascensor y escaleras", "Escaleras de emergencia", "Vestíbulo", "Departamentos", "Baños", "Gimnasio", "Piscina", "SUM", "Sala de juegos", "Oficina gerencial", "Archivos", "Vigilancia", "Sala de reuniones"],
+      "conexiones": ["Ascensor y escaleras", "Escaleras de emergencia", "Vestíbulo", "Monoambiente 1", "Monoambiente 2", "Monoambiente 3", "Apartamento 2D 1", "Apartamento 2D 2", "Apartamento 3D", "Baños", "Gimnasio", "Piscina", "SUM", "Sala de juegos", "Oficina gerencial", "Archivos", "Vigilancia", "Sala de reuniones"],
       "capa": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
       "nombre": "Shaft",
-      "conexiones": ["Tanques cisternas y bombas", "Transformador", "Baño y vestidor", "Cocineta", "Baños", "Departamentos"],
+      "conexiones": ["Tanques cisternas y bombas", "Transformador", "Baño y vestidor", "Cocineta", "Baños", "Monoambiente 1", "Monoambiente 2", "Monoambiente 3", "Apartamento 2D 1", "Apartamento 2D 2", "Apartamento 3D"],
       "capa": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
@@ -137,7 +137,7 @@
     },
     {
       "nombre": "Baños",
-      "conexiones": ["Pasillos", "SUM", "Salón", "Sala de juegos", "Gimnasio", "Piscina", "Departamentos"],
+      "conexiones": ["Pasillos", "SUM", "Salón", "Sala de juegos", "Gimnasio", "Piscina", "Monoambiente 1", "Monoambiente 2", "Monoambiente 3", "Apartamento 2D 1", "Apartamento 2D 2", "Apartamento 3D"],
       "capa": [2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     {
@@ -207,23 +207,38 @@
     },
     {
       "nombre": "Lobby",
-      "conexiones": ["Sala de reuniones", "Pasillos", "Departamentos"],
+      "conexiones": ["Sala de reuniones", "Pasillos", "Monoambiente 1", "Monoambiente 2", "Monoambiente 3", "Apartamento 2D 1", "Apartamento 2D 2", "Apartamento 3D"],
       "capa": [4]
     },
     {
-      "nombre": "Departamentos",
-      "conexiones": ["Pasillos", "Baños"],
-      "capa": [4, 5, 6, 7, 8, 9, 10],
-      "detalle": {
-        "monoambientes": 3,
-        "apartamentos_2_dorm": 2,
-        "apartamentos_3_dorm": 1
-      }
+      "nombre": "Monoambiente 1",
+      "conexiones": ["Pasillos", "Baños", "Shaft"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
     },
     {
-      "nombre": "Baños",
-      "conexiones": ["Pasillos", "Departamentos"],
-      "capa": [2, 3, 4, 5, 6, 7, 8, 9, 10]
+      "nombre": "Monoambiente 2",
+      "conexiones": ["Pasillos", "Baños", "Shaft"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Monoambiente 3",
+      "conexiones": ["Pasillos", "Baños", "Shaft"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Apartamento 2D 1",
+      "conexiones": ["Pasillos", "Baños", "Shaft"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Apartamento 2D 2",
+      "conexiones": ["Pasillos", "Baños", "Shaft"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "nombre": "Apartamento 3D",
+      "conexiones": ["Pasillos", "Baños", "Shaft"],
+      "capa": [4, 5, 6, 7, 8, 9, 10]
     }
   ]
 }
