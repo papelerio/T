@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat IA con Memoria - OpenRouter</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <style>
         :root {
             --primary: #7c3aed;
@@ -57,24 +60,24 @@
         }
         
         body {
-            background: transparent; /* Fondo transparente para eliminar el gradiente morado */
+            background: transparent;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0; /* Eliminar padding para maximizar espacio */
+            padding: 0;
         }
 
         .dark-mode body {
-            background: transparent; /* Fondo transparente en modo oscuro */
+            background: transparent;
         }
         
         .container {
-            width: 100vw; /* Ocupa todo el ancho de la ventana */
-            height: 100vh; /* Ocupa todo el alto de la ventana */
+            width: 100vw;
+            height: 100vh;
             background: var(--bg-color);
-            border-radius: 0; /* Eliminar bordes redondeados para ocupar todo el espacio */
-            box-shadow: none; /* Eliminar sombra para un diseño más limpio */
+            border-radius: 0;
+            box-shadow: none;
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
@@ -518,7 +521,7 @@
             position: relative;
             animation: fadeIn 0.4s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            white-space: pre-wrap; /* IMPORTANTE: Conserva saltos de línea */
+            white-space: pre-wrap;
         }
         
         @keyframes fadeIn {
@@ -572,20 +575,18 @@
         
         .message-content {
             margin-top: 5px;
-            white-space: pre-wrap; /* IMPORTANTE: Conserva saltos de línea */
+            white-space: pre-wrap;
         }
 
-        /* Estilos para texto entre comillas */
         .quoted-text {
             color: var(--quote-color);
             font-weight: 600;
             padding: 2px 4px;
             border-radius: 4px;
             background: rgba(69, 245, 66, 0.1);
-            white-space: normal; /* Para que el texto entre comillas se ajuste normalmente */
+            white-space: normal;
         }
 
-        /* Estilos para texto entre asteriscos */
         .asterisk-text {
             color: var(--asterisk-color);
             font-weight: 600;
@@ -804,7 +805,6 @@
             background: #dc2626;
         }
         
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -847,7 +847,6 @@
             color: var(--dark);
         }
 
-        /* Color Picker Styles */
         .color-picker-group {
             display: flex;
             align-items: center;
@@ -881,7 +880,6 @@
             text-align: center;
         }
 
-        /* Rooms Styles */
         .rooms-section {
             margin-top: 20px;
         }
@@ -958,7 +956,6 @@
             color: var(--text-color);
         }
 
-        /* API Keys Management Styles */
         .api-keys-management {
             margin-top: 15px;
         }
@@ -1035,7 +1032,7 @@
         
         @media (max-width: 768px) {
             body {
-                padding: 0; /* Eliminar padding para móviles */
+                padding: 0;
             }
 
             .container {
@@ -1236,6 +1233,21 @@
     </div>
 
     <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3fUC0W16D-xQxk-NRyX-Hl5uhkg_wO3c",
+            authDomain: "repositoia.firebaseapp.com",
+            databaseURL: "https://repositoia-default-rtdb.firebaseio.com",
+            projectId: "repositoia",
+            storageBucket: "repositoia.firebasestorage.app",
+            messagingSenderId: "180873573579",
+            appId: "1:180873573579:web:fb93deff0e28e53f77d74e"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         // Configuración inicial
         let conversationHistory = [];
         let currentModel = localStorage.getItem('selectedModel') || '';
@@ -1246,12 +1258,8 @@
         let isDarkMode = localStorage.getItem('darkMode') === 'true';
         let allModels = [];
         
-        // Sistema de APIs
-        let apiKeys = JSON.parse(localStorage.getItem('apiKeys')) || [
-            { id: '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', name: 'Cuenta 1' },
-            { id: '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', name: 'Cuenta 2' },
-            { id: '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', name: 'Cuenta 3' }
-        ];
+        // Sistema de APIs - Ahora vacío por defecto
+        let apiKeys = [];
         
         // Sistema de salas
         let rooms = JSON.parse(localStorage.getItem('rooms')) || [
@@ -1302,6 +1310,60 @@
         const newApiKeyValue = document.getElementById('new-api-key-value');
         const addApiKeyBtn = document.getElementById('add-api-key');
         
+        // Inicializar Firebase y cargar APIs
+        async function initializeFirebase() {
+            try {
+                await loadApiKeysFromFirebase();
+                showSuccess('Conectado a Firebase');
+            } catch (error) {
+                console.error('Error inicializando Firebase:', error);
+                showError('Error conectando a Firebase. Las APIs se guardarán localmente.');
+            }
+        }
+
+        // Cargar APIs desde Firebase
+        async function loadApiKeysFromFirebase() {
+            try {
+                const snapshot = await database.ref('apiKeys').once('value');
+                const firebaseApiKeys = snapshot.val();
+                
+                if (firebaseApiKeys) {
+                    apiKeys = Object.values(firebaseApiKeys);
+                    renderApiKeys();
+                    
+                    if (apiKeys.length > 0 && !apiKey) {
+                        apiKey = apiKeys[0].id;
+                        localStorage.setItem('activeApiKey', apiKey);
+                        apiKeySelect.value = apiKey;
+                    }
+                } else {
+                    // No hay APIs en Firebase, inicializar array vacío
+                    apiKeys = [];
+                    renderApiKeys();
+                }
+            } catch (error) {
+                console.error('Error cargando APIs desde Firebase:', error);
+                throw error;
+            }
+        }
+
+        // Guardar APIs en Firebase
+        async function saveApiKeysToFirebase() {
+            try {
+                // Convertir array a objeto para Firebase
+                const apiKeysObject = {};
+                apiKeys.forEach((api, index) => {
+                    apiKeysObject[`key_${index}`] = api;
+                });
+                
+                await database.ref('apiKeys').set(apiKeysObject);
+                return true;
+            } catch (error) {
+                console.error('Error guardando APIs en Firebase:', error);
+                return false;
+            }
+        }
+
         // Inicializar tema y colores
         function initializeTheme() {
             if (isDarkMode) {
@@ -1312,12 +1374,10 @@
                 themeToggle.textContent = '🌙';
             }
             
-            // Aplicar color de citas
             document.documentElement.style.setProperty('--quote-color', quoteColor);
             quoteColorPicker.value = quoteColor;
             updateColorPreview();
 
-            // Aplicar color de asteriscos
             document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
             document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
             asteriskColorPicker.value = asteriskColor;
@@ -1333,7 +1393,6 @@
             }
         }
         
-        // Función para convertir hex a rgb
         function hexToRgb(hex) {
             hex = hex.replace('#', '');
             const r = parseInt(hex.substring(0, 2), 16);
@@ -1342,30 +1401,24 @@
             return `${r}, ${g}, ${b}`;
         }
         
-        // Actualizar vista previa del color de citas
         function updateColorPreview() {
             colorPreview.style.color = quoteColor;
             colorPreview.style.background = `${quoteColor}20`;
         }
         
-        // Actualizar vista previa del color de asteriscos
         function updateAsteriskColorPreview() {
             asteriskColorPreview.style.color = asteriskColor;
             asteriskColorPreview.style.background = `${asteriskColor}20`;
         }
         
-        // Procesar texto para resaltar citas entre comillas, texto entre asteriscos y mantener saltos de línea
         function processSpecialText(text) {
-            // Primero, procesar saltos de línea
             let processedText = text.replace(/\n/g, '<br>');
             
-            // Luego, procesar texto entre comillas dobles
             const quoteRegex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
             processedText = processedText.replace(quoteRegex, (match, content) => {
                 return `<span class="quoted-text">"${content}"</span>`;
             });
             
-            // Luego, procesar texto entre asteriscos simples
             const asteriskRegex = /\*([^*]+)\*/g;
             processedText = processedText.replace(asteriskRegex, (match, content) => {
                 return `<span class="asterisk-text">${content}</span>`;
@@ -1374,17 +1427,13 @@
             return processedText;
         }
         
-        // Toggle modo oscuro
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             localStorage.setItem('darkMode', isDarkMode);
             initializeTheme();
-            
-            // Reprocesar todos los mensajes existentes para aplicar nuevos estilos
             reprocessAllMessages();
         }
         
-        // Reprocesar todos los mensajes para aplicar nuevos estilos
         function reprocessAllMessages() {
             const messageContents = document.querySelectorAll('.message-content');
             messageContents.forEach(content => {
@@ -1393,7 +1442,6 @@
             });
         }
         
-        // Cargar lista de modelos desde OpenRouter
         async function loadModels() {
             const updateConfigBtn = document.getElementById('update-config');
             updateConfigBtn.textContent = '🔄';
@@ -1454,7 +1502,6 @@
             }
         }
         
-        // Poblar la lista de modelos
         function populateModelsList(models) {
             modelsList.innerHTML = '';
             models.forEach(model => {
@@ -1473,7 +1520,6 @@
             }
         }
         
-        // Filtrar modelos
         function filterModels(searchTerm) {
             const filtered = allModels.filter(model => 
                 model.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -1482,7 +1528,6 @@
             populateModelsList(filtered);
         }
         
-        // Seleccionar un modelo
         function selectModel(modelId) {
             currentModel = modelId;
             localStorage.setItem('selectedModel', modelId);
@@ -1491,7 +1536,6 @@
             modelSearchInput.value = '';
         }
         
-        // Actualizar display del modelo
         function updateModelDisplay(modelId) {
             const model = allModels.find(m => m.id === modelId);
             if (model) {
@@ -1503,7 +1547,6 @@
             }
         }
         
-        // Generar respuesta de asistente
         async function generateAssistantResponse() {
             if (!currentModel) {
                 showError('Selecciona un modelo antes de generar.');
@@ -1553,7 +1596,6 @@
                 const aiIndex = conversationHistory.length;
                 conversationHistory.push({ role: 'assistant', content: aiResponse });
                 
-                // Guardar en el historial de la sala actual
                 saveCurrentRoomHistory();
                 
                 addMessage(aiResponse, 'ai', aiIndex);
@@ -1578,7 +1620,6 @@
             }
         }
         
-        // Editar mensaje
         function initEdit(messageElement, historyIndex) {
             const header = messageElement.querySelector('.message-header');
             const content = messageElement.querySelector('.message-content');
@@ -1628,7 +1669,6 @@
             textarea.focus();
         }
         
-        // Regenerar
         async function initRegenerate(messageElement, historyIndex) {
             const role = conversationHistory[historyIndex].role;
             let truncateTo;
@@ -1659,7 +1699,6 @@
             showSuccess('Respuesta regenerada');
         }
         
-        // Copiar mensaje
         function copyMessage(text) {
             navigator.clipboard.writeText(text).then(() => {
                 showSuccess('Mensaje copiado al portapapeles');
@@ -1669,7 +1708,6 @@
             });
         }
         
-        // Enviar mensaje
         async function sendMessage() {
             const message = userInput.value.trim();
             if (!message || !currentModel) {
@@ -1695,7 +1733,6 @@
             userInput.focus();
         }
         
-        // Agregar mensaje al chat
         function addMessage(text, sender, historyIndex = null) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
@@ -1763,7 +1800,6 @@
             return messageElement;
         }
         
-        // Mostrar indicador de escritura
         function showTypingIndicator() {
             const typingElement = document.createElement('div');
             typingElement.classList.add('typing-indicator');
@@ -1782,7 +1818,6 @@
             return typingElement;
         }
         
-        // Mostrar información de memoria
         function showMemoryInfo() {
             const existingInfo = document.querySelector('.memory-info');
             if (existingInfo) {
@@ -1803,7 +1838,6 @@
             }, 5000);
         }
         
-        // Mostrar error
         function showError(message) {
             const errorElement = document.createElement('div');
             errorElement.classList.add('error-message');
@@ -1819,7 +1853,6 @@
             }, 7000);
         }
         
-        // Mostrar éxito
         function showSuccess(message) {
             const successElement = document.createElement('div');
             successElement.classList.add('success-message');
@@ -1835,12 +1868,10 @@
             }, 3000);
         }
         
-        // Desplazar al final del chat
         function scrollToBottom() {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
         
-        // Actualizar configuración
         function updateConfig() {
             const newApiKey = apiKeySelect.value;
             if (newApiKey) {
@@ -1859,7 +1890,6 @@
             }
         }
         
-        // Limpiar chat
         function clearChat() {
             conversationHistory = [];
             saveCurrentRoomHistory();
@@ -1867,7 +1897,6 @@
             showSuccess('Chat limpiado');
         }
         
-        // Sistema de salas
         function getCurrentRoom() {
             return rooms.find(room => room.id === currentRoomId) || rooms[0];
         }
@@ -1911,7 +1940,6 @@
             saveRooms();
             renderRoomsList();
             
-            // Si eliminamos la sala actual, cambiar a la primera disponible
             if (currentRoomId === roomId) {
                 switchToRoom(rooms[0].id);
             }
@@ -1926,11 +1954,9 @@
             const room = getCurrentRoom();
             conversationHistory = [...room.history];
             
-            // Actualizar UI
             updateCurrentRoomDisplay();
             renderRoomsList();
             
-            // Limpiar y cargar mensajes de la nueva sala
             messagesContainer.innerHTML = '';
             conversationHistory.forEach((message, index) => {
                 addMessage(message.content, message.role === 'user' ? 'user' : 'ai', index);
@@ -1946,7 +1972,6 @@
         }
         
         function renderRoomsList() {
-            // Renderizar lista de salas en el modal
             allRoomsList.innerHTML = '';
             rooms.forEach(room => {
                 const roomElement = document.createElement('div');
@@ -1985,12 +2010,7 @@
         }
         
         // Sistema de gestión de APIs
-        function saveApiKeys() {
-            localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
-        }
-        
         function renderApiKeys() {
-            // Actualizar select de API Keys
             apiKeySelect.innerHTML = '';
             apiKeys.forEach(api => {
                 const option = document.createElement('option');
@@ -2002,7 +2022,6 @@
                 apiKeySelect.appendChild(option);
             });
             
-            // Actualizar lista de API Keys
             apiKeysList.innerHTML = '';
             apiKeys.forEach((api, index) => {
                 const apiElement = document.createElement('div');
@@ -2030,13 +2049,12 @@
             });
         }
         
-        function addApiKey(name, key) {
+        async function addApiKey(name, key) {
             if (!name.trim() || !key.trim()) {
                 showError('El nombre y la clave de API son obligatorios');
                 return;
             }
             
-            // Verificar si ya existe una API con ese nombre
             if (apiKeys.some(api => api.name === name)) {
                 showError('Ya existe una API con ese nombre');
                 return;
@@ -2048,10 +2066,17 @@
             };
             
             apiKeys.push(newApi);
-            saveApiKeys();
+            
+            // Intentar guardar en Firebase
+            const firebaseSuccess = await saveApiKeysToFirebase();
+            if (!firebaseSuccess) {
+                // Si falla Firebase, guardar localmente
+                localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
+                showError('No se pudo guardar en Firebase. Los datos se guardarán localmente.');
+            }
+            
             renderApiKeys();
             
-            // Si es la primera API, seleccionarla automáticamente
             if (apiKeys.length === 1) {
                 apiKey = newApi.id;
                 localStorage.setItem('activeApiKey', apiKey);
@@ -2063,7 +2088,7 @@
             showSuccess(`API "${name}" añadida correctamente`);
         }
         
-        function deleteApiKey(index) {
+        async function deleteApiKey(index) {
             if (apiKeys.length <= 1) {
                 showError('No puedes eliminar la única API existente');
                 return;
@@ -2072,7 +2097,6 @@
             const apiName = apiKeys[index].name;
             const deletedApiKey = apiKeys[index].id;
             
-            // Si estamos eliminando la API activa, cambiar a otra
             if (deletedApiKey === apiKey) {
                 const newIndex = index === 0 ? 1 : 0;
                 apiKey = apiKeys[newIndex].id;
@@ -2080,7 +2104,15 @@
             }
             
             apiKeys.splice(index, 1);
-            saveApiKeys();
+            
+            // Intentar guardar en Firebase
+            const firebaseSuccess = await saveApiKeysToFirebase();
+            if (!firebaseSuccess) {
+                // Si falla Firebase, guardar localmente
+                localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
+                showError('No se pudo guardar en Firebase. Los datos se guardarán localmente.');
+            }
+            
             renderApiKeys();
             showSuccess(`API "${apiName}" eliminada`);
         }
@@ -2125,7 +2157,6 @@
                 modelsList.classList.remove('show');
             }
 
-            // Cerrar sidebar en mobile si se hace click fuera
             if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && 
                 !e.target.closest('.sidebar') && !e.target.closest('.mobile-menu-btn')) {
                 document.body.classList.remove('sidebar-open');
@@ -2137,10 +2168,8 @@
             this.style.height = Math.min(this.scrollHeight, 150) + 'px';
         });
         
-        // Tema oscuro
         themeToggle.addEventListener('click', toggleDarkMode);
 
-        // Mobile menu toggle
         if (mobileMenuBtn) {
             mobileMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -2148,12 +2177,11 @@
             });
         }
         
-        // Modal Nueva Sala
         newRoomBtn.addEventListener('click', () => {
             newRoomModal.style.display = 'block';
             roomNameInput.value = '';
             roomPromptInput.value = '';
-            document.body.classList.remove('sidebar-open'); // Cerrar sidebar si está abierto
+            document.body.classList.remove('sidebar-open');
         });
         
         closeNewRoom.addEventListener('click', () => {
@@ -2179,10 +2207,9 @@
             }
         });
         
-        // Modal Salas Creadas
         roomsBtn.addEventListener('click', () => {
             roomsModal.style.display = 'block';
-            document.body.classList.remove('sidebar-open'); // Cerrar sidebar si está abierto
+            document.body.classList.remove('sidebar-open');
         });
         
         closeRooms.addEventListener('click', () => {
@@ -2195,24 +2222,21 @@
             }
         });
         
-        // Modal Editar Sala
         editRoomBtn.addEventListener('click', () => {
             editRoomModal.style.display = 'block';
             systemPromptInput.value = systemPrompt;
-            document.body.classList.remove('sidebar-open'); // Cerrar sidebar si está abierto
+            document.body.classList.remove('sidebar-open');
         });
         
         closeEditRoom.addEventListener('click', () => {
             editRoomModal.style.display = 'none';
         });
         
-        // Color picker para citas
         quoteColorPicker.addEventListener('input', (e) => {
             quoteColor = e.target.value;
             updateColorPreview();
         });
         
-        // Color picker para asteriscos
         asteriskColorPicker.addEventListener('input', (e) => {
             asteriskColor = e.target.value;
             updateAsteriskColorPreview();
@@ -2237,7 +2261,6 @@
             }
         });
 
-        // Gestión de APIs
         addApiKeyBtn.addEventListener('click', () => {
             addApiKey(newApiKeyName.value.trim(), newApiKeyValue.value.trim());
         });
@@ -2248,12 +2271,11 @@
             showSuccess('API Key cambiada');
         });
 
-        // Handle resize for mobile detection
         window.addEventListener('resize', handleResize);
         
         // Inicializar
         initializeTheme();
-        renderApiKeys();
+        initializeFirebase(); // Cambiado: ahora inicializa Firebase primero
         if (apiKeys.length > 0 && !apiKey) {
             apiKey = apiKeys[0].id;
             localStorage.setItem('activeApiKey', apiKey);
