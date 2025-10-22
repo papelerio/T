@@ -183,8 +183,36 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--light-gray) transparent;
+        }
+        
+        .sidebar-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background-color: var(--light-gray);
+            border-radius: 3px;
+        }
+        
+        .sidebar-content::-webkit-scrollbar-thumb:hover {
+            background-color: var(--gray);
         }
         
         .current-room-display {
@@ -195,6 +223,7 @@
             color: var(--text-color);
             text-align: center;
             font-weight: 600;
+            flex-shrink: 0;
         }
         
         .config-section {
@@ -203,6 +232,7 @@
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
         
         .config-section h3 {
@@ -542,6 +572,16 @@
             color: var(--message-text-ai);
             border: 1px solid var(--light-gray);
             border-bottom-left-radius: 6px;
+        }
+
+        /* Mensaje de IA con escritura en tiempo real */
+        .ai-message.streaming {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .ai-message.streaming .message-content {
+            min-height: 20px;
         }
         
         .message-header {
@@ -1029,6 +1069,26 @@
             padding: 8px 10px;
             font-size: 0.85rem;
         }
+
+        /* Indicador de scroll para sidebar */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .scroll-indicator.show {
+            opacity: 1;
+        }
         
         @media (max-width: 768px) {
             body {
@@ -1049,8 +1109,8 @@
                 position: fixed;
                 top: 0;
                 left: -100%;
-                width: 80%;
-                max-width: 300px;
+                width: 85%;
+                max-width: 320px;
                 height: 100vh;
                 z-index: 1000;
                 border-right: none;
@@ -1107,6 +1167,10 @@
             .form-row {
                 flex-direction: column;
             }
+
+            .sidebar-content {
+                gap: 12px;
+            }
         }
     </style>
 </head>
@@ -1114,50 +1178,53 @@
     <div class="container">
         <div class="chat-container">
             <div class="sidebar">
-                <div class="current-room-display" id="current-room-display">Sala actual: General</div>
-                <div class="config-section">
-                    
-                    <div class="form-group">
-                        <label for="model-search">Buscar Modelo:</label>
-                        <div class="model-search-container">
-                            <input type="text" id="model-search" class="model-search-input" placeholder="Escribe para buscar (ej: 'ar' para claude-3.5-sonnet)" />
-                            <div class="models-list" id="models-list">
-                                <!-- Los items se generarán dinámicamente -->
+                <div class="sidebar-content">
+                    <div class="current-room-display" id="current-room-display">Sala actual: General</div>
+                    <div class="config-section">
+                        
+                        <div class="form-group">
+                            <label for="model-search">Buscar Modelo:</label>
+                            <div class="model-search-container">
+                                <input type="text" id="model-search" class="model-search-input" placeholder="Escribe para buscar (ej: 'ar' para claude-3.5-sonnet)" />
+                                <div class="models-list" id="models-list">
+                                    <!-- Los items se generarán dinámicamente -->
+                                </div>
+                            </div>
+                            <div class="model-display" id="model-display">Ningún modelo seleccionado</div>
+                        </div>
+                        
+                        <div class="api-keys-section">
+                            <label for="api-key-select">API Activa:</label>
+                            <select id="api-key-select">
+                                <!-- Las opciones se generarán dinámicamente -->
+                            </select>
+                        </div>
+
+                        <div class="api-keys-management">
+                            <div class="api-keys-list" id="api-keys-list">
+                                <!-- Las APIs se generarán dinámicamente -->
+                            </div>
+                            <div class="add-api-key-form">
+                                <div class="form-row">
+                                    <input type="text" id="new-api-key-name" placeholder="Nombre de la API" />
+                                    <input type="text" id="new-api-key-value" placeholder="Clave de API" />
+                                </div>
                             </div>
                         </div>
-                        <div class="model-display" id="model-display">Ningún modelo seleccionado</div>
-                    </div>
-                    
-                    <div class="api-keys-section">
-                        <label for="api-key-select">API Activa:</label>
-                        <select id="api-key-select">
-                            <!-- Las opciones se generarán dinámicamente -->
-                        </select>
-                    </div>
-
-                    <div class="api-keys-management">
-                        <div class="api-keys-list" id="api-keys-list">
-                            <!-- Las APIs se generarán dinámicamente -->
+                        
+                        <div class="actions-grid">
+                            <button class="action-icon primary" id="add-api-key" title="Añadir API">🔑</button>
+                            <button class="action-icon primary" id="update-config" title="Actualizar Configuración y Cargar Modelos">🔄</button>
+                            <button class="action-icon danger" id="clear-chat" title="Limpiar Chat">🗑️</button>
+                            <button class="action-icon" id="new-room-btn" title="Nueva Sala">➕</button>
+                            <button class="action-icon" id="rooms-btn" title="Salas Creadas">📋</button>
+                            <button class="action-icon" id="edit-room-btn" title="Editar Sala">✏️</button>
+                            <button class="action-icon theme" id="theme-toggle" title="Cambiar tema">🌙</button>
                         </div>
-                        <div class="add-api-key-form">
-                            <div class="form-row">
-                                <input type="text" id="new-api-key-name" placeholder="Nombre de la API" />
-                                <input type="text" id="new-api-key-value" placeholder="Clave de API" />
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="actions-grid">
-                        <button class="action-icon primary" id="add-api-key" title="Añadir API">🔑</button>
-                        <button class="action-icon primary" id="update-config" title="Actualizar Configuración y Cargar Modelos">🔄</button>
-                        <button class="action-icon danger" id="clear-chat" title="Limpiar Chat">🗑️</button>
-                        <button class="action-icon" id="new-room-btn" title="Nueva Sala">➕</button>
-                        <button class="action-icon" id="rooms-btn" title="Salas Creadas">📋</button>
-                        <button class="action-icon" id="edit-room-btn" title="Editar Sala">✏️</button>
-                        <button class="action-icon theme" id="theme-toggle" title="Cambiar tema">🌙</button>
-                    </div>
 
+                    </div>
                 </div>
+                <div class="scroll-indicator" id="scroll-indicator">Desliza para ver más</div>
             </div>
             
             <div class="chat-area">
@@ -1273,6 +1340,10 @@
         ];
         let currentRoomId = localStorage.getItem('currentRoomId') || 'general';
         
+        // Variables para streaming
+        let currentStreamingMessage = null;
+        let currentStreamingContent = '';
+        
         // Elementos del DOM
         const messagesContainer = document.getElementById('messages-container');
         const userInput = document.getElementById('user-input');
@@ -1309,6 +1380,8 @@
         const newApiKeyName = document.getElementById('new-api-key-name');
         const newApiKeyValue = document.getElementById('new-api-key-value');
         const addApiKeyBtn = document.getElementById('add-api-key');
+        const sidebarContent = document.querySelector('.sidebar-content');
+        const scrollIndicator = document.getElementById('scroll-indicator');
         
         // Inicializar Firebase y cargar APIs
         async function initializeFirebase() {
@@ -1382,6 +1455,22 @@
             document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
             asteriskColorPicker.value = asteriskColor;
             updateAsteriskColorPreview();
+        }
+
+        // Manejar scroll del sidebar
+        function setupSidebarScroll() {
+            if (sidebarContent) {
+                sidebarContent.addEventListener('scroll', () => {
+                    const { scrollTop, scrollHeight, clientHeight } = sidebarContent;
+                    const isNearBottom = scrollHeight - scrollTop - clientHeight < 50;
+                    
+                    if (!isNearBottom && scrollHeight > clientHeight) {
+                        scrollIndicator.classList.add('show');
+                    } else {
+                        scrollIndicator.classList.remove('show');
+                    }
+                });
+            }
         }
 
         function handleResize() {
@@ -1547,6 +1636,7 @@
             }
         }
         
+        // FUNCIÓN MEJORADA: Generar respuesta con streaming
         async function generateAssistantResponse() {
             if (!currentModel) {
                 showError('Selecciona un modelo antes de generar.');
@@ -1558,7 +1648,13 @@
                 return;
             }
             
-            const typingIndicator = showTypingIndicator();
+            // Crear mensaje de streaming vacío
+            const streamingMessage = addMessage('', 'ai');
+            streamingMessage.classList.add('streaming');
+            const contentElement = streamingMessage.querySelector('.message-content');
+            
+            currentStreamingMessage = streamingMessage;
+            currentStreamingContent = '';
             
             try {
                 const currentRoom = getCurrentRoom();
@@ -1581,7 +1677,8 @@
                             },
                             ...conversationHistory
                         ],
-                        max_tokens: 4000
+                        max_tokens: 4000,
+                        stream: true  // Habilitar streaming
                     })
                 });
                 
@@ -1590,20 +1687,51 @@
                     throw new Error(errorData.error?.message || `Error HTTP: ${response.status}`);
                 }
                 
-                const data = await response.json();
-                const aiResponse = data.choices[0].message.content;
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let done = false;
                 
+                while (!done) {
+                    const { value, done: doneReading } = await reader.read();
+                    done = doneReading;
+                    
+                    if (value) {
+                        const chunk = decoder.decode(value);
+                        const lines = chunk.split('\n');
+                        
+                        for (const line of lines) {
+                            if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                                try {
+                                    const data = JSON.parse(line.slice(6));
+                                    if (data.choices[0].delta.content) {
+                                        currentStreamingContent += data.choices[0].delta.content;
+                                        contentElement.innerHTML = processSpecialText(currentStreamingContent);
+                                        scrollToBottom();
+                                    }
+                                } catch (e) {
+                                    // Ignorar errores de parsing en chunks parciales
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Finalizar streaming
+                streamingMessage.classList.remove('streaming');
                 const aiIndex = conversationHistory.length;
-                conversationHistory.push({ role: 'assistant', content: aiResponse });
-                
+                conversationHistory.push({ role: 'assistant', content: currentStreamingContent });
                 saveCurrentRoomHistory();
-                
-                addMessage(aiResponse, 'ai', aiIndex);
                 
                 showMemoryInfo();
                 
             } catch (error) {
                 console.error('Error:', error);
+                
+                // Limpiar mensaje de streaming en caso de error
+                if (currentStreamingMessage) {
+                    currentStreamingMessage.remove();
+                }
+                
                 let errorMsg = 'Error al conectar con la IA. ';
                 
                 if (error.message.includes('API') || error.message.includes('key')) {
@@ -1616,7 +1744,8 @@
                 
                 showError(errorMsg);
             } finally {
-                typingIndicator.remove();
+                currentStreamingMessage = null;
+                currentStreamingContent = '';
             }
         }
         
@@ -2315,6 +2444,7 @@
         // Inicializar
         initializeTheme();
         initializeFirebase();
+        setupSidebarScroll(); // Configurar scroll del sidebar
         if (apiKeys.length > 0 && !apiKey) {
             apiKey = apiKeys[0].id;
             localStorage.setItem('activeApiKey', apiKey);
