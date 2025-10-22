@@ -1210,10 +1210,10 @@
     <div id="edit-room-modal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-edit-room">&times;</span>
-            <h2>Editar Sala</h2>
+            <h2>Editar Sala Actual</h2>
             <div class="form-group">
-                <label for="system-prompt">Prompt Base para IA:</label>
-                <textarea id="system-prompt" rows="3" placeholder="Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat.">Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat.</textarea>
+                <label for="system-prompt">Prompt Personalizado para esta Sala:</label>
+                <textarea id="system-prompt" rows="6" placeholder="Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat."></textarea>
             </div>
             
             <div class="color-picker-group">
@@ -1228,7 +1228,7 @@
                 <div class="color-preview" id="asterisk-color-preview">Texto de ejemplo *con asteriscos*</div>
             </div>
             
-            <button class="btn btn-primary" id="save-room">Guardar Cambios</button>
+            <button class="btn btn-primary" id="save-room">Guardar Cambios en la Sala</button>
         </div>
     </div>
 
@@ -1897,6 +1897,8 @@
             showSuccess('Chat limpiado');
         }
         
+        // FUNCIONES CORREGIDAS PARA EL SISTEMA DE SALAS
+        
         function getCurrentRoom() {
             return rooms.find(room => room.id === currentRoomId) || rooms[0];
         }
@@ -2007,6 +2009,56 @@
                 
                 allRoomsList.appendChild(roomElement);
             });
+        }
+
+        // FUNCIÓN CORREGIDA PARA ABRIR EL MODAL DE EDICIÓN
+        function openEditRoomModal() {
+            const currentRoom = getCurrentRoom();
+            if (!currentRoom) {
+                showError('No se pudo encontrar la sala actual');
+                return;
+            }
+            
+            // Cargar los datos de la sala actual en el modal
+            systemPromptInput.value = currentRoom.prompt || systemPrompt;
+            quoteColorPicker.value = quoteColor;
+            asteriskColorPicker.value = asteriskColor;
+            
+            updateColorPreview();
+            updateAsteriskColorPreview();
+            
+            editRoomModal.style.display = 'block';
+            document.body.classList.remove('sidebar-open');
+        }
+
+        // FUNCIÓN CORREGIDA PARA GUARDAR LOS CAMBIOS DE LA SALA
+        function saveRoomChanges() {
+            const currentRoom = getCurrentRoom();
+            if (!currentRoom) {
+                showError('No se pudo encontrar la sala actual');
+                return;
+            }
+            
+            // Actualizar el prompt de la sala actual
+            currentRoom.prompt = systemPromptInput.value.trim();
+            
+            // Actualizar colores globales
+            quoteColor = quoteColorPicker.value;
+            asteriskColor = asteriskColorPicker.value;
+            
+            // Guardar en localStorage
+            localStorage.setItem('quoteColor', quoteColor);
+            localStorage.setItem('asteriskColor', asteriskColor);
+            saveRooms();
+            
+            // Aplicar cambios visuales
+            document.documentElement.style.setProperty('--quote-color', quoteColor);
+            document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
+            document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
+            
+            editRoomModal.style.display = 'none';
+            reprocessAllMessages();
+            showSuccess(`Configuración de la sala "${currentRoom.name}" guardada correctamente`);
         }
         
         // Sistema de gestión de APIs
@@ -2222,11 +2274,8 @@
             }
         });
         
-        editRoomBtn.addEventListener('click', () => {
-            editRoomModal.style.display = 'block';
-            systemPromptInput.value = systemPrompt;
-            document.body.classList.remove('sidebar-open');
-        });
+        // EVENT LISTENERS CORREGIDOS PARA EDITAR SALA
+        editRoomBtn.addEventListener('click', openEditRoomModal);
         
         closeEditRoom.addEventListener('click', () => {
             editRoomModal.style.display = 'none';
@@ -2242,18 +2291,8 @@
             updateAsteriskColorPreview();
         });
         
-        saveRoomBtn.addEventListener('click', () => {
-            systemPrompt = systemPromptInput.value.trim();
-            localStorage.setItem('systemPrompt', systemPrompt);
-            localStorage.setItem('quoteColor', quoteColor);
-            localStorage.setItem('asteriskColor', asteriskColor);
-            document.documentElement.style.setProperty('--quote-color', quoteColor);
-            document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
-            document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
-            editRoomModal.style.display = 'none';
-            reprocessAllMessages();
-            showSuccess('Configuración de sala guardada');
-        });
+        // CORREGIDO: Usar la nueva función para guardar cambios
+        saveRoomBtn.addEventListener('click', saveRoomChanges);
         
         window.addEventListener('click', (e) => {
             if (e.target === editRoomModal) {
@@ -2275,7 +2314,7 @@
         
         // Inicializar
         initializeTheme();
-        initializeFirebase(); // Cambiado: ahora inicializa Firebase primero
+        initializeFirebase();
         if (apiKeys.length > 0 && !apiKey) {
             apiKey = apiKeys[0].id;
             localStorage.setItem('activeApiKey', apiKey);
