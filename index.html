@@ -13,7 +13,7 @@
             --primary-dark: #6d28d9;
             --secondary: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
+            --warning: f59e0b;
             --light: #f8fafc;
             --dark: #1e293b;
             --gray: #64748b;
@@ -29,7 +29,6 @@
             --message-text-user: white;
             --message-text-ai: #1e293b;
         }
-
         .dark-mode {
             --primary: #8b5cf6;
             --primary-dark: #7c3aed;
@@ -51,14 +50,14 @@
             --message-text-user: white;
             --message-text-ai: #f8fafc;
         }
-        
+       
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
         }
-        
+       
         body {
             background: transparent;
             min-height: 100vh;
@@ -67,11 +66,10 @@
             align-items: center;
             padding: 0;
         }
-
         .dark-mode body {
             background: transparent;
         }
-        
+       
         .container {
             width: 100vw;
             height: 100vh;
@@ -82,7 +80,7 @@
             flex-direction: column;
             transition: all 0.3s ease;
         }
-        
+       
         header {
             background: var(--dark);
             color: var(--light);
@@ -92,29 +90,29 @@
             align-items: center;
             transition: all 0.3s ease;
         }
-        
+       
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        
+       
         .logo h1 {
             font-size: 1.6rem;
             font-weight: 700;
             color: var(--light);
         }
-        
+       
         .logo-icon {
             font-size: 2rem;
         }
-        
+       
         .header-actions {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-        
+       
         .header-btn {
             padding: 8px 16px;
             border-radius: 8px;
@@ -126,11 +124,10 @@
             color: var(--light);
             font-size: 0.9rem;
         }
-        
+       
         .header-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-
         .theme-toggle {
             background: none;
             border: none;
@@ -141,11 +138,10 @@
             transition: all 0.3s;
             color: var(--light);
         }
-
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.1);
         }
-        
+       
         .api-status {
             display: flex;
             align-items: center;
@@ -155,7 +151,7 @@
             padding: 8px 16px;
             border-radius: 20px;
         }
-        
+       
         .status-dot {
             width: 10px;
             height: 10px;
@@ -163,19 +159,19 @@
             background: var(--secondary);
             animation: pulse 2s infinite;
         }
-        
+       
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
-        
+       
         .chat-container {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
-        
+       
         .sidebar {
             width: 300px;
             background: var(--light);
@@ -187,7 +183,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+       
         .sidebar-content {
             flex: 1;
             display: flex;
@@ -197,24 +193,24 @@
             scrollbar-width: thin;
             scrollbar-color: var(--light-gray) transparent;
         }
-        
+       
         .sidebar-content::-webkit-scrollbar {
             width: 6px;
         }
-        
+       
         .sidebar-content::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+       
         .sidebar-content::-webkit-scrollbar-thumb {
             background-color: var(--light-gray);
             border-radius: 3px;
         }
-        
+       
         .sidebar-content::-webkit-scrollbar-thumb:hover {
             background-color: var(--gray);
         }
-        
+       
         .current-room-display {
             background: var(--light-gray);
             padding: 8px 12px;
@@ -225,7 +221,7 @@
             font-weight: 600;
             flex-shrink: 0;
         }
-        
+       
         .config-section {
             background: var(--bg-color);
             padding: 15px;
@@ -234,7 +230,7 @@
             transition: all 0.3s ease;
             flex-shrink: 0;
         }
-        
+       
         .config-section h3 {
             color: var(--dark);
             margin-bottom: 15px;
@@ -243,15 +239,15 @@
             align-items: center;
             gap: 8px;
         }
-        
+       
         .config-section h3::before {
             content: "⚙️";
         }
-        
+       
         .form-group {
             margin-bottom: 10px;
         }
-        
+       
         .form-group label {
             display: block;
             font-weight: 600;
@@ -259,7 +255,7 @@
             font-size: 0.85rem;
             margin-bottom: 4px;
         }
-        
+       
         .form-group input, .form-group textarea {
             width: 100%;
             padding: 8px 10px;
@@ -270,18 +266,18 @@
             transition: border 0.3s;
             color: var(--text-color);
         }
-        
+       
         .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
-        
+       
         .model-search-container {
             position: relative;
             margin-bottom: 10px;
         }
-        
+       
         .model-search-input {
             width: 100%;
             padding: 8px 10px 8px 35px;
@@ -293,17 +289,17 @@
             transition: border 0.3s;
             color: var(--text-color);
         }
-        
+       
         .model-search-input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
-        
+       
         .model-search-input::placeholder {
             color: var(--gray);
         }
-        
+       
         .models-list {
             position: absolute;
             top: 100%;
@@ -318,11 +314,11 @@
             z-index: 10;
             display: none;
         }
-        
+       
         .models-list.show {
             display: block;
         }
-        
+       
         .model-item {
             padding: 10px;
             cursor: pointer;
@@ -331,16 +327,16 @@
             transition: background 0.2s;
             color: var(--text-color);
         }
-        
+       
         .model-item:hover,
         .model-item.selected {
             background: var(--light-gray);
         }
-        
+       
         .model-item:last-child {
             border-bottom: none;
         }
-        
+       
         .model-display {
             padding: 8px 10px;
             background: var(--light-gray);
@@ -349,11 +345,11 @@
             color: var(--gray);
             min-height: 18px;
         }
-        
+       
         .api-keys-section {
             margin-top: 10px;
         }
-        
+       
         .api-keys-section select {
             width: 100%;
             padding: 8px 10px;
@@ -364,13 +360,13 @@
             transition: border 0.3s;
             color: var(--text-color);
         }
-        
+       
         .api-keys-section select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
-        
+       
         .btn {
             padding: 8px 12px;
             border-radius: 8px;
@@ -381,28 +377,28 @@
             width: 100%;
             font-size: 0.85rem;
         }
-        
+       
         .btn-primary {
             background: var(--primary);
             color: white;
         }
-        
+       
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-1px);
         }
-        
+       
         .btn-loading {
             background: var(--gray);
             color: white;
             cursor: not-allowed;
         }
-        
+       
         .chat-history {
             flex: 1;
             overflow-y: auto;
         }
-        
+       
         .chat-history h3 {
             color: var(--dark);
             margin-bottom: 15px;
@@ -411,17 +407,17 @@
             align-items: center;
             gap: 8px;
         }
-        
+       
         .chat-history h3::before {
             content: "📚";
         }
-        
+       
         .history-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-        
+       
         .history-item {
             padding: 12px 15px;
             border-radius: 10px;
@@ -432,24 +428,24 @@
             font-size: 0.9rem;
             color: var(--text-color);
         }
-        
+       
         .history-item:hover {
             border-color: var(--primary);
             transform: translateX(5px);
         }
-        
+       
         .history-item.active {
             background: var(--primary);
             color: white;
         }
-        
+       
         .actions-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             margin-top: 15px;
         }
-        
+       
         .action-icon {
             padding: 10px;
             border-radius: 8px;
@@ -463,43 +459,43 @@
             background: var(--light-gray);
             color: var(--text-color);
         }
-        
+       
         .action-icon:hover {
             transform: scale(1.05);
             background: var(--gray);
             color: white;
         }
-        
+       
         .action-icon.primary {
             background: var(--primary);
             color: white;
         }
-        
+       
         .action-icon.primary:hover {
             background: var(--primary-dark);
         }
-        
+       
         .action-icon.danger {
             background: var(--danger);
             color: white;
         }
-        
+       
         .action-icon.danger:hover {
             background: #dc2626;
         }
-        
+       
         .action-icon.theme {
             grid-column: span 2;
             background: var(--light-gray);
             color: var(--text-color);
             font-size: 1.5rem;
         }
-        
+       
         .action-icon.theme:hover {
             background: var(--gray);
             color: white;
         }
-        
+       
         .chat-area {
             flex: 1;
             display: flex;
@@ -507,7 +503,6 @@
             padding: 25px;
             position: relative;
         }
-
         .mobile-menu-btn {
             display: none;
             position: fixed;
@@ -524,12 +519,11 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
         }
-
         .mobile-menu-btn:hover {
             background: #FFC107;
             transform: scale(1.05);
         }
-        
+       
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -542,7 +536,7 @@
             gap: 20px;
             transition: all 0.3s ease;
         }
-        
+       
         .message {
             max-width: 80%;
             padding: 16px 20px;
@@ -553,19 +547,19 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             white-space: pre-wrap;
         }
-        
+       
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+       
         .user-message {
             align-self: flex-end;
             background: var(--message-bg-user);
             color: var(--message-text-user);
             border-bottom-right-radius: 6px;
         }
-        
+       
         .ai-message {
             align-self: flex-start;
             background: var(--message-bg-ai);
@@ -573,17 +567,15 @@
             border: 1px solid var(--light-gray);
             border-bottom-left-radius: 6px;
         }
-
         /* Mensaje de IA con escritura en tiempo real */
         .ai-message.streaming {
             border-color: var(--primary);
             box-shadow: 0 0 0 1px var(--primary);
         }
-
         .ai-message.streaming .message-content {
             min-height: 20px;
         }
-        
+       
         .message-header {
             font-size: 0.8rem;
             opacity: 0.8;
@@ -592,12 +584,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+       
         .message-header .actions {
             display: flex;
             gap: 4px;
         }
-        
+       
         .action-btn {
             background: none;
             border: none;
@@ -608,16 +600,15 @@
             border-radius: 4px;
             transition: background 0.2s;
         }
-        
+       
         .action-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        
+       
         .message-content {
             margin-top: 5px;
             white-space: pre-wrap;
         }
-
         .quoted-text {
             color: var(--quote-color);
             font-weight: 600;
@@ -626,7 +617,6 @@
             background: rgba(69, 245, 66, 0.1);
             white-space: normal;
         }
-
         .asterisk-text {
             color: var(--asterisk-color);
             font-weight: 600;
@@ -635,20 +625,20 @@
             background: rgba(var(--asterisk-rgb), 0.1);
             white-space: normal;
         }
-        
+       
         .message.editing .message-content {
             display: none;
         }
-        
+       
         .edit-form {
             display: none;
             margin-top: 5px;
         }
-        
+       
         .message.editing .edit-form {
             display: block;
         }
-        
+       
         .edit-textarea {
             width: 100%;
             min-height: 60px;
@@ -661,26 +651,26 @@
             background: var(--bg-color);
             color: var(--text-color);
         }
-        
+       
         .user-message .edit-textarea {
             background: var(--message-bg-user);
             color: var(--message-text-user);
             border-color: rgba(255, 255, 255, 0.3);
         }
-        
+       
         .ai-message .edit-textarea {
             background: var(--message-bg-ai);
             color: var(--message-text-ai);
             border-color: var(--primary);
         }
-        
+       
         .edit-buttons {
             display: flex;
             gap: 8px;
             margin-top: 10px;
             justify-content: flex-end;
         }
-        
+       
         .btn-small {
             padding: 6px 12px;
             font-size: 0.85rem;
@@ -689,21 +679,21 @@
             border: none;
             font-weight: 500;
         }
-        
+       
         .btn-save {
             background: var(--secondary);
             color: white;
         }
-        
+       
         .btn-cancel {
             background: var(--light-gray);
             color: var(--gray);
         }
-        
+       
         .btn-small:hover {
             opacity: 0.8;
         }
-        
+       
         .typing-indicator {
             align-self: flex-start;
             background: var(--message-bg-ai);
@@ -717,12 +707,12 @@
             gap: 10px;
             font-style: italic;
         }
-        
+       
         .typing-dots {
             display: flex;
             gap: 4px;
         }
-        
+       
         .typing-dot {
             width: 8px;
             height: 8px;
@@ -730,22 +720,22 @@
             background: var(--gray);
             animation: typing 1.4s infinite ease-in-out;
         }
-        
+       
         .typing-dot:nth-child(1) { animation-delay: 0s; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
+       
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-10px); opacity: 1; }
         }
-        
+       
         .input-area {
             display: flex;
             gap: 12px;
             align-items: flex-end;
         }
-        
+       
         .input-area textarea {
             flex: 1;
             padding: 16px 20px;
@@ -761,11 +751,11 @@
             background: var(--bg-color);
             color: var(--text-color);
         }
-        
+       
         .input-area textarea:focus {
             border-color: var(--primary);
         }
-        
+       
         .send-button {
             background: var(--primary);
             color: white;
@@ -780,20 +770,20 @@
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
         }
-        
+       
         .send-button:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(124, 58, 237, 0.3);
         }
-        
+       
         .send-button:disabled {
             background: var(--light-gray);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        
+       
         .error-message {
             background: var(--danger);
             color: white;
@@ -803,13 +793,13 @@
             text-align: center;
             animation: shake 0.5s ease;
         }
-        
+       
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-        
+       
         .memory-info {
             background: #dbeafe;
             color: #1e40af;
@@ -820,13 +810,12 @@
             text-align: center;
             border-left: 4px solid #3b82f6;
         }
-
         .dark-mode .memory-info {
             background: #1e3a8a;
             color: #dbeafe;
             border-left-color: #60a5fa;
         }
-        
+       
         .success-message {
             background: var(--secondary);
             color: white;
@@ -836,15 +825,15 @@
             text-align: center;
             animation: fadeIn 0.5s ease;
         }
-        
+       
         .clear-chat {
             background: var(--danger);
         }
-        
+       
         .clear-chat:hover {
             background: #dc2626;
         }
-        
+       
         .modal {
             display: none;
             position: fixed;
@@ -856,25 +845,27 @@
             background-color: rgba(0, 0, 0, 0.5);
             animation: fadeIn 0.3s;
         }
-        
+       
         .modal-content {
             background-color: var(--bg-color);
-            margin: 10% auto;
+            margin: 5% auto;
             padding: 30px;
             border-radius: 12px;
-            width: 80%;
-            max-width: 500px;
+            width: 90%;
+            max-width: 900px;
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            display: flex;
+            gap: 20px;
         }
-        
+       
         .modal h2 {
             margin-bottom: 20px;
             color: var(--dark);
         }
-        
+       
         .close {
             color: var(--gray);
             float: right;
@@ -882,25 +873,22 @@
             font-weight: bold;
             cursor: pointer;
         }
-        
+       
         .close:hover {
             color: var(--dark);
         }
-
         .color-picker-group {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 15px;
         }
-
         .color-picker-label {
             font-weight: 600;
             color: var(--gray);
             font-size: 0.9rem;
             min-width: 120px;
         }
-
         .color-picker {
             width: 60px;
             height: 40px;
@@ -909,7 +897,6 @@
             cursor: pointer;
             background: var(--quote-color);
         }
-
         .color-preview {
             padding: 8px 12px;
             border-radius: 6px;
@@ -919,11 +906,9 @@
             flex: 1;
             text-align: center;
         }
-
         .rooms-section {
             margin-top: 20px;
         }
-
         .rooms-list {
             display: flex;
             flex-direction: column;
@@ -932,7 +917,6 @@
             max-height: 200px;
             overflow-y: auto;
         }
-
         .room-item {
             display: flex;
             justify-content: space-between;
@@ -944,21 +928,17 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         .room-item:hover {
             border-color: var(--primary);
         }
-
         .room-item.active {
             background: var(--primary);
             color: white;
         }
-
         .room-actions {
             display: flex;
             gap: 5px;
         }
-
         .room-action-btn {
             background: none;
             border: none;
@@ -967,26 +947,21 @@
             border-radius: 4px;
             transition: background 0.2s;
         }
-
         .room-action-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-
         .delete-room-btn {
             color: var(--danger);
         }
-
         .room-name {
             font-weight: 600;
             flex: 1;
         }
-
         .room-meta {
             font-size: 0.8rem;
             opacity: 0.7;
             margin-top: 2px;
         }
-
         .current-room-display {
             background: var(--light-gray);
             padding: 10px 15px;
@@ -995,11 +970,9 @@
             font-size: 0.9rem;
             color: var(--text-color);
         }
-
         .api-keys-management {
             margin-top: 15px;
         }
-
         .api-keys-list {
             max-height: 120px;
             overflow-y: auto;
@@ -1008,7 +981,6 @@
             border-radius: 8px;
             padding: 8px;
         }
-
         .api-key-item {
             display: flex;
             justify-content: space-between;
@@ -1020,22 +992,18 @@
             transition: all 0.3s;
             font-size: 0.8rem;
         }
-
         .api-key-item:hover {
             background: var(--gray);
             color: white;
         }
-
         .api-key-name {
             font-weight: 600;
             flex: 1;
         }
-
         .api-key-actions {
             display: flex;
             gap: 5px;
         }
-
         .api-key-action-btn {
             background: none;
             border: none;
@@ -1044,32 +1012,26 @@
             border-radius: 4px;
             transition: background 0.2s;
         }
-
         .api-key-action-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-
         .delete-api-key-btn {
             color: var(--danger);
         }
-
         .add-api-key-form {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-
         .form-row {
             display: flex;
             gap: 8px;
         }
-
         .form-row input {
             flex: 1;
             padding: 8px 10px;
             font-size: 0.85rem;
         }
-
         /* Indicador de scroll para sidebar */
         .scroll-indicator {
             position: absolute;
@@ -1085,26 +1047,111 @@
             transition: opacity 0.3s;
             pointer-events: none;
         }
-
         .scroll-indicator.show {
             opacity: 1;
         }
-        
+        /* Estilos para columnas en modal */
+        .modal-columns {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+        }
+        .left-column {
+            flex: 1;
+            min-width: 300px;
+        }
+        .right-column {
+            flex: 1;
+            min-width: 300px;
+        }
+        /* Estilos para sliders */
+        .params-section h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .params-section h3::before {
+            content: "🎛️";
+        }
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .slider-group label {
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 5px;
+            border-radius: 5px;
+            background: var(--light-gray);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+        }
+        .slider-value {
+            min-width: 50px;
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .default-btn {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .default-btn:hover {
+            background: #d97706;
+        }
+       
         @media (max-width: 768px) {
             body {
                 padding: 0;
             }
-
             .container {
                 width: 100vw;
                 height: 100vh;
                 border-radius: 0;
             }
-
             .chat-container {
                 flex-direction: column;
             }
-            
+           
             .sidebar {
                 position: fixed;
                 top: 0;
@@ -1118,11 +1165,9 @@
                 padding: 20px;
                 transition: left 0.3s ease;
             }
-
             body.sidebar-open .sidebar {
                 left: 0;
             }
-
             body.sidebar-open::before {
                 content: '';
                 position: fixed;
@@ -1133,43 +1178,41 @@
                 background: rgba(0, 0, 0, 0.5);
                 z-index: 999;
             }
-            
+           
             .chat-area {
                 padding: 15px;
                 width: 100%;
             }
-
             .mobile-menu-btn {
                 display: block;
             }
-
             .message {
                 max-width: 90%;
             }
-            
+           
             .logo h1 {
                 font-size: 1.3rem;
             }
-
             .actions-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .input-area textarea {
                 min-height: 50px;
             }
-
             .send-button {
                 width: 50px;
                 height: 50px;
             }
-
             .form-row {
                 flex-direction: column;
             }
-
             .sidebar-content {
                 gap: 12px;
+            }
+            .modal-content {
+                flex-direction: column;
+                width: 95%;
+                margin: 10% auto;
             }
         }
     </style>
@@ -1181,7 +1224,7 @@
                 <div class="sidebar-content">
                     <div class="current-room-display" id="current-room-display">Sala actual: General</div>
                     <div class="config-section">
-                        
+                       
                         <div class="form-group">
                             <label for="model-search">Buscar Modelo:</label>
                             <div class="model-search-container">
@@ -1192,14 +1235,13 @@
                             </div>
                             <div class="model-display" id="model-display">Ningún modelo seleccionado</div>
                         </div>
-                        
+                       
                         <div class="api-keys-section">
                             <label for="api-key-select">API Activa:</label>
                             <select id="api-key-select">
                                 <!-- Las opciones se generarán dinámicamente -->
                             </select>
                         </div>
-
                         <div class="api-keys-management">
                             <div class="api-keys-list" id="api-keys-list">
                                 <!-- Las APIs se generarán dinámicamente -->
@@ -1211,7 +1253,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+                       
                         <div class="actions-grid">
                             <button class="action-icon primary" id="add-api-key" title="Añadir API">🔑</button>
                             <button class="action-icon primary" id="update-config" title="Actualizar Configuración y Cargar Modelos">🔄</button>
@@ -1221,17 +1263,16 @@
                             <button class="action-icon" id="edit-room-btn" title="Editar Sala">✏️</button>
                             <button class="action-icon theme" id="theme-toggle" title="Cambiar tema">🌙</button>
                         </div>
-
                     </div>
                 </div>
                 <div class="scroll-indicator" id="scroll-indicator">Desliza para ver más</div>
             </div>
-            
+           
             <div class="chat-area">
                 <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
                 <div class="messages-container" id="messages-container">
                 </div>
-                
+               
                 <div class="input-area">
                     <textarea id="user-input" placeholder="Escribe tu mensaje aquí... (Enter para enviar, Shift+Enter para nueva línea)"></textarea>
                     <button class="send-button" id="send-button">
@@ -1243,7 +1284,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal para Nueva Sala -->
     <div id="new-room-modal" class="modal">
         <div class="modal-content">
@@ -1260,7 +1300,6 @@
             <button class="btn btn-primary" id="create-room">Crear Sala</button>
         </div>
     </div>
-
     <!-- Modal para Salas Creadas -->
     <div id="rooms-modal" class="modal">
         <div class="modal-content">
@@ -1272,33 +1311,110 @@
             </div>
         </div>
     </div>
-
     <!-- Modal para Editar Sala -->
     <div id="edit-room-modal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-edit-room">&times;</span>
             <h2>Editar Sala Actual</h2>
-            <div class="form-group">
-                <label for="system-prompt">Prompt Personalizado para esta Sala:</label>
-                <textarea id="system-prompt" rows="6" placeholder="Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat."></textarea>
+            <div class="modal-columns">
+                <div class="left-column">
+                    <div class="form-group">
+                        <label for="system-prompt">Prompt Personalizado para esta Sala:</label>
+                        <textarea id="system-prompt" rows="6" placeholder="Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat."></textarea>
+                    </div>
+                   
+                    <div class="color-picker-group">
+                        <span class="color-picker-label">Color de Citas:</span>
+                        <input type="color" id="quote-color-picker" class="color-picker" value="#45f542">
+                        <div class="color-preview" id="color-preview">Texto de ejemplo entre "comillas"</div>
+                    </div>
+                    <div class="color-picker-group">
+                        <span class="color-picker-label">Color de Asteriscos:</span>
+                        <input type="color" id="asterisk-color-picker" class="color-picker" value="#ff0000">
+                        <div class="color-preview" id="asterisk-color-preview">Texto de ejemplo *con asteriscos*</div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="params-section">
+                        <h3>Parámetros de Muestreo</h3>
+                        <div class="slider-group">
+                            <label for="chat-memory-slider">Chat Memory:</label>
+                            <div class="slider-container">
+                                <input type="range" id="chat-memory-slider" min="1" max="50" step="1" value="8">
+                                <span class="slider-value" id="chat-memory-value">8</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="max-tokens-slider">Max Tokens:</label>
+                            <div class="slider-container">
+                                <input type="range" id="max-tokens-slider" min="0" max="10000" step="100" value="0">
+                                <span class="slider-value" id="max-tokens-value">0</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="temperature-slider">Temperature:</label>
+                            <div class="slider-container">
+                                <input type="range" id="temperature-slider" min="0" max="2" step="0.1" value="1.0">
+                                <span class="slider-value" id="temperature-value">1.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="top-p-slider">Top P:</label>
+                            <div class="slider-container">
+                                <input type="range" id="top-p-slider" min="0" max="1" step="0.1" value="1.0">
+                                <span class="slider-value" id="top-p-value">1.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="top-k-slider">Top K:</label>
+                            <div class="slider-container">
+                                <input type="range" id="top-k-slider" min="0" max="100" step="1" value="0">
+                                <span class="slider-value" id="top-k-value">0.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="freq-penalty-slider">Frequency Penalty:</label>
+                            <div class="slider-container">
+                                <input type="range" id="freq-penalty-slider" min="0" max="2" step="0.1" value="0">
+                                <span class="slider-value" id="freq-penalty-value">0.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="presence-penalty-slider">Presence Penalty:</label>
+                            <div class="slider-container">
+                                <input type="range" id="presence-penalty-slider" min="0" max="2" step="0.1" value="0">
+                                <span class="slider-value" id="presence-penalty-value">0.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="repetition-penalty-slider">Repetition Penalty:</label>
+                            <div class="slider-container">
+                                <input type="range" id="repetition-penalty-slider" min="1" max="2" step="0.1" value="1">
+                                <span class="slider-value" id="repetition-penalty-value">1.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="min-p-slider">Min P:</label>
+                            <div class="slider-container">
+                                <input type="range" id="min-p-slider" min="0" max="1" step="0.1" value="0">
+                                <span class="slider-value" id="min-p-value">0.000</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label for="top-a-slider">Top A:</label>
+                            <div class="slider-container">
+                                <input type="range" id="top-a-slider" min="0" max="1" step="0.1" value="0">
+                                <span class="slider-value" id="top-a-value">0.000</span>
+                            </div>
+                        </div>
+                        <button class="default-btn" id="default-params-btn">Usar Configuración por Defecto</button>
+                    </div>
+                </div>
             </div>
-            
-            <div class="color-picker-group">
-                <span class="color-picker-label">Color de Citas:</span>
-                <input type="color" id="quote-color-picker" class="color-picker" value="#45f542">
-                <div class="color-preview" id="color-preview">Texto de ejemplo entre "comillas"</div>
-            </div>
-
-            <div class="color-picker-group">
-                <span class="color-picker-label">Color de Asteriscos:</span>
-                <input type="color" id="asterisk-color-picker" class="color-picker" value="#ff0000">
-                <div class="color-preview" id="asterisk-color-preview">Texto de ejemplo *con asteriscos*</div>
-            </div>
-            
-            <button class="btn btn-primary" id="save-room">Guardar Cambios en la Sala</button>
+           
+            <button class="btn btn-primary" id="save-room" style="width: auto; margin-top: 20px; align-self: flex-end;">Guardar Cambios en la Sala</button>
         </div>
     </div>
-
     <script>
         // Configuración de Firebase
         const firebaseConfig = {
@@ -1310,11 +1426,9 @@
             messagingSenderId: "180873573579",
             appId: "1:180873573579:web:fb93deff0e28e53f77d74e"
         };
-
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
         // Configuración inicial
         let conversationHistory = [];
         let currentModel = localStorage.getItem('selectedModel') || '';
@@ -1324,26 +1438,41 @@
         let asteriskColor = localStorage.getItem('asteriskColor') || '#ff0000';
         let isDarkMode = localStorage.getItem('darkMode') === 'true';
         let allModels = [];
-        
+       
         // Sistema de APIs - Ahora vacío por defecto
         let apiKeys = [];
-        
+       
+        // Parámetros por defecto
+        const defaultParams = {
+            chatMemory: 8,
+            maxTokens: 0,
+            temperature: 1.0,
+            top_p: 1.0,
+            top_k: 0,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            repetition_penalty: 1.0,
+            min_p: 0,
+            top_a: 0
+        };
+       
         // Sistema de salas
         let rooms = JSON.parse(localStorage.getItem('rooms')) || [
             {
                 id: 'general',
                 name: 'General',
                 prompt: 'Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat.',
+                params: { ...defaultParams },
                 history: [],
                 createdAt: new Date().toISOString()
             }
         ];
         let currentRoomId = localStorage.getItem('currentRoomId') || 'general';
-        
+       
         // Variables para streaming
         let currentStreamingMessage = null;
         let currentStreamingContent = '';
-        
+       
         // Elementos del DOM
         const messagesContainer = document.getElementById('messages-container');
         const userInput = document.getElementById('user-input');
@@ -1382,7 +1511,29 @@
         const addApiKeyBtn = document.getElementById('add-api-key');
         const sidebarContent = document.querySelector('.sidebar-content');
         const scrollIndicator = document.getElementById('scroll-indicator');
-        
+        // Elementos de sliders
+        const chatMemorySlider = document.getElementById('chat-memory-slider');
+        const chatMemoryValue = document.getElementById('chat-memory-value');
+        const maxTokensSlider = document.getElementById('max-tokens-slider');
+        const maxTokensValue = document.getElementById('max-tokens-value');
+        const temperatureSlider = document.getElementById('temperature-slider');
+        const temperatureValue = document.getElementById('temperature-value');
+        const topPSlider = document.getElementById('top-p-slider');
+        const topPValue = document.getElementById('top-p-value');
+        const topKSlider = document.getElementById('top-k-slider');
+        const topKValue = document.getElementById('top-k-value');
+        const freqPenaltySlider = document.getElementById('freq-penalty-slider');
+        const freqPenaltyValue = document.getElementById('freq-penalty-value');
+        const presencePenaltySlider = document.getElementById('presence-penalty-slider');
+        const presencePenaltyValue = document.getElementById('presence-penalty-value');
+        const repetitionPenaltySlider = document.getElementById('repetition-penalty-slider');
+        const repetitionPenaltyValue = document.getElementById('repetition-penalty-value');
+        const minPSlider = document.getElementById('min-p-slider');
+        const minPValue = document.getElementById('min-p-value');
+        const topASlider = document.getElementById('top-a-slider');
+        const topAValue = document.getElementById('top-a-value');
+        const defaultParamsBtn = document.getElementById('default-params-btn');
+       
         // Inicializar Firebase y cargar APIs
         async function initializeFirebase() {
             try {
@@ -1393,17 +1544,16 @@
                 showError('Error conectando a Firebase. Las APIs se guardarán localmente.');
             }
         }
-
         // Cargar APIs desde Firebase
         async function loadApiKeysFromFirebase() {
             try {
                 const snapshot = await database.ref('apiKeys').once('value');
                 const firebaseApiKeys = snapshot.val();
-                
+               
                 if (firebaseApiKeys) {
                     apiKeys = Object.values(firebaseApiKeys);
                     renderApiKeys();
-                    
+                   
                     if (apiKeys.length > 0 && !apiKey) {
                         apiKey = apiKeys[0].id;
                         localStorage.setItem('activeApiKey', apiKey);
@@ -1419,7 +1569,6 @@
                 throw error;
             }
         }
-
         // Guardar APIs en Firebase
         async function saveApiKeysToFirebase() {
             try {
@@ -1428,7 +1577,7 @@
                 apiKeys.forEach((api, index) => {
                     apiKeysObject[`key_${index}`] = api;
                 });
-                
+               
                 await database.ref('apiKeys').set(apiKeysObject);
                 return true;
             } catch (error) {
@@ -1436,7 +1585,6 @@
                 return false;
             }
         }
-
         // Inicializar tema y colores
         function initializeTheme() {
             if (isDarkMode) {
@@ -1446,24 +1594,22 @@
                 document.documentElement.classList.remove('dark-mode');
                 themeToggle.textContent = '🌙';
             }
-            
+           
             document.documentElement.style.setProperty('--quote-color', quoteColor);
             quoteColorPicker.value = quoteColor;
             updateColorPreview();
-
             document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
             document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
             asteriskColorPicker.value = asteriskColor;
             updateAsteriskColorPreview();
         }
-
         // Manejar scroll del sidebar
         function setupSidebarScroll() {
             if (sidebarContent) {
                 sidebarContent.addEventListener('scroll', () => {
                     const { scrollTop, scrollHeight, clientHeight } = sidebarContent;
                     const isNearBottom = scrollHeight - scrollTop - clientHeight < 50;
-                    
+                   
                     if (!isNearBottom && scrollHeight > clientHeight) {
                         scrollIndicator.classList.add('show');
                     } else {
@@ -1472,7 +1618,6 @@
                 });
             }
         }
-
         function handleResize() {
             const isMobileNow = window.innerWidth <= 768;
             if (isMobileNow) {
@@ -1481,7 +1626,7 @@
                 document.body.classList.remove('mobile-view', 'sidebar-open');
             }
         }
-        
+       
         function hexToRgb(hex) {
             hex = hex.replace('#', '');
             const r = parseInt(hex.substring(0, 2), 16);
@@ -1489,40 +1634,40 @@
             const b = parseInt(hex.substring(4, 6), 16);
             return `${r}, ${g}, ${b}`;
         }
-        
+       
         function updateColorPreview() {
             colorPreview.style.color = quoteColor;
             colorPreview.style.background = `${quoteColor}20`;
         }
-        
+       
         function updateAsteriskColorPreview() {
             asteriskColorPreview.style.color = asteriskColor;
             asteriskColorPreview.style.background = `${asteriskColor}20`;
         }
-        
+       
         function processSpecialText(text) {
             let processedText = text.replace(/\n/g, '<br>');
-            
+           
             const quoteRegex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
             processedText = processedText.replace(quoteRegex, (match, content) => {
                 return `<span class="quoted-text">"${content}"</span>`;
             });
-            
+           
             const asteriskRegex = /\*([^*]+)\*/g;
             processedText = processedText.replace(asteriskRegex, (match, content) => {
                 return `<span class="asterisk-text">${content}</span>`;
             });
-            
+           
             return processedText;
         }
-        
+       
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             localStorage.setItem('darkMode', isDarkMode);
             initializeTheme();
             reprocessAllMessages();
         }
-        
+       
         function reprocessAllMessages() {
             const messageContents = document.querySelectorAll('.message-content');
             messageContents.forEach(content => {
@@ -1530,18 +1675,18 @@
                 content.innerHTML = processSpecialText(originalText);
             });
         }
-        
+       
         async function loadModels() {
             const updateConfigBtn = document.getElementById('update-config');
             updateConfigBtn.textContent = '🔄';
             updateConfigBtn.classList.add('btn-loading');
             updateConfigBtn.disabled = true;
-            
+           
             try {
                 if (!apiKey) {
                     throw new Error('No hay API Key seleccionada');
                 }
-                
+               
                 const response = await fetch('https://openrouter.ai/api/v1/models', {
                     method: 'GET',
                     headers: {
@@ -1550,15 +1695,15 @@
                         'X-Title': 'Chat IA con Memoria'
                     }
                 });
-                
+               
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status}`);
                 }
-                
+               
                 const data = await response.json();
                 allModels = data.data;
                 populateModelsList(allModels);
-                
+               
                 if (currentModel && allModels.find(m => m.id === currentModel)) {
                     updateModelDisplay(currentModel);
                     modelSearchInput.value = '';
@@ -1567,13 +1712,13 @@
                     currentModel = allModels[0].id;
                     updateModelDisplay(currentModel);
                 }
-                
+               
                 showSuccess('Modelos cargados exitosamente');
-                
+               
             } catch (error) {
                 console.error('Error cargando modelos:', error);
                 showError('No se pudieron cargar los modelos. Verifica tu API Key.');
-                
+               
                 allModels = [
                     { id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
                     { id: 'meta-llama/llama-3.3-70b-instruct', name: 'Llama 3.3 70B' },
@@ -1590,7 +1735,7 @@
                 updateConfigBtn.disabled = false;
             }
         }
-        
+       
         function populateModelsList(models) {
             modelsList.innerHTML = '';
             models.forEach(model => {
@@ -1608,15 +1753,15 @@
                 modelsList.appendChild(noResults);
             }
         }
-        
+       
         function filterModels(searchTerm) {
-            const filtered = allModels.filter(model => 
-                model.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+            const filtered = allModels.filter(model =>
+                model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 model.id.toLowerCase().includes(searchTerm.toLowerCase())
             );
             populateModelsList(filtered);
         }
-        
+       
         function selectModel(modelId) {
             currentModel = modelId;
             localStorage.setItem('selectedModel', modelId);
@@ -1624,7 +1769,7 @@
             modelsList.classList.remove('show');
             modelSearchInput.value = '';
         }
-        
+       
         function updateModelDisplay(modelId) {
             const model = allModels.find(m => m.id === modelId);
             if (model) {
@@ -1635,31 +1780,76 @@
                 modelDisplay.classList.remove('selected');
             }
         }
-        
-        // FUNCIÓN MEJORADA: Generar respuesta con streaming
+       
+        // FUNCIÓN MEJORADA: Generar respuesta con streaming y parámetros de sala
         async function generateAssistantResponse() {
             if (!currentModel) {
                 showError('Selecciona un modelo antes de generar.');
                 return;
             }
-            
+           
             if (!apiKey) {
                 showError('Selecciona una API Key válida.');
                 return;
             }
-            
+           
             // Crear mensaje de streaming vacío
             const streamingMessage = addMessage('', 'ai');
             streamingMessage.classList.add('streaming');
             const contentElement = streamingMessage.querySelector('.message-content');
-            
+           
             currentStreamingMessage = streamingMessage;
             currentStreamingContent = '';
-            
+           
             try {
                 const currentRoom = getCurrentRoom();
                 const roomPrompt = currentRoom.prompt || systemPrompt;
-                
+                const params = currentRoom.params || defaultParams;
+               
+                // Limitar historial según chatMemory
+                const contextMessages = conversationHistory.slice(-params.chatMemory);
+               
+                const payload = {
+                    model: currentModel,
+                    messages: [
+                        {
+                            role: 'system',
+                            content: roomPrompt
+                        },
+                        ...contextMessages
+                    ],
+                    stream: true
+                };
+               
+                // Agregar parámetros de muestreo
+                if (params.maxTokens > 0) {
+                    payload.max_tokens = params.maxTokens;
+                }
+                if (params.temperature !== defaultParams.temperature) {
+                    payload.temperature = params.temperature;
+                }
+                if (params.top_p !== defaultParams.top_p) {
+                    payload.top_p = params.top_p;
+                }
+                if (params.top_k > 0) {
+                    payload.top_k = params.top_k;
+                }
+                if (params.frequency_penalty > 0) {
+                    payload.frequency_penalty = params.frequency_penalty;
+                }
+                if (params.presence_penalty > 0) {
+                    payload.presence_penalty = params.presence_penalty;
+                }
+                if (params.repetition_penalty !== defaultParams.repetition_penalty) {
+                    payload.repetition_penalty = params.repetition_penalty;
+                }
+                if (params.min_p > 0) {
+                    payload.min_p = params.min_p;
+                }
+                if (params.top_a > 0) {
+                    payload.top_a = params.top_a;
+                }
+               
                 const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
                     method: 'POST',
                     headers: {
@@ -1668,37 +1858,26 @@
                         'HTTP-Referer': window.location.href,
                         'X-Title': 'Chat IA con Memoria'
                     },
-                    body: JSON.stringify({
-                        model: currentModel,
-                        messages: [
-                            {
-                                role: 'system',
-                                content: roomPrompt
-                            },
-                            ...conversationHistory
-                        ],
-                        max_tokens: 4000,
-                        stream: true  // Habilitar streaming
-                    })
+                    body: JSON.stringify(payload)
                 });
-                
+               
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.error?.message || `Error HTTP: ${response.status}`);
                 }
-                
+               
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let done = false;
-                
+               
                 while (!done) {
                     const { value, done: doneReading } = await reader.read();
                     done = doneReading;
-                    
+                   
                     if (value) {
                         const chunk = decoder.decode(value);
                         const lines = chunk.split('\n');
-                        
+                       
                         for (const line of lines) {
                             if (line.startsWith('data: ') && line !== 'data: [DONE]') {
                                 try {
@@ -1715,25 +1894,25 @@
                         }
                     }
                 }
-                
+               
                 // Finalizar streaming
                 streamingMessage.classList.remove('streaming');
                 const aiIndex = conversationHistory.length;
                 conversationHistory.push({ role: 'assistant', content: currentStreamingContent });
                 saveCurrentRoomHistory();
-                
+               
                 showMemoryInfo();
-                
+               
             } catch (error) {
                 console.error('Error:', error);
-                
+               
                 // Limpiar mensaje de streaming en caso de error
                 if (currentStreamingMessage) {
                     currentStreamingMessage.remove();
                 }
-                
+               
                 let errorMsg = 'Error al conectar con la IA. ';
-                
+               
                 if (error.message.includes('API') || error.message.includes('key')) {
                     errorMsg += 'Verifica tu API Key.';
                 } else if (error.message.includes('model')) {
@@ -1741,30 +1920,30 @@
                 } else {
                     errorMsg += error.message;
                 }
-                
+               
                 showError(errorMsg);
             } finally {
                 currentStreamingMessage = null;
                 currentStreamingContent = '';
             }
         }
-        
+       
         function initEdit(messageElement, historyIndex) {
             const header = messageElement.querySelector('.message-header');
             const content = messageElement.querySelector('.message-content');
             const originalText = content.textContent;
-            
+           
             const editForm = document.createElement('div');
             editForm.classList.add('edit-form');
-            
+           
             const textarea = document.createElement('textarea');
             textarea.classList.add('edit-textarea');
             textarea.value = originalText;
             textarea.placeholder = 'Edita el mensaje...';
-            
+           
             const buttons = document.createElement('div');
             buttons.classList.add('edit-buttons');
-            
+           
             const saveBtn = document.createElement('button');
             saveBtn.classList.add('btn-small', 'btn-save');
             saveBtn.textContent = 'Guardar';
@@ -1779,7 +1958,7 @@
                     showSuccess('Mensaje editado y memoria actualizada');
                 }
             });
-            
+           
             const cancelBtn = document.createElement('button');
             cancelBtn.classList.add('btn-small', 'btn-cancel');
             cancelBtn.textContent = 'Cancelar';
@@ -1787,29 +1966,29 @@
                 messageElement.classList.remove('editing');
                 editForm.remove();
             });
-            
+           
             buttons.appendChild(saveBtn);
             buttons.appendChild(cancelBtn);
             editForm.appendChild(textarea);
             editForm.appendChild(buttons);
-            
+           
             messageElement.appendChild(editForm);
             messageElement.classList.add('editing');
             textarea.focus();
         }
-        
+       
         async function initRegenerate(messageElement, historyIndex) {
             const role = conversationHistory[historyIndex].role;
             let truncateTo;
-            
+           
             if (role === 'user') {
                 truncateTo = historyIndex + 1;
             } else {
                 truncateTo = historyIndex;
             }
-            
+           
             conversationHistory = conversationHistory.slice(0, truncateTo);
-            
+           
             let startRemove;
             if (role === 'user') {
                 startRemove = messageElement.nextSibling;
@@ -1821,13 +2000,13 @@
                 startRemove.remove();
                 startRemove = next;
             }
-            
+           
             sendButton.disabled = true;
             await generateAssistantResponse();
             sendButton.disabled = false;
             showSuccess('Respuesta regenerada');
         }
-        
+       
         function copyMessage(text) {
             navigator.clipboard.writeText(text).then(() => {
                 showSuccess('Mensaje copiado al portapapeles');
@@ -1836,53 +2015,53 @@
                 showError('Error al copiar mensaje');
             });
         }
-        
+       
         async function sendMessage() {
             const message = userInput.value.trim();
             if (!message || !currentModel) {
                 showError('Selecciona un modelo antes de enviar.');
                 return;
             }
-            
+           
             if (!apiKey) {
                 showError('Selecciona una API Key válida.');
                 return;
             }
-            
+           
             const userIndex = conversationHistory.length;
             conversationHistory.push({ role: 'user', content: message });
-            
+           
             addMessage(message, 'user', userIndex);
             userInput.value = '';
             sendButton.disabled = true;
-            
+           
             await generateAssistantResponse();
-            
+           
             sendButton.disabled = false;
             userInput.focus();
         }
-        
+       
         function addMessage(text, sender, historyIndex = null) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
             messageElement.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
-            
+           
             if (historyIndex !== null) {
                 messageElement.dataset.historyIndex = historyIndex;
             }
-            
+           
             const header = document.createElement('div');
             header.classList.add('message-header');
-            
+           
             const senderLabel = document.createElement('span');
             senderLabel.textContent = sender === 'user' ? 'Tú' : 'Asistente IA';
-            
+           
             header.appendChild(senderLabel);
-            
+           
             if (historyIndex !== null) {
                 const actions = document.createElement('div');
                 actions.classList.add('actions');
-                
+               
                 const copyBtn = document.createElement('button');
                 copyBtn.classList.add('action-btn');
                 copyBtn.textContent = '📋';
@@ -1892,7 +2071,7 @@
                     copyMessage(text);
                 });
                 actions.appendChild(copyBtn);
-                
+               
                 const editBtn = document.createElement('button');
                 editBtn.classList.add('action-btn');
                 editBtn.textContent = '✏️';
@@ -1902,7 +2081,7 @@
                     initEdit(messageElement, historyIndex);
                 });
                 actions.appendChild(editBtn);
-                
+               
                 const regenBtn = document.createElement('button');
                 regenBtn.classList.add('action-btn');
                 regenBtn.textContent = '🔄';
@@ -1912,23 +2091,23 @@
                     await initRegenerate(messageElement, historyIndex);
                 });
                 actions.appendChild(regenBtn);
-                
+               
                 header.appendChild(actions);
             }
-            
+           
             const content = document.createElement('div');
             content.classList.add('message-content');
             content.innerHTML = processSpecialText(text);
-            
+           
             messageElement.appendChild(header);
             messageElement.appendChild(content);
-            
+           
             messagesContainer.appendChild(messageElement);
             scrollToBottom();
-            
+           
             return messageElement;
         }
-        
+       
         function showTypingIndicator() {
             const typingElement = document.createElement('div');
             typingElement.classList.add('typing-indicator');
@@ -1940,74 +2119,74 @@
                     <div class="typing-dot"></div>
                 </div>
             `;
-            
+           
             messagesContainer.appendChild(typingElement);
             scrollToBottom();
-            
+           
             return typingElement;
         }
-        
+       
         function showMemoryInfo() {
             const existingInfo = document.querySelector('.memory-info');
             if (existingInfo) {
                 existingInfo.remove();
             }
-            
+           
             const memoryElement = document.createElement('div');
             memoryElement.classList.add('memory-info');
             memoryElement.textContent = `Memoria: ${conversationHistory.length} mensajes en esta conversación`;
-            
+           
             messagesContainer.appendChild(memoryElement);
             scrollToBottom();
-            
+           
             setTimeout(() => {
                 if (memoryElement.parentNode) {
                     memoryElement.remove();
                 }
             }, 5000);
         }
-        
+       
         function showError(message) {
             const errorElement = document.createElement('div');
             errorElement.classList.add('error-message');
             errorElement.textContent = message;
-            
+           
             messagesContainer.appendChild(errorElement);
             scrollToBottom();
-            
+           
             setTimeout(() => {
                 if (errorElement.parentNode) {
                     errorElement.remove();
                 }
             }, 7000);
         }
-        
+       
         function showSuccess(message) {
             const successElement = document.createElement('div');
             successElement.classList.add('success-message');
             successElement.textContent = message;
-            
+           
             messagesContainer.appendChild(successElement);
             scrollToBottom();
-            
+           
             setTimeout(() => {
                 if (successElement.parentNode) {
                     successElement.remove();
                 }
             }, 3000);
         }
-        
+       
         function scrollToBottom() {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        
+       
         function updateConfig() {
             const newApiKey = apiKeySelect.value;
             if (newApiKey) {
                 apiKey = newApiKey;
                 localStorage.setItem('activeApiKey', apiKey);
             }
-            
+           
             if (currentModel) {
                 const model = allModels.find(m => m.id === currentModel);
                 const confirmation = addMessage(`Configuración actualizada: ${model ? model.name : currentModel}`, 'ai');
@@ -2018,20 +2197,20 @@
                 }, 3000);
             }
         }
-        
+       
         function clearChat() {
             conversationHistory = [];
             saveCurrentRoomHistory();
             messagesContainer.innerHTML = '';
             showSuccess('Chat limpiado');
         }
-        
+       
         // FUNCIONES CORREGIDAS PARA EL SISTEMA DE SALAS
-        
+       
         function getCurrentRoom() {
             return rooms.find(room => room.id === currentRoomId) || rooms[0];
         }
-        
+       
         function saveCurrentRoomHistory() {
             const currentRoom = getCurrentRoom();
             if (currentRoom) {
@@ -2039,69 +2218,70 @@
                 saveRooms();
             }
         }
-        
+       
         function saveRooms() {
             localStorage.setItem('rooms', JSON.stringify(rooms));
         }
-        
+       
         function createRoom(name, prompt) {
             const newRoom = {
                 id: 'room_' + Date.now(),
                 name: name,
                 prompt: prompt || systemPrompt,
+                params: { ...defaultParams },
                 history: [],
                 createdAt: new Date().toISOString()
             };
-            
+           
             rooms.push(newRoom);
             saveRooms();
             renderRoomsList();
             switchToRoom(newRoom.id);
             showSuccess(`Sala "${name}" creada`);
         }
-        
+       
         function deleteRoom(roomId) {
             if (rooms.length <= 1) {
                 showError('No puedes eliminar la única sala existente');
                 return;
             }
-            
+           
             const roomName = rooms.find(r => r.id === roomId).name;
             rooms = rooms.filter(room => room.id !== roomId);
             saveRooms();
             renderRoomsList();
-            
+           
             if (currentRoomId === roomId) {
                 switchToRoom(rooms[0].id);
             }
-            
+           
             showSuccess(`Sala "${roomName}" eliminada`);
         }
-        
+       
         function switchToRoom(roomId) {
             currentRoomId = roomId;
             localStorage.setItem('currentRoomId', roomId);
-            
+           
             const room = getCurrentRoom();
             conversationHistory = [...room.history];
-            
+           
             updateCurrentRoomDisplay();
             renderRoomsList();
-            
+           
             messagesContainer.innerHTML = '';
             conversationHistory.forEach((message, index) => {
                 addMessage(message.content, message.role === 'user' ? 'user' : 'ai', index);
             });
-            
+           
             scrollToBottom();
             showSuccess(`Cambiado a sala: ${room.name}`);
         }
-        
+       
         function updateCurrentRoomDisplay() {
             const room = getCurrentRoom();
             currentRoomDisplay.textContent = `Sala actual: ${room.name}`;
         }
-        
+       
         function renderRoomsList() {
             allRoomsList.innerHTML = '';
             rooms.forEach(room => {
@@ -2110,7 +2290,7 @@
                 if (room.id === currentRoomId) {
                     roomElement.classList.add('active');
                 }
-                
+               
                 roomElement.innerHTML = `
                     <div>
                         <div class="room-name">${room.name}</div>
@@ -2120,14 +2300,14 @@
                         <button class="room-action-btn delete-room-btn" title="Eliminar sala">🗑️</button>
                     </div>
                 `;
-                
+               
                 roomElement.addEventListener('click', (e) => {
                     if (!e.target.closest('.room-actions')) {
                         switchToRoom(room.id);
                         roomsModal.style.display = 'none';
                     }
                 });
-                
+               
                 const deleteBtn = roomElement.querySelector('.delete-room-btn');
                 deleteBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -2135,31 +2315,79 @@
                         deleteRoom(room.id);
                     }
                 });
-                
+               
                 allRoomsList.appendChild(roomElement);
             });
         }
-
-        // FUNCIÓN CORREGIDA PARA ABRIR EL MODAL DE EDICIÓN
+        // FUNCIÓN PARA CARGAR PARÁMETROS EN SLIDERS
+        function loadParamsToSliders(params) {
+            chatMemorySlider.value = params.chatMemory;
+            chatMemoryValue.textContent = params.chatMemory;
+            maxTokensSlider.value = params.maxTokens;
+            maxTokensValue.textContent = params.maxTokens;
+            temperatureSlider.value = params.temperature;
+            temperatureValue.textContent = params.temperature.toFixed(3);
+            topPSlider.value = params.top_p;
+            topPValue.textContent = params.top_p.toFixed(3);
+            topKSlider.value = params.top_k;
+            topKValue.textContent = params.top_k.toFixed(3);
+            freqPenaltySlider.value = params.frequency_penalty;
+            freqPenaltyValue.textContent = params.frequency_penalty.toFixed(3);
+            presencePenaltySlider.value = params.presence_penalty;
+            presencePenaltyValue.textContent = params.presence_penalty.toFixed(3);
+            repetitionPenaltySlider.value = params.repetition_penalty;
+            repetitionPenaltyValue.textContent = params.repetition_penalty.toFixed(3);
+            minPSlider.value = params.min_p;
+            minPValue.textContent = params.min_p.toFixed(3);
+            topASlider.value = params.top_a;
+            topAValue.textContent = params.top_a.toFixed(3);
+        }
+        // FUNCIÓN PARA OBTENER PARÁMETROS DE SLIDERS
+        function getParamsFromSliders() {
+            return {
+                chatMemory: parseInt(chatMemorySlider.value),
+                maxTokens: parseInt(maxTokensSlider.value),
+                temperature: parseFloat(temperatureSlider.value),
+                top_p: parseFloat(topPSlider.value),
+                top_k: parseFloat(topKSlider.value),
+                frequency_penalty: parseFloat(freqPenaltySlider.value),
+                presence_penalty: parseFloat(presencePenaltySlider.value),
+                repetition_penalty: parseFloat(repetitionPenaltySlider.value),
+                min_p: parseFloat(minPSlider.value),
+                top_a: parseFloat(topASlider.value)
+            };
+        }
+        // FUNCIÓN PARA ACTUALIZAR VALORES EN SLIDERS
+        function updateSliderValue(slider, valueElement, format = (v) => v) {
+            valueElement.textContent = format(slider.value);
+        }
+        // FUNCIÓN PARA ABRIR EL MODAL DE EDICIÓN
         function openEditRoomModal() {
             const currentRoom = getCurrentRoom();
             if (!currentRoom) {
                 showError('No se pudo encontrar la sala actual');
                 return;
             }
-            
+           
             // Cargar los datos de la sala actual en el modal
             systemPromptInput.value = currentRoom.prompt || systemPrompt;
             quoteColorPicker.value = quoteColor;
             asteriskColorPicker.value = asteriskColor;
-            
+           
             updateColorPreview();
             updateAsteriskColorPreview();
-            
+           
+            // Cargar parámetros
+            loadParamsToSliders(currentRoom.params || defaultParams);
+           
             editRoomModal.style.display = 'block';
             document.body.classList.remove('sidebar-open');
         }
-
+        // FUNCIÓN PARA RESET A DEFAULTS
+        function resetToDefaults() {
+            loadParamsToSliders(defaultParams);
+            showSuccess('Configuración restablecida a valores por defecto');
+        }
         // FUNCIÓN CORREGIDA PARA GUARDAR LOS CAMBIOS DE LA SALA
         function saveRoomChanges() {
             const currentRoom = getCurrentRoom();
@@ -2167,29 +2395,32 @@
                 showError('No se pudo encontrar la sala actual');
                 return;
             }
-            
+           
             // Actualizar el prompt de la sala actual
             currentRoom.prompt = systemPromptInput.value.trim();
-            
+           
             // Actualizar colores globales
             quoteColor = quoteColorPicker.value;
             asteriskColor = asteriskColorPicker.value;
-            
+           
+            // Actualizar parámetros
+            currentRoom.params = getParamsFromSliders();
+           
             // Guardar en localStorage
             localStorage.setItem('quoteColor', quoteColor);
             localStorage.setItem('asteriskColor', asteriskColor);
             saveRooms();
-            
+           
             // Aplicar cambios visuales
             document.documentElement.style.setProperty('--quote-color', quoteColor);
             document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
             document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
-            
+           
             editRoomModal.style.display = 'none';
             reprocessAllMessages();
             showSuccess(`Configuración de la sala "${currentRoom.name}" guardada correctamente`);
         }
-        
+       
         // Sistema de gestión de APIs
         function renderApiKeys() {
             apiKeySelect.innerHTML = '';
@@ -2202,12 +2433,12 @@
                 }
                 apiKeySelect.appendChild(option);
             });
-            
+           
             apiKeysList.innerHTML = '';
             apiKeys.forEach((api, index) => {
                 const apiElement = document.createElement('div');
                 apiElement.classList.add('api-key-item');
-                
+               
                 apiElement.innerHTML = `
                     <div>
                         <div class="api-key-name">${api.name}</div>
@@ -2217,7 +2448,7 @@
                         <button class="api-key-action-btn delete-api-key-btn" title="Eliminar API">🗑️</button>
                     </div>
                 `;
-                
+               
                 const deleteBtn = apiElement.querySelector('.delete-api-key-btn');
                 deleteBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -2225,29 +2456,29 @@
                         deleteApiKey(index);
                     }
                 });
-                
+               
                 apiKeysList.appendChild(apiElement);
             });
         }
-        
+       
         async function addApiKey(name, key) {
             if (!name.trim() || !key.trim()) {
                 showError('El nombre y la clave de API son obligatorios');
                 return;
             }
-            
+           
             if (apiKeys.some(api => api.name === name)) {
                 showError('Ya existe una API con ese nombre');
                 return;
             }
-            
+           
             const newApi = {
                 id: key,
                 name: name
             };
-            
+           
             apiKeys.push(newApi);
-            
+           
             // Intentar guardar en Firebase
             const firebaseSuccess = await saveApiKeysToFirebase();
             if (!firebaseSuccess) {
@@ -2255,37 +2486,37 @@
                 localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
                 showError('No se pudo guardar en Firebase. Los datos se guardarán localmente.');
             }
-            
+           
             renderApiKeys();
-            
+           
             if (apiKeys.length === 1) {
                 apiKey = newApi.id;
                 localStorage.setItem('activeApiKey', apiKey);
                 apiKeySelect.value = apiKey;
             }
-            
+           
             newApiKeyName.value = '';
             newApiKeyValue.value = '';
             showSuccess(`API "${name}" añadida correctamente`);
         }
-        
+       
         async function deleteApiKey(index) {
             if (apiKeys.length <= 1) {
                 showError('No puedes eliminar la única API existente');
                 return;
             }
-            
+           
             const apiName = apiKeys[index].name;
             const deletedApiKey = apiKeys[index].id;
-            
+           
             if (deletedApiKey === apiKey) {
                 const newIndex = index === 0 ? 1 : 0;
                 apiKey = apiKeys[newIndex].id;
                 localStorage.setItem('activeApiKey', apiKey);
             }
-            
+           
             apiKeys.splice(index, 1);
-            
+           
             // Intentar guardar en Firebase
             const firebaseSuccess = await saveApiKeysToFirebase();
             if (!firebaseSuccess) {
@@ -2293,28 +2524,28 @@
                 localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
                 showError('No se pudo guardar en Firebase. Los datos se guardarán localmente.');
             }
-            
+           
             renderApiKeys();
             showSuccess(`API "${apiName}" eliminada`);
         }
-        
+       
         // Event Listeners
         sendButton.addEventListener('click', sendMessage);
-        
+       
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
         });
-        
+       
         updateConfigButton.addEventListener('click', () => {
             updateConfig();
             loadModels();
         });
-        
+       
         clearChatButton.addEventListener('click', clearChat);
-        
+       
         modelSearchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value;
             if (searchTerm.length > 0) {
@@ -2325,122 +2556,132 @@
                 modelsList.classList.remove('show');
             }
         });
-        
+       
         modelSearchInput.addEventListener('focus', () => {
             if (allModels.length > 0) {
                 modelsList.classList.add('show');
                 filterModels(modelSearchInput.value);
             }
         });
-        
+       
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.model-search-container')) {
                 modelsList.classList.remove('show');
             }
-
-            if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && 
+            if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') &&
                 !e.target.closest('.sidebar') && !e.target.closest('.mobile-menu-btn')) {
                 document.body.classList.remove('sidebar-open');
             }
         });
-        
+       
         userInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 150) + 'px';
         });
-        
+       
         themeToggle.addEventListener('click', toggleDarkMode);
-
         if (mobileMenuBtn) {
             mobileMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 document.body.classList.toggle('sidebar-open');
             });
         }
-        
+       
         newRoomBtn.addEventListener('click', () => {
             newRoomModal.style.display = 'block';
             roomNameInput.value = '';
             roomPromptInput.value = '';
             document.body.classList.remove('sidebar-open');
         });
-        
+       
         closeNewRoom.addEventListener('click', () => {
             newRoomModal.style.display = 'none';
         });
-        
+       
         createRoomBtn.addEventListener('click', () => {
             const name = roomNameInput.value.trim();
             const prompt = roomPromptInput.value.trim();
-            
+           
             if (!name) {
                 showError('El nombre de la sala es obligatorio');
                 return;
             }
-            
+           
             createRoom(name, prompt);
             newRoomModal.style.display = 'none';
         });
-        
+       
         window.addEventListener('click', (e) => {
             if (e.target === newRoomModal) {
                 newRoomModal.style.display = 'none';
             }
         });
-        
+       
         roomsBtn.addEventListener('click', () => {
             roomsModal.style.display = 'block';
             document.body.classList.remove('sidebar-open');
         });
-        
+       
         closeRooms.addEventListener('click', () => {
             roomsModal.style.display = 'none';
         });
-        
+       
         window.addEventListener('click', (e) => {
             if (e.target === roomsModal) {
                 roomsModal.style.display = 'none';
             }
         });
-        
+       
+        // EVENT LISTENERS PARA SLIDERS
+        chatMemorySlider.addEventListener('input', () => updateSliderValue(chatMemorySlider, chatMemoryValue, (v) => parseInt(v)));
+        maxTokensSlider.addEventListener('input', () => updateSliderValue(maxTokensSlider, maxTokensValue, (v) => parseInt(v)));
+        temperatureSlider.addEventListener('input', () => updateSliderValue(temperatureSlider, temperatureValue, (v) => parseFloat(v).toFixed(3)));
+        topPSlider.addEventListener('input', () => updateSliderValue(topPSlider, topPValue, (v) => parseFloat(v).toFixed(3)));
+        topKSlider.addEventListener('input', () => updateSliderValue(topKSlider, topKValue, (v) => parseFloat(v).toFixed(3)));
+        freqPenaltySlider.addEventListener('input', () => updateSliderValue(freqPenaltySlider, freqPenaltyValue, (v) => parseFloat(v).toFixed(3)));
+        presencePenaltySlider.addEventListener('input', () => updateSliderValue(presencePenaltySlider, presencePenaltyValue, (v) => parseFloat(v).toFixed(3)));
+        repetitionPenaltySlider.addEventListener('input', () => updateSliderValue(repetitionPenaltySlider, repetitionPenaltyValue, (v) => parseFloat(v).toFixed(3)));
+        minPSlider.addEventListener('input', () => updateSliderValue(minPSlider, minPValue, (v) => parseFloat(v).toFixed(3)));
+        topASlider.addEventListener('input', () => updateSliderValue(topASlider, topAValue, (v) => parseFloat(v).toFixed(3)));
+       
         // EVENT LISTENERS CORREGIDOS PARA EDITAR SALA
         editRoomBtn.addEventListener('click', openEditRoomModal);
-        
+       
         closeEditRoom.addEventListener('click', () => {
             editRoomModal.style.display = 'none';
         });
-        
+       
         quoteColorPicker.addEventListener('input', (e) => {
             quoteColor = e.target.value;
             updateColorPreview();
         });
-        
+       
         asteriskColorPicker.addEventListener('input', (e) => {
             asteriskColor = e.target.value;
             updateAsteriskColorPreview();
         });
-        
+       
         // CORREGIDO: Usar la nueva función para guardar cambios
         saveRoomBtn.addEventListener('click', saveRoomChanges);
-        
+       
+        defaultParamsBtn.addEventListener('click', resetToDefaults);
+       
         window.addEventListener('click', (e) => {
             if (e.target === editRoomModal) {
                 editRoomModal.style.display = 'none';
             }
         });
-
         addApiKeyBtn.addEventListener('click', () => {
             addApiKey(newApiKeyName.value.trim(), newApiKeyValue.value.trim());
         });
-        
+       
         apiKeySelect.addEventListener('change', (e) => {
             apiKey = e.target.value;
             localStorage.setItem('activeApiKey', apiKey);
             showSuccess('API Key cambiada');
         });
-
         window.addEventListener('resize', handleResize);
-        
+       
         // Inicializar
         initializeTheme();
         initializeFirebase();
@@ -2454,7 +2695,7 @@
         updateCurrentRoomDisplay();
         renderRoomsList();
         handleResize();
-        
+       
         // Cargar historial de la sala actual al iniciar
         const currentRoom = getCurrentRoom();
         conversationHistory = [...currentRoom.history];
