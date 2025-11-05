@@ -1417,15 +1417,15 @@
     </div>
     <script>
         // Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyA3fUC0W16D-xQxk-NRyX-Hl5uhkg_wO3c",
-            authDomain: "repositoia.firebaseapp.com",
-            databaseURL: "https://repositoia-default-rtdb.firebaseio.com",
-            projectId: "repositoia",
-            storageBucket: "repositoia.firebasestorage.app",
-            messagingSenderId: "180873573579",
-            appId: "1:180873573579:web:fb93deff0e28e53f77d74e"
-        };
+      const firebaseConfig = {
+    apiKey: "AIzaSyA7arHd8eOo5nTKaFLCCc6CJpU7PuT9T-I",
+    authDomain: "apis-78915.firebaseapp.com",
+    databaseURL: "https://apis-78915-default-rtdb.firebaseio.com",
+    projectId: "apis-78915",
+    storageBucket: "apis-78915.firebasestorage.app",
+    messagingSenderId: "442799926447",
+    appId: "1:442799926447:web:78fc27a82a8e3b31d9b85a"
+};
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -1645,21 +1645,21 @@
             asteriskColorPreview.style.background = `${asteriskColor}20`;
         }
        
-        function processSpecialText(text) {
-            let processedText = text.replace(/\n/g, '<br>');
-           
-            const quoteRegex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
-            processedText = processedText.replace(quoteRegex, (match, content) => {
-                return `<span class="quoted-text">"${content}"</span>`;
-            });
-           
-            const asteriskRegex = /\*([^*]+)\*/g;
-            processedText = processedText.replace(asteriskRegex, (match, content) => {
-                return `<span class="asterisk-text">${content}</span>`;
-            });
-           
-            return processedText;
-        }
+   function processSpecialText(text) {
+    let processedText = text.replace(/\n/g, '<br>');
+   
+    const quoteRegex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
+    processedText = processedText.replace(quoteRegex, (match, content) => {
+        return `<span class="quoted-text">"${content}"</span>`;
+    });
+   
+    const asteriskRegex = /\*([^*]+)\*/g;
+    processedText = processedText.replace(asteriskRegex, (match, content) => {
+        return `<span class="asterisk-text">*${content}*</span>`;
+    });
+   
+    return processedText;
+}
        
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
