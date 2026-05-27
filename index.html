@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,2941 +8,1665 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <!-- Markdown & Syntax Highlighting -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
         :root {
-            --primary: #7c3aed;
-            --primary-dark: #6d28d9;
-            --secondary: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --cancel: #f97316;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --quote-color: #45f542;
-            --asterisk-color: #ff0000;
-            --asterisk-rgb: 255, 0, 0;
-            --text-color: #1e293b;
-            --bg-color: white;
-            --message-bg-user: #7c3aed;
-            --message-bg-ai: white;
-            --message-text-user: white;
-            --message-text-ai: #1e293b;
-        }
-        .dark-mode {
             --primary: #8b5cf6;
-            --primary-dark: #7c3aed;
-            --secondary: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --cancel: #f97316;
-            --light: #1e293b;
-            --dark: #f8fafc;
-            --gray: #94a3b8;
-            --light-gray: #334155;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-            --quote-color: #45f542;
-            --asterisk-color: #ff0000;
-            --asterisk-rgb: 255, 0, 0;
-            --text-color: #f8fafc;
-            --bg-color: #0f172a;
-            --message-bg-user: #7c3aed;
-            --message-bg-ai: #1e293b;
-            --message-text-user: white;
-            --message-text-ai: #f8fafc;
+            --primary-dark: #7d4ef2;
+            --bg-dark: #1e1b2e;
+            --surface: #2d2a45;
+            --surface-light: #3d3a5c;
+            --text-main: #f8fafc;
+            --text-dim: #cbd5e1;
+            --msg-user: #8b5cf6;
+            --msg-ai: #2d2a45;
+            --danger: #f43f5e;
+            --success: #10b981;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --header-height: 70px;
+            --footer-height: 80px;
         }
-       
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Outfit', 'Inter', system-ui, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-       
+
         body {
-            background: transparent;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-            overscroll-behavior: none;
-            -webkit-overflow-scrolling: touch;
-        }
-        .dark-mode body {
-            background: transparent;
-        }
-       
-        .container {
-            width: 100vw;
+            background: linear-gradient(135deg, #1e1b2e 0%, #161424 100%);
+            color: var(--text-main);
             height: 100vh;
-            background: var(--bg-color);
-            border-radius: 0;
-            box-shadow: none;
+            width: 100vw;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
-            overflow: hidden;
         }
-       
+
+        /* --- Vistas --- */
+        .view {
+            display: none;
+            height: 100%;
+            width: 100%;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Header --- */
         header {
-            background: var(--dark);
-            color: var(--light);
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-       
-        .logo {
+            height: var(--header-height);
+            background: var(--surface);
             display: flex;
             align-items: center;
-            gap: 12px;
+            padding: 0 20px;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
         }
-       
-        .logo h1 {
-            font-size: 1.6rem;
+
+        header h1 {
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--light);
+            flex: 1;
         }
-       
-        .logo-icon {
-            font-size: 2rem;
-        }
-       
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-       
-        .header-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            font-size: 0.9rem;
-        }
-       
-        .header-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .theme-toggle {
+
+        .back-btn {
             background: none;
             border: none;
+            color: var(--text-main);
             font-size: 1.5rem;
             cursor: pointer;
             padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s;
-            color: var(--light);
-        }
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-       
-        .api-status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
+            justify-content: center;
         }
-       
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--secondary);
-            animation: pulse 2s infinite;
-        }
-       
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-       
-        .chat-container {
-            display: flex;
+
+        /* --- List View (Home) --- */
+        .rooms-list {
             flex: 1;
-            overflow: hidden;
+            overflow-y: auto;
+            padding: 10px 0;
         }
-       
-        .sidebar {
-            width: 300px;
-            background: var(--light);
-            border-right: 1px solid var(--light-gray);
-            padding: 15px;
+
+        .room-item {
             display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-       
-        .sidebar-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            align-items: center;
+            padding: 15px 20px;
             gap: 15px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--light-gray) transparent;
-            -webkit-overflow-scrolling: touch;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-       
-        .sidebar-content::-webkit-scrollbar {
-            width: 6px;
+
+        .room-item:active {
+            background: var(--surface-light);
         }
-       
-        .sidebar-content::-webkit-scrollbar-track {
-            background: transparent;
-        }
-       
-        .sidebar-content::-webkit-scrollbar-thumb {
-            background-color: var(--light-gray);
-            border-radius: 3px;
-        }
-       
-        .sidebar-content::-webkit-scrollbar-thumb:hover {
-            background-color: var(--gray);
-        }
-       
-        .current-room-display {
-            background: var(--light-gray);
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            color: var(--text-color);
-            text-align: center;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-       
-        .config-section {
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-       
-        .config-section h3 {
-            color: var(--dark);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+
+        .room-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
         }
-       
-        .config-section h3::before {
-            content: "⚙️";
+
+        .room-info {
+            flex: 1;
+            min-width: 0;
         }
-       
-        .form-group {
-            margin-bottom: 10px;
-        }
-       
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-        }
-       
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--light-gray);
-            background: var(--bg-color);
-            font-size: 0.85rem;
-            transition: border 0.3s;
-            color: var(--text-color);
-        }
-       
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-       
-        .model-search-container {
-            position: relative;
-            margin-bottom: 10px;
-        }
-       
-        .model-search-input {
-            width: 100%;
-            padding: 8px 10px 8px 35px;
-            border-radius: 8px;
-            border: 1px solid var(--light-gray);
-            background: var(--bg-color) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>') no-repeat 10px center;
-            background-size: 16px;
-            font-size: 0.85rem;
-            transition: border 0.3s;
-            color: var(--text-color);
-        }
-       
-        .model-search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-       
-        .model-search-input::placeholder {
-            color: var(--gray);
-        }
-       
-        .models-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 150px;
-            overflow-y: auto;
-            background: var(--bg-color);
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            z-index: 10;
-            display: none;
-        }
-       
-        .models-list.show {
-            display: block;
-        }
-       
-        .model-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--light-gray);
-            font-size: 0.85rem;
-            transition: background 0.2s;
-            color: var(--text-color);
-        }
-       
-        .model-item:hover,
-        .model-item.selected {
-            background: var(--light-gray);
-        }
-       
-        .model-item:last-child {
-            border-bottom: none;
-        }
-       
-        .model-display {
-            padding: 8px 10px;
-            background: var(--light-gray);
-            border-radius: 8px;
-            font-size: 0.8rem;
-            color: var(--gray);
-            min-height: 18px;
-        }
-       
-        .api-key-display {
-            padding: 8px 10px;
-            background: var(--light-gray);
-            border-radius: 8px;
-            font-size: 0.8rem;
-            color: var(--gray);
-            min-height: 18px;
+
+        .room-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 4px;
         }
-       
-        .api-key-name {
+
+        .room-name {
             font-weight: 600;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-       
-        .api-key-status {
+
+        .room-time {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .room-last-msg {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* --- FAB (Floating Action Button) --- */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+
+        .fab:active {
+            transform: scale(0.9);
+        }
+
+        /* --- Chat View --- */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-image: radial-gradient(var(--surface-light) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .message-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        /* Markdown Styles */
+        .message-content pre {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .message-content code {
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+        }
+
+        .message-content p { margin-bottom: 8px; }
+        .message-content p:last-child { margin-bottom: 0; }
+        .message-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 5px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .message:hover .message-footer {
+            opacity: 1;
+        }
+
+        .message-action-btn {
+            background: none;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            transition: transform 0.1s, color 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-action-btn:hover {
+            color: var(--primary-light);
+            transform: scale(1.2);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .user-message .message-footer { justify-content: flex-end; }
+        .ai-message .message-footer { justify-content: flex-start; }
+
+        .custom-highlight {
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--msg-user);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background: var(--msg-ai);
+            color: var(--text-main);
+            border-bottom-left-radius: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .message-time {
             font-size: 0.7rem;
             opacity: 0.7;
+            text-align: right;
+            margin-top: 4px;
         }
-       
-        .btn {
-            padding: 8px 12px;
-            border-radius: 8px;
+
+        /* --- Input Area --- */
+        .input-area {
+            background: var(--surface);
+            padding: 12px 15px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-wrapper {
+            flex: 1;
+            background: var(--surface-light);
+            border-radius: 25px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: flex-end;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input-wrapper textarea {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            max-height: 120px;
+            min-height: 24px;
+            padding: 4px 0;
+            outline: none;
+            resize: none;
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* --- Modales --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .models-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--surface-light);
+            border-radius: 10px;
+            margin-top: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 5000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-block {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
             border: none;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            font-size: 0.85rem;
         }
-       
+
         .btn-primary {
             background: var(--primary);
             color: white;
         }
-       
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+
+        .action-sheet {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            max-width: 100%;
+            animation: slideUp 0.3s ease-out;
         }
-       
-        .btn-loading {
-            background: var(--gray);
-            color: white;
-            cursor: not-allowed;
-        }
-       
-        .btn-cancel {
-            background: var(--cancel);
-            color: white;
-        }
-       
-        .btn-cancel:hover {
-            background: #ea580c;
-        }
-       
-        .chat-history {
-            flex: 1;
-            overflow-y: auto;
-        }
-       
-        .chat-history h3 {
-            color: var(--dark);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-       
-        .chat-history h3::before {
-            content: "📚";
-        }
-       
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-       
-        .history-item {
-            padding: 12px 15px;
-            border-radius: 10px;
-            background: var(--bg-color);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-            font-size: 0.9rem;
-            color: var(--text-color);
-        }
-       
-        .history-item:hover {
-            border-color: var(--primary);
-            transform: translateX(5px);
-        }
-       
-        .history-item.active {
-            background: var(--primary);
-            color: white;
-        }
-       
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-       
-        .action-icon {
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--light-gray);
-            color: var(--text-color);
-        }
-       
-        .action-icon:hover {
-            transform: scale(1.05);
-            background: var(--gray);
-            color: white;
-        }
-       
-        .action-icon.primary {
-            background: var(--primary);
-            color: white;
-        }
-       
-        .action-icon.primary:hover {
-            background: var(--primary-dark);
-        }
-       
-        .action-icon.danger {
-            background: var(--danger);
-            color: white;
-        }
-       
-        .action-icon.danger:hover {
-            background: #dc2626;
-        }
-       
-        .action-icon.theme {
-            grid-column: span 2;
-            background: var(--light-gray);
-            color: var(--text-color);
-            font-size: 1.5rem;
-        }
-       
-        .action-icon.theme:hover {
-            background: var(--gray);
-            color: white;
-        }
-       
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            position: relative;
-        }
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: #FFD700;
-            color: black;
-            border: none;
-            padding: 12px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 1001;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-        .mobile-menu-btn:hover {
-            background: #FFC107;
-            transform: scale(1.05);
-        }
-       
-     .messages-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background: var(--light);
-    border-radius: 16px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transition: all 0.3s ease;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    will-change: transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-   }
-       
-        .message {
-            max-width: 80%;
-            padding: 16px 20px;
-            border-radius: 18px;
-            line-height: 1.5;
-            position: relative;
-            animation: fadeIn 0.4s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-       
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-       
-        .user-message {
-            align-self: flex-end;
-            background: var(--message-bg-user);
-            color: var(--message-text-user);
-            border-bottom-right-radius: 6px;
-        }
-       
-        .ai-message {
-            align-self: flex-start;
-            background: var(--message-bg-ai);
-            color: var(--message-text-ai);
-            border: 1px solid var(--light-gray);
-            border-bottom-left-radius: 6px;
-        }
-        /* Mensaje de IA con escritura en tiempo real */
-        .ai-message.streaming {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 1px var(--primary);
-        }
-        .ai-message.streaming .message-content {
-            min-height: 20px;
-        }
-       
-        .message-header {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-       
-        .message-header .actions {
-            display: flex;
-            gap: 4px;
-        }
-       
+
         .action-btn {
-            background: none;
-            border: none;
-            color: inherit;
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-       
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-       
-        .message-content {
-            margin-top: 5px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        .quoted-text {
-            color: var(--quote-color);
-            font-weight: 600;
-            padding: 2px 4px;
-            border-radius: 4px;
-            background: rgba(69, 245, 66, 0.1);
-            white-space: normal;
-        }
-        .asterisk-text {
-            color: var(--asterisk-color);
-            font-weight: 600;
-            padding: 2px 4px;
-            border-radius: 4px;
-            background: rgba(var(--asterisk-rgb), 0.1);
-            white-space: normal;
-        }
-       
-        .message.editing .message-content {
-            display: none;
-        }
-       
-        .edit-form {
-            display: none;
-            margin-top: 5px;
-        }
-       
-        .message.editing .edit-form {
-            display: block;
-        }
-       
-        .edit-textarea {
             width: 100%;
-            min-height: 60px;
-            padding: 10px;
-            border-radius: 8px;
-            resize: vertical;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: white;
+            text-align: left;
             font-size: 1rem;
-            line-height: 1.5;
-            border: 1px solid var(--primary);
-            background: var(--bg-color);
-            color: var(--text-color);
-        }
-       
-        .user-message .edit-textarea {
-            background: var(--message-bg-user);
-            color: var(--message-text-user);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-       
-        .ai-message .edit-textarea {
-            background: var(--message-bg-ai);
-            color: var(--message-text-ai);
-            border-color: var(--primary);
-        }
-       
-        .edit-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            justify-content: flex-end;
-        }
-       
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            border-radius: 6px;
             cursor: pointer;
-            border: none;
-            font-weight: 500;
-        }
-       
-        .btn-save {
-            background: var(--secondary);
-            color: white;
-        }
-       
-        .btn-cancel-small {
-            background: var(--light-gray);
-            color: var(--gray);
-        }
-       
-        .btn-small:hover {
-            opacity: 0.8;
-        }
-       
-        .typing-indicator {
-            align-self: flex-start;
-            background: var(--message-bg-ai);
-            color: var(--message-text-ai);
-            border: 1px solid var(--light-gray);
-            padding: 16px 20px;
-            border-radius: 18px;
-            border-bottom-left-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-style: italic;
-        }
-       
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-        }
-       
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--gray);
-            animation: typing 1.4s infinite ease-in-out;
-        }
-       
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-       
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-10px); opacity: 1; }
-        }
-       
-        .input-area {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            flex-shrink: 0;
-        }
-       
-        .input-area textarea {
-            flex: 1;
-            padding: 16px 20px;
-            border-radius: 20px;
-            border: 2px solid var(--light-gray);
-            resize: none;
-            font-size: 1rem;
-            max-height: 150px;
-            min-height: 60px;
-            outline: none;
-            transition: border 0.3s;
-            line-height: 1.5;
-            background: var(--bg-color);
-            color: var(--text-color);
-            -webkit-appearance: none;
-        }
-       
-        .input-area textarea:focus {
-            border-color: var(--primary);
-        }
-       
-        .send-button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
-            flex-shrink: 0;
-        }
-       
-        .send-button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(124, 58, 237, 0.3);
-        }
-       
-        .send-button:disabled {
-            background: var(--light-gray);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-       
-        .cancel-button {
-            background: var(--cancel);
-            color: white;
-            border: none;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2);
-            flex-shrink: 0;
-            display: none;
-        }
-       
-        .cancel-button:hover {
-            background: #ea580c;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(249, 115, 22, 0.3);
-        }
-       
-        .cancel-button.active {
-            display: flex;
-        }
-       
-        .button-container {
-            display: flex;
-            gap: 8px;
-        }
-       
-        .error-message {
-            background: var(--danger);
-            color: white;
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            animation: shake 0.5s ease;
-        }
-       
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-       
-        .memory-info {
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            text-align: center;
-            border-left: 4px solid #3b82f6;
-        }
-        .dark-mode .memory-info {
-            background: #1e3a8a;
-            color: #dbeafe;
-            border-left-color: #60a5fa;
-        }
-       
-        .success-message {
-            background: var(--secondary);
-            color: white;
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-       
-        .clear-chat {
-            background: var(--danger);
-        }
-       
-        .clear-chat:hover {
-            background: #dc2626;
-        }
-       
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s;
-            overflow: hidden;
-        }
-       
-        .modal-content {
-            background-color: var(--bg-color);
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-       
-        .modal h2 {
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-       
-        .close {
-            color: var(--gray);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-       
-        .close:hover {
-            color: var(--dark);
-        }
-        .color-picker-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .color-picker-label {
-            font-weight: 600;
-            color: var(--gray);
-            font-size: 0.9rem;
-            min-width: 120px;
-        }
-        .color-picker {
-            width: 60px;
-            height: 40px;
-            border: 2px solid var(--light-gray);
-            border-radius: 8px;
-            cursor: pointer;
-            background: var(--quote-color);
-        }
-        .color-preview {
-            padding: 8px 12px;
-            border-radius: 6px;
-            background: rgba(69, 245, 66, 0.1);
-            color: var(--quote-color);
-            font-weight: 600;
-            flex: 1;
-            text-align: center;
-        }
-        .rooms-section {
-            margin-top: 20px;
-        }
-        .rooms-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .room-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 12px;
-            border-radius: 8px;
-            background: var(--bg-color);
-            border: 1px solid var(--light-gray);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .room-item:hover {
-            border-color: var(--primary);
-        }
-        .room-item.active {
-            background: var(--primary);
-            color: white;
-        }
-        .room-actions {
-            display: flex;
-            gap: 5px;
-        }
-        .room-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
             transition: background 0.2s;
         }
-        .room-action-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+
+        .action-btn:hover { background: rgba(255,255,255,0.1); }
+        .action-btn:last-of-type { border-bottom: none; }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
-        .delete-room-btn {
-            color: var(--danger);
+
+        /* --- Utility --- */
+        .hidden {
+            display: none !important;
         }
-        .room-name {
-            font-weight: 600;
-            flex: 1;
+
+        .text-purple {
+            color: var(--primary);
         }
-        .room-meta {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-top: 2px;
-        }
-        .current-room-display {
-            background: var(--light-gray);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            color: var(--text-color);
-        }
-        .api-keys-management {
-            margin-top: 15px;
-        }
-        .api-keys-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            padding: 8px;
-        }
-        .api-key-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 10px;
-            margin-bottom: 5px;
-            border-radius: 6px;
-            background: var(--light-gray);
-            transition: all 0.3s;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-        .api-key-item:hover {
-            background: var(--gray);
-            color: white;
-        }
-        .api-key-item.active {
-            background: var(--primary);
-            color: white;
-            border-left: 4px solid var(--primary-dark);
-        }
-        .api-key-name {
-            font-weight: 600;
-            flex: 1;
-        }
-        .api-key-actions {
-            display: flex;
-            gap: 5px;
-        }
-        .api-key-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: background 0.2s;
-            color: inherit;
-        }
-        .api-key-action-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .delete-api-key-btn {
-            color: var(--danger);
-        }
-        .add-api-key-form {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .form-row {
-            display: flex;
-            gap: 8px;
-        }
-        .form-row input {
-            flex: 1;
-            padding: 8px 10px;
-            font-size: 0.85rem;
-        }
-        /* Indicador de scroll para sidebar */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .scroll-indicator.show {
-            opacity: 1;
-        }
-        /* Estilos para sliders */
-        .params-section h3 {
-            color: var(--dark);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .params-section h3::before {
-            content: "🎛️";
-        }
-        .slider-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-        .slider-group label {
-            font-weight: 600;
-            color: var(--gray);
-            font-size: 0.85rem;
-        }
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .slider-container input[type="range"] {
-            flex: 1;
-            height: 5px;
-            border-radius: 5px;
-            background: var(--light-gray);
-            outline: none;
-            -webkit-appearance: none;
-        }
-        .slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-        }
-        .slider-container input[type="range"]::-moz-range-thumb {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            border: none;
-        }
-        .slider-value {
-            min-width: 50px;
-            text-align: right;
-            font-size: 0.85rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-        .default-btn {
-            background: var(--warning);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-        .default-btn:hover {
-            background: #d97706;
-        }
-       
-      @media (max-width: 768px) {
-    body {
-        padding: 0;
-        overflow: hidden;
-    }
-    .container {
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-    }
-    .chat-container {
-        flex-direction: column;
-    }
-    
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 85%;
-        max-width: 320px;
-        height: 100vh;
-        z-index: 1000;
-        border-right: none;
-        border-bottom: none;
-        padding: 20px;
-        transition: left 0.3s ease;
-    }
-    body.sidebar-open .sidebar {
-        left: 0;
-    }
-    body.sidebar-open::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-    }
-    
-    .chat-area {
-        padding: 15px;
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    .messages-container {
-        flex: 1;
-        overflow-y: auto;
-        padding: 15px;
-        margin-bottom: 15px;
-        min-height: 0;
-        max-height: calc(100vh - 180px);
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-    }
-    
-    .message {
-        max-width: 90%;
-    }
-    
-    .logo h1 {
-        font-size: 1.3rem;
-    }
-    
-    .actions-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .input-area {
-        display: flex;
-        gap: 8px;
-        align-items: flex-end;
-        flex-shrink: 0;
-        background: var(--bg-color);
-        padding-top: 0;
-    }
-    
-    .input-area textarea {
-        min-height: 50px;
-        font-size: 0.95rem;
-    }
-    
-    .send-button, .cancel-button {
-        width: 50px;
-        height: 50px;
-        min-width: 50px;
-    }
-    
-    .form-row {
-        flex-direction: column;
-    }
-    
-    .sidebar-content {
-        gap: 12px;
-    }
-    
-    .modal-content {
-        flex-direction: column;
-        width: 95%;
-        margin: 10% auto;
-        max-height: 85vh;
-    }
-    
-    .button-container {
-        gap: 6px;
-    }
-}
+    </style>
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="chat-container">
-            <div class="sidebar">
-                <div class="sidebar-content">
-                    <div class="current-room-display" id="current-room-display">Sala actual: General</div>
-                    <div class="config-section">
-                       
-                        <div class="form-group">
-                            <label for="model-search">Buscar Modelo:</label>
-                            <div class="model-search-container">
-                                <input type="text" id="model-search" class="model-search-input" placeholder="Escribe para buscar" />
-                                <div class="models-list" id="models-list">
-                                    <!-- Los items se generarán dinámicamente -->
-                                </div>
-                            </div>
-                            <div class="model-display" id="model-display">Ningún modelo seleccionado</div>
-                        </div>
-                       
-                        <div class="form-group">
-                            <label>API Activa:</label>
-                            <div class="api-key-display" id="api-key-display">
-                                <span class="api-key-name">Sin API configurada</span>
-                                <span class="api-key-status">❌</span>
-                            </div>
-                        </div>
-                       
-                        <div class="actions-grid">
-                            <button class="action-icon primary" id="api-keys-btn" title="Gestionar APIs">🔑</button>
-                            <button class="action-icon primary" id="update-config" title="Actualizar Configuración">🔄</button>
-                            <button class="action-icon danger" id="clear-chat" title="Limpiar Chat">🗑️</button>
-                            <button class="action-icon" id="new-room-btn" title="Nueva Sala">➕</button>
-                            <button class="action-icon" id="rooms-btn" title="Salas Creadas">📋</button>
-                            <button class="action-icon" id="edit-room-btn" title="Editar Sala">✏️</button>
-                            <button class="action-icon theme" id="theme-toggle" title="Cambiar tema">🌙</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="scroll-indicator" id="scroll-indicator">Desliza para ver más</div>
+    <!-- Vista de Lista (Home) -->
+    <div id="home-view" class="view active">
+        <header>
+            <h1>WhatsApp <span class="text-purple">Morado</span></h1>
+            <div class="header-actions">
+                <button id="api-keys-btn" class="back-btn" title="Configuración">⚙️</button>
             </div>
-           
-            <div class="chat-area">
-                <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
-                <div class="messages-container" id="messages-container">
-                </div>
-               
-                <div class="input-area">
-                    <textarea id="user-input" placeholder="Escribe tu mensaje aquí... (Enter para enviar, Shift+Enter para nueva línea)"></textarea>
-                    <div class="button-container">
-                        <button class="cancel-button" id="cancel-button" title="Cancelar mensaje en curso">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </button>
-                        <button class="send-button" id="send-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+        </header>
+
+        <div class="rooms-list" id="rooms-list-container">
+            <!-- Las salas se generarán aquí -->
+        </div>
+
+        <button class="fab" id="new-room-fab" title="Nuevo Chat">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Vista de Chat -->
+    <div id="chat-view" class="view">
+        <header>
+            <button class="back-btn" id="back-to-list">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <div class="room-avatar" id="active-chat-avatar">AI</div>
+            <div class="room-info" id="active-chat-info">
+                <div class="room-name" id="active-chat-name">Cargando...</div>
+                <div class="room-last-msg" id="active-chat-status">En línea</div>
             </div>
+            <div class="header-actions">
+                <button id="edit-room-btn" class="back-btn">✏️</button>
+            </div>
+        </header>
+
+        <div class="messages-container" id="messages-container">
+            <!-- Mensajes aquí -->
+        </div>
+
+        <div id="image-preview-container" class="hidden" style="padding: 10px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 10px; align-items: center;">
+            <div id="image-preview-wrapper" style="position: relative; width: 60px; height: 60px;">
+                <img id="image-preview-img" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                <button id="remove-image-btn" style="position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer;">✕</button>
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">Imagen lista para enviar</span>
+        </div>
+
+        <div class="input-area">
+            <button class="icon-btn" id="attach-btn" style="color: var(--text-dim); padding: 0 10px; background: none; border: none; cursor: pointer;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.44 11.05L12.12 20.37C11.3787 21.1113 10.3731 21.5273 9.32454 21.5273C8.27599 21.5273 7.27035 21.1113 6.52904 20.37L3.11904 16.96C1.58904 15.43 1.58904 12.94 3.11904 11.41L11.72 2.81001C12.83 1.70001 14.63 1.70001 15.74 2.81001C16.85 3.92001 16.85 5.72001 15.74 6.83001L7.84904 14.72C7.47904 15.09 6.87904 15.09 6.50904 14.72C6.13904 14.35 6.13904 13.75 6.50904 13.38L13.7 6.19001" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <input type="file" id="chat-image-input" accept="image/*" class="hidden">
+            
+            <div class="input-wrapper">
+                <textarea id="user-input" placeholder="Escribe un mensaje..." rows="1"></textarea>
+            </div>
+            <button class="send-btn" id="send-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor" />
+                </svg>
+            </button>
+            <button class="send-btn hidden" id="cancel-button" style="background: var(--danger);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
         </div>
     </div>
-    
-    <!-- Modal para Nueva Sala -->
+
+    <!-- Modal: Nueva Sala -->
     <div id="new-room-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-new-room">&times;</span>
-            <h2>Crear Nueva Sala</h2>
-            <div class="form-group">
-                <label for="room-name">Nombre de la Sala:</label>
-                <input type="text" id="room-name" placeholder="Ej: Programación, Diseño, etc.">
+        <div class="modal-content" style="max-width: 450px;">
+            <h2>Nuevo Chat</h2>
+
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+                <div id="avatar-preview" class="room-avatar"
+                    style="width: 80px; height: 80px; font-size: 2rem; cursor: pointer; position: relative; overflow: hidden;">
+                    AI
+                    <input type="file" id="avatar-input" accept="image/*"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                </div>
+                <span style="font-size: 0.8rem; color: var(--text-dim); margin-top: 8px;">Toca para subir imagen</span>
             </div>
+
             <div class="form-group">
-                <label for="room-prompt">Prompt Personalizado:</label>
-                <textarea id="room-prompt" rows="4" placeholder="Eres un asistente especializado en..."></textarea>
+                <label>Nombre del Chat</label>
+                <input type="text" id="room-name-input" placeholder="Ej: Proyecto IA">
             </div>
-            <button class="btn btn-primary" id="create-room">Crear Sala</button>
+
+            <div class="form-group">
+                <label>Modelo para este chat</label>
+                <div id="room-model-display" class="text-purple"
+                    style="font-size: 0.9rem; font-weight: 600; margin-bottom: 5px;">Selecciona un modelo</div>
+                <input type="text" id="room-model-search" placeholder="Buscar modelo (ej: gpt-4o, claude-3...)">
+                <div id="room-models-list" class="models-dropdown hidden"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Personalidad / Prompt (Opcional)</label>
+                <textarea id="room-prompt-input" rows="3" placeholder="Ej: Eres un experto en código..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-block" id="close-new-room">Cancelar</button>
+                <button class="btn-block btn-primary" id="create-room-btn">Crear Chat</button>
+            </div>
         </div>
     </div>
-    
-    <!-- Modal para Salas Creadas -->
-    <div id="rooms-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-rooms">&times;</span>
-            <h2>Salas Creadas</h2>
-            <h3>Salas Activas</h3>
-            <div class="rooms-list" id="all-rooms-list">
-                <!-- Las salas se generarán dinámicamente -->
-            </div>
+    <!-- Modal: Menú de Ajustes Principal -->
+    <div id="settings-menu-modal" class="modal">
+        <div class="modal-content" style="max-width: 300px;">
+            <h2 style="text-align: center;">Ajustes</h2>
+            <button class="btn-block" id="open-highlight-settings" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--surface-light); color: var(--text-main);">
+                <span>🖋️</span> Configurar resaltado
+            </button>
+            <button class="btn-block" id="open-api-settings" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--surface-light); color: var(--text-main);">
+                <span>🔑</span> Configurar API
+            </button>
+            <button class="btn-block" id="close-settings-menu" style="margin-top: 20px; background: none; color: var(--text-dim);">Cerrar</button>
         </div>
     </div>
-    
-    <!-- Modal para Editar Sala -->
-    <div id="edit-room-modal" class="modal">
+
+    <!-- Modal: Configurar Resaltado -->
+    <div id="highlight-modal" class="modal">
         <div class="modal-content">
-            <span class="close" id="close-edit-room">&times;</span>
-            <h2>Editar Sala Actual</h2>
+            <h2>Resaltado de Texto</h2>
             <div class="form-group">
-                <label for="system-prompt">Prompt Personalizado para esta Sala:</label>
-                <textarea id="system-prompt" rows="6" placeholder="Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat."></textarea>
+                <label>Color para texto en "comillas"</label>
+                <input type="color" id="color-quotes" value="#8b5cf6" style="height: 45px; padding: 5px; cursor: pointer;">
             </div>
-            
-            <div class="color-picker-group">
-                <span class="color-picker-label">Color de Citas:</span>
-                <input type="color" id="quote-color-picker" class="color-picker" value="#45f542">
-                <div class="color-preview" id="color-preview">Texto de ejemplo entre "comillas"</div>
+            <div class="form-group">
+                <label>Color para texto en *asteriscos*</label>
+                <input type="color" id="color-asterisks" value="#10b981" style="height: 45px; padding: 5px; cursor: pointer;">
             </div>
-            <div class="color-picker-group">
-                <span class="color-picker-label">Color de Asteriscos:</span>
-                <input type="color" id="asterisk-color-picker" class="color-picker" value="#ff0000">
-                <div class="color-preview" id="asterisk-color-preview">Texto de ejemplo *con asteriscos*</div>
-            </div>
-            
-            <div class="params-section">
-                <h3>Parámetros de Muestreo</h3>
-                <div class="slider-group">
-                    <label for="chat-memory-slider">Chat Memory:</label>
-                    <div class="slider-container">
-                        <input type="range" id="chat-memory-slider" min="1" max="50" step="1" value="8">
-                        <span class="slider-value" id="chat-memory-value">8</span>
-                    </div>
-                </div>
-                <div class="slider-group">
-                    <label for="max-tokens-slider">Max Tokens:</label>
-                    <div class="slider-container">
-                        <input type="range" id="max-tokens-slider" min="0" max="10000" step="100" value="0">
-                        <span class="slider-value" id="max-tokens-value">0</span>
-                    </div>
-                </div>
-                <div class="slider-group">
-                    <label for="temperature-slider">Temperature:</label>
-                    <div class="slider-container">
-                        <input type="range" id="temperature-slider" min="0" max="2" step="0.1" value="1.0">
-                        <span class="slider-value" id="temperature-value">1.000</span>
-                    </div>
-                </div>
-                <div class="slider-group">
-                    <label for="top-p-slider">Top P:</label>
-                    <div class="slider-container">
-                        <input type="range" id="top-p-slider" min="0" max="1" step="0.1" value="1.0">
-                        <span class="slider-value" id="top-p-value">1.000</span>
-                    </div>
-                </div>
-                <button class="default-btn" id="default-params-btn">Usar Configuración por Defecto</button>
-            </div>
-           
-            <button class="btn btn-primary" id="save-room" style="width: 100%; margin-top: 20px;">Guardar Cambios en la Sala</button>
+            <button class="btn-block btn-primary" id="save-highlight-btn">Guardar Colores</button>
+            <button class="btn-block" id="close-highlight-modal" style="margin-top: 10px; background: var(--surface-light); color: var(--text-main);">Cerrar</button>
         </div>
     </div>
-    
-    <!-- Modal para Gestionar APIs -->
+
+    <!-- Modal: Configuración / APIs -->
     <div id="api-keys-modal" class="modal">
         <div class="modal-content">
-            <span class="close" id="close-api-keys">&times;</span>
-            <h2>Gestión de API Keys</h2>
+            <h2>Gestión de APIs</h2>
             
-            <div class="api-keys-management">
-                <div class="api-keys-list" id="api-keys-list">
-                    <!-- Las APIs se generarán dinámicamente -->
-                </div>
-                
-                <h3>Añadir Nueva API Key</h3>
-                <div class="add-api-key-form">
-                    <div class="form-group">
-                        <label for="new-api-key-name">Nombre de la API:</label>
-                        <input type="text" id="new-api-key-name" placeholder="Ej: OpenRouter Personal">
-                    </div>
-                    <div class="form-group">
-                        <label for="new-api-key-value">Clave de API:</label>
-                        <input type="text" id="new-api-key-value" placeholder="sk-or-xxx...">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" id="add-api-key">Añadir API Key</button>
-                    </div>
-                </div>
-                
-                <div class="form-group" style="margin-top: 20px;">
-                    <label>API Activa Actual:</label>
-                    <div class="api-key-display" id="current-api-display">
-                        <span class="api-key-name">Sin API seleccionada</span>
-                        <span class="api-key-status">❌</span>
-                    </div>
-                </div>
-                
-                <div class="form-group" style="margin-top: 15px;">
-                    <button class="btn btn-cancel" id="test-api-btn" style="width: 100%;">Probar API Seleccionada</button>
-                </div>
-                
-                <div class="form-group" style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="btn btn-primary" id="select-api-btn" style="flex: 1;">Seleccionar API Activa</button>
-                    <button class="btn btn-cancel-small" id="close-api-modal-btn" style="flex: 1;">Cerrar</button>
-                </div>
+            <div id="firebase-keys-list" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px; border-radius: 10px; background: rgba(0,0,0,0.2);">
+                <!-- Lista de keys de Firebase -->
+                <div style="padding: 20px; text-align: center; color: var(--text-dim);">Cargando llaves de Firebase...</div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                <label>Añadir nueva API Key (sk-or-...)</label>
+                <input type="text" id="new-api-key-value" placeholder="Pega tu clave aquí...">
+            </div>
+            <button class="btn-block btn-primary" id="save-config-btn">Añadir y Usar</button>
+            <button class="btn-block" id="close-api-modal" style="margin-top: 10px; background: var(--surface-light); color: var(--text-main);">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Menú de Acciones de Sala (Room Action Sheet) -->
+    <div id="room-actions-modal" class="modal" style="align-items: flex-end;">
+        <div class="modal-content action-sheet">
+            <div style="width: 40px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 10px; margin: 0 auto 20px;"></div>
+            <button class="action-btn" id="room-action-rename">✏️ Cambiar nombre</button>
+            <button class="action-btn" id="room-action-avatar">📸 Cambiar imagen de perfil</button>
+            <button class="action-btn" id="room-action-delete" style="color: var(--danger);">🗑️ Eliminar Chat</button>
+            <button class="btn-block" id="close-room-actions" style="margin-top: 15px; background: none; color: var(--text-dim);">Cancelar</button>
+        </div>
+        <input type="file" id="room-avatar-update-input" accept="image/*" class="hidden">
+    </div>
+
+    <!-- Modal: Editar Mensaje Específico -->
+    <div id="message-edit-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2>Editar Mensaje</h2>
+            <p style="font-size: 0.85rem; color: var(--danger); margin-bottom: 15px;">
+                ⚠️ Al guardar los cambios, se eliminarán todos los mensajes posteriores a este para mantener la coherencia.
+            </p>
+            <div class="form-group">
+                <textarea id="edit-message-textarea" rows="8" style="width: 100%; padding: 12px; font-size: 1rem;" placeholder="Escribe el nuevo contenido..."></textarea>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-block" id="cancel-msg-edit">Cancelar</button>
+                <button class="btn-block btn-primary" id="save-msg-edit">Guardar y Enviar</button>
             </div>
         </div>
     </div>
-    
-    <script>
-        // Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyA7arHd8eOo5nTKaFLCCc6CJpU7PuT9T-I",
-            authDomain: "apis-78915.firebaseapp.com",
-            databaseURL: "https://apis-78915-default-rtdb.firebaseio.com",
-            projectId: "apis-78915",
-            storageBucket: "apis-78915.firebasestorage.app",
-            messagingSenderId: "442799926447",
-            appId: "1:442799926447:web:78fc27a82a8e3b31d9b85a"
-        };
-        
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        
-        // Configuración inicial
-        let conversationHistory = [];
-        let currentModel = localStorage.getItem('selectedModel') || '';
-        let apiKey = localStorage.getItem('activeApiKey') || '';
-        let apiKeyName = localStorage.getItem('activeApiKeyName') || '';
-        let systemPrompt = localStorage.getItem('systemPrompt') || 'Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat.';
-        let quoteColor = localStorage.getItem('quoteColor') || '#45f542';
-        let asteriskColor = localStorage.getItem('asteriskColor') || '#ff0000';
-        let isDarkMode = localStorage.getItem('darkMode') === 'true';
-        let allModels = [];
-        let isStreaming = false;
-        let abortController = null;
-        let isUserScrolling = false;
-        let autoScrollEnabled = true;
-       
-        // Sistema de APIs
-        let apiKeys = [];
-       
-        // Parámetros por defecto
-        const defaultParams = {
-            chatMemory: 8,
-            maxTokens: 0,
-            temperature: 1.0,
-            top_p: 1.0,
-            top_k: 0,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            repetition_penalty: 1.0,
-            min_p: 0,
-            top_a: 0
-        };
-       
-        // Sistema de salas
-        let rooms = JSON.parse(localStorage.getItem('rooms')) || [
-            {
-                id: 'general',
-                name: 'General',
-                prompt: 'Eres un asistente útil con memoria de conversación. Recuerdas todo el historial del chat.',
-                params: { ...defaultParams },
-                history: [],
-                createdAt: new Date().toISOString()
+
+    <!-- Modal: Editar Sala -->
+    <div id="edit-room-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <h2>Ajustes del Chat</h2>
+            
+            <div class="form-group">
+                <label>Modelo para este chat</label>
+                <div id="edit-model-display" class="text-purple" style="font-weight: 600; margin-bottom: 5px;"></div>
+                <input type="text" id="edit-model-search" placeholder="Cambiar modelo...">
+                <div id="edit-models-list" class="models-dropdown hidden"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Prompt del Sistema</label>
+                <textarea id="system-prompt-input" rows="4" placeholder="Personalidad del bot..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Memoria (Mensajes): <span id="chat-memory-value">10</span></label>
+                <input type="range" id="chat-memory-slider" min="1" max="50" value="10">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>Temperatura: <span id="temp-value">1.0</span></label>
+                    <input type="range" id="temp-slider" min="0" max="2" step="0.1" value="1.0">
+                </div>
+                <div class="form-group">
+                    <label>Top P: <span id="top-p-value">1.0</span></label>
+                    <input type="range" id="top-p-slider" min="0" max="1" step="0.05" value="1.0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Max Tokens (0 = Auto)</label>
+                <input type="number" id="max-tokens-input" value="0">
+            </div>
+
+            <button class="btn-block btn-primary" id="save-room-btn">Guardar Ajustes</button>
+            <button class="btn-block" id="close-edit-modal" style="margin-top: 10px; background: var(--surface-light); color: var(--text-main);">Cerrar</button>
+        </div>
+    </div>
+        <script>
+            // Configuración de Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyA7arHd8eOo5nTKaFLCCc6CJpU7PuT9T-I",
+                authDomain: "apis-78915.firebaseapp.com",
+                databaseURL: "https://apis-78915-default-rtdb.firebaseio.com",
+                projectId: "apis-78915",
+                storageBucket: "apis-78915.firebasestorage.app",
+                messagingSenderId: "442799926447",
+                appId: "1:442799926447:web:78fc27a82a8e3b31d9b85a"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
+            // --- IndexedDB Manager ---
+            const DB = {
+                name: 'WhatsAppMoradoDB',
+                version: 3, // Bumping to ensure a fresh start
+                storeNames: { rooms: 'rooms', settings: 'settings' },
+
+                init() {
+                    return new Promise((resolve, reject) => {
+                        const request = indexedDB.open(this.name, this.version);
+                        request.onupgradeneeded = (e) => {
+                            const db = e.target.result;
+                            // Eliminar tiendas viejas si existen para empezar de cero
+                            if (db.objectStoreNames.contains(this.storeNames.rooms)) db.deleteObjectStore(this.storeNames.rooms);
+                            if (db.objectStoreNames.contains(this.storeNames.settings)) db.deleteObjectStore(this.storeNames.settings);
+                            
+                            db.createObjectStore(this.storeNames.rooms, { keyPath: 'id' });
+                            db.createObjectStore(this.storeNames.settings, { keyPath: 'id' });
+                        };
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => reject(request.error);
+                    });
+                },
+
+                async get(storeName, key) {
+                    const db = await this.init();
+                    return new Promise((resolve) => {
+                        const tx = db.transaction(storeName, 'readonly');
+                        const store = tx.objectStore(storeName);
+                        const req = store.get(key);
+                        req.onsuccess = () => resolve(req.result);
+                        req.onerror = () => resolve(null);
+                    });
+                },
+
+                async getAll(storeName) {
+                    const db = await this.init();
+                    return new Promise((resolve) => {
+                        const tx = db.transaction(storeName, 'readonly');
+                        const store = tx.objectStore(storeName);
+                        const req = store.getAll();
+                        req.onsuccess = () => resolve(req.result);
+                        req.onerror = () => resolve([]);
+                    });
+                },
+
+                async set(storeName, value) {
+                    const db = await this.init();
+                    return new Promise((resolve, reject) => {
+                        const tx = db.transaction(storeName, 'readwrite');
+                        const store = tx.objectStore(storeName);
+                        const req = store.put(value);
+                        req.onsuccess = () => resolve();
+                        req.onerror = () => reject(req.error);
+                    });
+                },
+
+                async delete(storeName, key) {
+                    const db = await this.init();
+                    return new Promise((resolve) => {
+                        const tx = db.transaction(storeName, 'readwrite');
+                        const store = tx.objectStore(storeName);
+                        store.delete(key);
+                        tx.oncomplete = () => resolve();
+                    } );
+                }
+            };
+
+            // Estado Global
+            let rooms = [];
+            let currentRoomId = null;
+            let apiKey = '';
+            let currentModel = 'google/gemini-2.0-flash-001';
+            let allModels = [];
+            let isStreaming = false;
+            let abortController = null;
+            let quoteColor = '#8b5cf6';
+            let asteriskColor = '#10b981';
+            let selectedRoomId = null;
+            let longPressTimer = null;
+            let pendingImage = null;
+            let editingMessageIndex = null;
+
+            // Elementos DOM
+            const views = {
+                home: document.getElementById('home-view'),
+                chat: document.getElementById('chat-view')
+            };
+            const containers = {
+                rooms: document.getElementById('rooms-list-container'),
+                messages: document.getElementById('messages-container')
+            };
+            const inputs = {
+                user: document.getElementById('user-input'),
+                roomName: document.getElementById('room-name-input'),
+                roomPrompt: document.getElementById('room-prompt-input'),
+                roomModelSearch: document.getElementById('room-model-search'),
+                editModelSearch: document.getElementById('edit-model-search'),
+                apiKey: document.getElementById('new-api-key-value'),
+                systemPrompt: document.getElementById('system-prompt-input'),
+                chatMemory: document.getElementById('chat-memory-slider'),
+                tempSlider: document.getElementById('temp-slider'),
+                topPSlider: document.getElementById('top-p-slider'),
+                maxTokensInput: document.getElementById('max-tokens-input'),
+                editMsgText: document.getElementById('edit-message-textarea'),
+                avatar: document.getElementById('avatar-input')
+            };
+            const buttons = {
+                send: document.getElementById('send-button'),
+                cancel: document.getElementById('cancel-button'),
+                newRoom: document.getElementById('new-room-fab'),
+                createRoom: document.getElementById('create-room-btn'),
+                saveConfig: document.getElementById('save-config-btn'),
+                saveRoom: document.getElementById('save-room-btn'),
+                saveMsgEdit: document.getElementById('save-msg-edit'),
+                back: document.getElementById('back-to-list')
+            };
+            const modals = {
+                newRoom: document.getElementById('new-room-modal'),
+                settings: document.getElementById('settings-menu-modal'),
+                highlight: document.getElementById('highlight-modal'),
+                api: document.getElementById('api-keys-modal'),
+                edit: document.getElementById('edit-room-modal'),
+                msgEdit: document.getElementById('message-edit-modal'),
+                roomActions: document.getElementById('room-actions-modal')
+            };
+
+            // Estado Temporal para Nueva Sala
+            let tempRoomAvatar = null;
+            let tempRoomModel = 'google/gemini-2.0-flash-001';
+
+            // --- Utilidades ---
+            function compressImage(file) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            const MAX_WIDTH = 800;
+                            const MAX_HEIGHT = 800;
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > height) {
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
+                                }
+                            } else {
+                                if (height > MAX_HEIGHT) {
+                                    width *= MAX_HEIGHT / height;
+                                    height = MAX_HEIGHT;
+                                }
+                            }
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+                            resolve(canvas.toDataURL('image/jpeg', 0.7));
+                        };
+                    };
+                });
             }
-        ];
-        let currentRoomId = localStorage.getItem('currentRoomId') || 'general';
-       
-        // Variables para streaming
-        let currentStreamingMessage = null;
-        let currentStreamingContent = '';
-       
-        // Elementos del DOM
-        const messagesContainer = document.getElementById('messages-container');
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
-        const cancelButton = document.getElementById('cancel-button');
-        const modelSearchInput = document.getElementById('model-search');
-        const modelsList = document.getElementById('models-list');
-        const modelDisplay = document.getElementById('model-display');
-        const updateConfigButton = document.getElementById('update-config');
-        const clearChatButton = document.getElementById('clear-chat');
-        const newRoomBtn = document.getElementById('new-room-btn');
-        const roomsBtn = document.getElementById('rooms-btn');
-        const editRoomBtn = document.getElementById('edit-room-btn');
-        const themeToggle = document.getElementById('theme-toggle');
-        const apiKeysBtn = document.getElementById('api-keys-btn');
-        const newRoomModal = document.getElementById('new-room-modal');
-        const closeNewRoom = document.getElementById('close-new-room');
-        const roomNameInput = document.getElementById('room-name');
-        const roomPromptInput = document.getElementById('room-prompt');
-        const createRoomBtn = document.getElementById('create-room');
-        const roomsModal = document.getElementById('rooms-modal');
-        const closeRooms = document.getElementById('close-rooms');
-        const allRoomsList = document.getElementById('all-rooms-list');
-        const editRoomModal = document.getElementById('edit-room-modal');
-        const closeEditRoom = document.getElementById('close-edit-room');
-        const systemPromptInput = document.getElementById('system-prompt');
-        const quoteColorPicker = document.getElementById('quote-color-picker');
-        const colorPreview = document.getElementById('color-preview');
-        const asteriskColorPicker = document.getElementById('asterisk-color-picker');
-        const asteriskColorPreview = document.getElementById('asterisk-color-preview');
-        const saveRoomBtn = document.getElementById('save-room');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const currentRoomDisplay = document.getElementById('current-room-display');
-        const apiKeysList = document.getElementById('api-keys-list');
-        const apiKeysModal = document.getElementById('api-keys-modal');
-        const closeApiKeys = document.getElementById('close-api-keys');
-        const newApiKeyName = document.getElementById('new-api-key-name');
-        const newApiKeyValue = document.getElementById('new-api-key-value');
-        const addApiKeyBtn = document.getElementById('add-api-key');
-        const apiKeyDisplay = document.getElementById('api-key-display');
-        const currentApiDisplay = document.getElementById('current-api-display');
-        const testApiBtn = document.getElementById('test-api-btn');
-        const selectApiBtn = document.getElementById('select-api-btn');
-        const closeApiModalBtn = document.getElementById('close-api-modal-btn');
-        const sidebarContent = document.querySelector('.sidebar-content');
-        const scrollIndicator = document.getElementById('scroll-indicator');
-        
-        // Elementos de sliders
-        const chatMemorySlider = document.getElementById('chat-memory-slider');
-        const chatMemoryValue = document.getElementById('chat-memory-value');
-        const maxTokensSlider = document.getElementById('max-tokens-slider');
-        const maxTokensValue = document.getElementById('max-tokens-value');
-        const temperatureSlider = document.getElementById('temperature-slider');
-        const temperatureValue = document.getElementById('temperature-value');
-        const topPSlider = document.getElementById('top-p-slider');
-        const topPValue = document.getElementById('top-p-value');
-        const topKSlider = document.getElementById('top-k-slider');
-        const topKValue = document.getElementById('top-k-value');
-        const freqPenaltySlider = document.getElementById('freq-penalty-slider');
-        const freqPenaltyValue = document.getElementById('freq-penalty-value');
-        const presencePenaltySlider = document.getElementById('presence-penalty-slider');
-        const presencePenaltyValue = document.getElementById('presence-penalty-value');
-        const repetitionPenaltySlider = document.getElementById('repetition-penalty-slider');
-        const repetitionPenaltyValue = document.getElementById('repetition-penalty-value');
-        const minPSlider = document.getElementById('min-p-slider');
-        const minPValue = document.getElementById('min-p-value');
-        const topASlider = document.getElementById('top-a-slider');
-        const topAValue = document.getElementById('top-a-value');
-        const defaultParamsBtn = document.getElementById('default-params-btn');
-       
-        // Inicializar Firebase y cargar APIs
-        async function initializeFirebase() {
-            try {
-                await loadApiKeysFromFirebase();
-                updateApiKeyDisplay();
-                showSuccess('Conectado a Firebase');
-            } catch (error) {
-                console.error('Error inicializando Firebase:', error);
-                showError('Error conectando a Firebase. Las APIs se guardarán localmente.');
+
+            // --- Navegación ---
+            function showView(viewName) {
+                Object.values(views).forEach(v => v.classList.remove('active'));
+                views[viewName].classList.add('active');
+                if (viewName === 'home') {
+                    currentRoomId = null;
+                    renderRooms();
+                }
             }
-        }
-        
-        // Cargar APIs desde Firebase
-        async function loadApiKeysFromFirebase() {
-            try {
-                const snapshot = await database.ref('apiKeys').once('value');
-                const firebaseApiKeys = snapshot.val();
-               
-                if (firebaseApiKeys) {
-                    apiKeys = Object.values(firebaseApiKeys);
-                    renderApiKeysList();
-                   
-                    if (apiKeys.length > 0 && !apiKey) {
-                        const firstApi = apiKeys[0];
-                        apiKey = firstApi.id;
-                        apiKeyName = firstApi.name;
-                        localStorage.setItem('activeApiKey', apiKey);
-                        localStorage.setItem('activeApiKeyName', apiKeyName);
-                    }
+
+            function openChat(roomId) {
+                currentRoomId = roomId;
+                const room = rooms.find(r => r.id === roomId);
+                document.getElementById('active-chat-name').textContent = room.name;
+
+                // Avatar
+                const avatarDiv = document.getElementById('active-chat-avatar');
+                if (room.avatar) {
+                    avatarDiv.innerHTML = `<img src="${room.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
                 } else {
-                    apiKeys = [];
-                    renderApiKeysList();
+                    avatarDiv.textContent = room.name.substring(0, 2).toUpperCase();
+                    avatarDiv.style.background = 'linear-gradient(135deg, var(--primary) 0%, #a855f7 100%)';
                 }
-            } catch (error) {
-                console.error('Error cargando APIs desde Firebase:', error);
-                throw error;
+
+                // Estado (Nombre del modelo)
+                document.getElementById('active-chat-status').textContent = room.model || 'google/gemini-2.0-flash-001';
+
+                containers.messages.innerHTML = '';
+                room.history.forEach(msg => addMessageToUI(msg.content, msg.role));
+
+                showView('chat');
+                scrollToBottom();
             }
-        }
-        
-        // Guardar APIs en Firebase
-        async function saveApiKeysToFirebase() {
-            try {
-                const apiKeysObject = {};
-                apiKeys.forEach((api, index) => {
-                    apiKeysObject[`key_${index}`] = api;
+
+            // --- Lógica de Salas ---
+            function renderRooms() {
+                containers.rooms.innerHTML = '';
+                rooms.forEach(room => {
+                    const lastMsg = room.history.length > 0 ? room.history[room.history.length - 1].content : 'Sin mensajes aún';
+                    const time = room.createdAt ? new Date(room.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+                    const div = document.createElement('div');
+                    div.className = 'room-item';
+
+                    let avatarHTML = room.avatar
+                        ? `<img src="${room.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`
+                        : room.name.substring(0, 2).toUpperCase();
+
+                    div.innerHTML = `
+                    <div class="room-avatar">${avatarHTML}</div>
+                    <div class="room-info">
+                        <div class="room-header">
+                            <span class="room-name">${room.name}</span>
+                            <span class="room-time">${time}</span>
+                        </div>
+                        <div class="room-last-msg">${lastMsg}</div>
+                    </div>
+                `;
+                    div.onclick = () => openChat(room.id);
+
+                    // --- Long Press para Salas ---
+                    const startPress = () => {
+                        longPressTimer = setTimeout(() => {
+                            selectedRoomId = room.id;
+                            modals.roomActions.style.display = 'flex';
+                            if (navigator.vibrate) navigator.vibrate(50);
+                        }, 600);
+                    };
+                    const endPress = () => clearTimeout(longPressTimer);
+
+                    div.addEventListener('touchstart', startPress);
+                    div.addEventListener('touchend', endPress);
+                    div.addEventListener('mousedown', startPress);
+                    div.addEventListener('mouseup', endPress);
+                    div.addEventListener('mouseleave', endPress);
+                    div.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        selectedRoomId = room.id;
+                        modals.roomActions.style.display = 'flex';
+                    });
+
+                    containers.rooms.appendChild(div);
                 });
-               
-                await database.ref('apiKeys').set(apiKeysObject);
-                return true;
-            } catch (error) {
-                console.error('Error guardando APIs en Firebase:', error);
-                return false;
             }
-        }
-        
-        // Inicializar tema y colores
-        function initializeTheme() {
-            if (isDarkMode) {
-                document.documentElement.classList.add('dark-mode');
-                themeToggle.textContent = '☀️';
-            } else {
-                document.documentElement.classList.remove('dark-mode');
-                themeToggle.textContent = '🌙';
+
+            async function saveRooms() {
+                // Guardar todas las salas en IndexedDB
+                for (const room of rooms) {
+                    await DB.set(DB.storeNames.rooms, room);
+                }
             }
-           
-            document.documentElement.style.setProperty('--quote-color', quoteColor);
-            quoteColorPicker.value = quoteColor;
-            updateColorPreview();
-            document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
-            document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
-            asteriskColorPicker.value = asteriskColor;
-            updateAsteriskColorPreview();
-        }
-        
-        // Manejar scroll del sidebar
-        function setupSidebarScroll() {
-            if (sidebarContent) {
-                sidebarContent.addEventListener('scroll', () => {
-                    const { scrollTop, scrollHeight, clientHeight } = sidebarContent;
-                    const isNearBottom = scrollHeight - scrollTop - clientHeight < 50;
-                   
-                    if (!isNearBottom && scrollHeight > clientHeight) {
-                        scrollIndicator.classList.add('show');
-                    } else {
-                        scrollIndicator.classList.remove('show');
-                    }
-                });
-            }
-        }
-        
-        // Detectar scroll manual del usuario
-        function setupMessagesScroll() {
-            let scrollTimeout;
-            messagesContainer.addEventListener('scroll', () => {
-                if (scrollTimeout) clearTimeout(scrollTimeout);
-                
-                const { scrollTop, scrollHeight, clientHeight } = messagesContainer;
-                const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
-                
-                // Si el usuario está cerca del fondo (50px), habilitar auto-scroll
-                autoScrollEnabled = distanceFromBottom < 50;
-                
-                scrollTimeout = setTimeout(() => {
-                    isUserScrolling = false;
-                }, 100);
-            });
-        }
-        
-        function handleResize() {
-            const isMobileNow = window.innerWidth <= 768;
-            if (isMobileNow) {
-                document.body.classList.add('mobile-view');
-            } else {
-                document.body.classList.remove('mobile-view', 'sidebar-open');
-            }
-        }
-       
-        function hexToRgb(hex) {
-            hex = hex.replace('#', '');
-            const r = parseInt(hex.substring(0, 2), 16);
-            const g = parseInt(hex.substring(2, 4), 16);
-            const b = parseInt(hex.substring(4, 6), 16);
-            return `${r}, ${g}, ${b}`;
-        }
-       
-        function updateColorPreview() {
-            colorPreview.style.color = quoteColor;
-            colorPreview.style.background = `${quoteColor}20`;
-        }
-       
-        function updateAsteriskColorPreview() {
-            asteriskColorPreview.style.color = asteriskColor;
-            asteriskColorPreview.style.background = `${asteriskColor}20`;
-        }
-       
-        function processSpecialText(text) {
-            let processedText = text.replace(/\n/g, '<br>');
-           
-            const quoteRegex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
-            processedText = processedText.replace(quoteRegex, (match, content) => {
-                return `<span class="quoted-text">"${content}"</span>`;
-            });
-           
-            const asteriskRegex = /\*([^*]+)\*/g;
-            processedText = processedText.replace(asteriskRegex, (match, content) => {
-                return `<span class="asterisk-text">*${content}*</span>`;
-            });
-           
-            return processedText;
-        }
-       
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            localStorage.setItem('darkMode', isDarkMode);
-            initializeTheme();
-            reprocessAllMessages();
-        }
-       
-        function reprocessAllMessages() {
-            const messageContents = document.querySelectorAll('.message-content');
-            messageContents.forEach(content => {
-                const originalText = content.textContent;
-                content.innerHTML = processSpecialText(originalText);
-            });
-        }
-       
-        async function loadModels() {
-            const updateConfigBtn = document.getElementById('update-config');
-            updateConfigBtn.textContent = '🔄';
-            updateConfigBtn.classList.add('btn-loading');
-            updateConfigBtn.disabled = true;
-           
-            try {
+
+            // --- API & Modelos ---
+            async function loadModels() {
                 if (!apiKey) {
-                    throw new Error('No hay API Key seleccionada');
+                    const msg = 'Configura tu API Key para ver modelos';
+                    if (document.getElementById('room-model-display')) document.getElementById('room-model-display').textContent = msg;
+                    if (document.getElementById('edit-model-display')) document.getElementById('edit-model-display').textContent = msg;
+                    return;
                 }
-               
-                const response = await fetch('https://openrouter.ai/api/v1/models', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'HTTP-Referer': window.location.href,
-                        'X-Title': 'Chat IA con Memoria'
+                try {
+                    const res = await fetch('https://openrouter.ai/api/v1/models', {
+                        headers: { 'Authorization': `Bearer ${apiKey}` }
+                    });
+                    const data = await res.json();
+                    if (data && data.data) {
+                        allModels = data.data;
+                        console.log('Modelos cargados:', allModels.length);
+                        const msg = 'Selecciona un modelo';
+                        if (document.getElementById('room-model-display')) document.getElementById('room-model-display').textContent = msg;
                     }
-                });
-               
-                if (!response.ok) {
-                    throw new Error(`Error HTTP: ${response.status}`);
+                } catch (e) {
+                    console.error('Error cargando modelos:', e);
                 }
-               
-                const data = await response.json();
-                allModels = data.data;
-                populateModelsList(allModels);
-               
-                if (currentModel && allModels.find(m => m.id === currentModel)) {
-                    updateModelDisplay(currentModel);
-                    modelSearchInput.value = '';
-                    modelsList.classList.remove('show');
-                } else if (!currentModel && allModels.length > 0) {
-                    currentModel = allModels[0].id;
-                    updateModelDisplay(currentModel);
+            }
+
+            function renderModelsInList(listId, displayId, stateSetter, models) {
+                const list = document.getElementById(listId);
+                if (!list) return;
+
+                list.innerHTML = '';
+                if (models.length === 0) {
+                    list.innerHTML = '<div style="padding:10px; color:var(--text-dim);">No se encontraron modelos</div>';
+                } else {
+                    models.slice(0, 50).forEach(m => {
+                        const d = document.createElement('div');
+                        d.style.padding = '12px 15px';
+                        d.style.cursor = 'pointer';
+                        d.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                        d.style.transition = 'background 0.2s';
+                        d.innerHTML = `<div style="font-weight:600;">${m.name || m.id}</div><div style="font-size:0.7rem; color:var(--text-dim);">${m.id}</div>`;
+                        d.onmouseover = () => d.style.background = 'var(--surface-light)';
+                        d.onmouseout = () => d.style.background = 'transparent';
+                        d.onclick = (e) => {
+                            e.stopPropagation();
+                            stateSetter(m.id);
+                            document.getElementById(displayId).textContent = m.name || m.id;
+                            list.classList.add('hidden');
+                        };
+                        list.appendChild(d);
+                    });
                 }
-               
-                showSuccess('Modelos cargados exitosamente');
-               
-            } catch (error) {
-                console.error('Error cargando modelos:', error);
-                showError('No se pudieron cargar los modelos. Verifica tu API Key.');
-               
-                allModels = [
-                    { id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
-                    { id: 'meta-llama/llama-3.3-70b-instruct', name: 'Llama 3.3 70B' },
-                    { id: 'openai/gpt-4o', name: 'GPT-4o' }
-                ];
-                populateModelsList(allModels);
-                if (!currentModel) {
-                    currentModel = allModels[0].id;
-                    updateModelDisplay(currentModel);
-                }
-            } finally {
-                updateConfigBtn.textContent = '🔄';
-                updateConfigBtn.classList.remove('btn-loading');
-                updateConfigBtn.disabled = false;
+                list.classList.remove('hidden');
             }
-        }
-       
-        function populateModelsList(models) {
-            modelsList.innerHTML = '';
-            models.forEach(model => {
-                const item = document.createElement('div');
-                item.classList.add('model-item');
-                item.dataset.modelId = model.id;
-                item.textContent = `${model.name} (${model.id})`;
-                item.addEventListener('click', () => selectModel(model.id));
-                modelsList.appendChild(item);
-            });
-            if (models.length === 0) {
-                const noResults = document.createElement('div');
-                noResults.classList.add('model-item');
-                noResults.textContent = 'No hay modelos disponibles';
-                modelsList.appendChild(noResults);
-            }
-        }
-       
-        function filterModels(searchTerm) {
-            const filtered = allModels.filter(model =>
-                model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                model.id.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-            populateModelsList(filtered);
-        }
-       
-        function selectModel(modelId) {
-            currentModel = modelId;
-            localStorage.setItem('selectedModel', modelId);
-            updateModelDisplay(currentModel);
-            modelsList.classList.remove('show');
-            modelSearchInput.value = '';
-        }
-       
-        function updateModelDisplay(modelId) {
-            const model = allModels.find(m => m.id === modelId);
-            if (model) {
-                modelDisplay.textContent = `${model.name}`;
-                modelDisplay.classList.add('selected');
-            } else {
-                modelDisplay.textContent = 'Ningún modelo seleccionado';
-                modelDisplay.classList.remove('selected');
-            }
-        }
-        
-        function updateApiKeyDisplay() {
-            if (apiKey && apiKeyName) {
-                apiKeyDisplay.innerHTML = `
-                    <span class="api-key-name">${apiKeyName}</span>
-                    <span class="api-key-status">✅</span>
-                `;
-                currentApiDisplay.innerHTML = `
-                    <span class="api-key-name">${apiKeyName}</span>
-                    <span class="api-key-status">✅</span>
-                `;
-            } else {
-                apiKeyDisplay.innerHTML = `
-                    <span class="api-key-name">Sin API configurada</span>
-                    <span class="api-key-status">❌</span>
-                `;
-                currentApiDisplay.innerHTML = `
-                    <span class="api-key-name">Sin API seleccionada</span>
-                    <span class="api-key-status">❌</span>
-                `;
-            }
-        }
-        
-        // FUNCIÓN CANCELAR STREAMING
-        function cancelStreaming() {
-            if (isStreaming && abortController) {
-                abortController.abort();
-                isStreaming = false;
-                abortController = null;
-                cancelButton.classList.remove('active');
+
+            // --- Chat ---
+            function addMessageToUI(text, role, index = null, image = null, isTemp = false) {
+                const div = document.createElement('div');
+                div.className = `message ${role === 'user' ? 'user-message' : 'ai-message'}`;
                 
-                if (currentStreamingMessage) {
-                    currentStreamingMessage.classList.remove('streaming');
-                    const contentElement = currentStreamingMessage.querySelector('.message-content');
-                    if (currentStreamingContent.trim() === '') {
-                        currentStreamingMessage.remove();
-                    } else {
-                        contentElement.innerHTML = processSpecialText(currentStreamingContent + '\n\n[Cancelado por el usuario]');
-                    }
+                let imageHTML = '';
+                if (image) {
+                    imageHTML = `<img src="${image}" style="max-width: 100%; border-radius: 10px; margin-bottom: 8px; display: block;">`;
                 }
-                
-                currentStreamingMessage = null;
-                currentStreamingContent = '';
-                showSuccess('Streaming cancelado');
-            }
-        }
-        
-        // FUNCIÓN MEJORADA: Generar respuesta con streaming y cancelación
-        async function generateAssistantResponse() {
-            if (!currentModel) {
-                showError('Selecciona un modelo antes de generar.');
-                return;
-            }
-           
-            if (!apiKey) {
-                showError('Selecciona una API Key válida.');
-                return;
-            }
-           
-            // Crear mensaje de streaming vacío
-            const streamingMessage = addMessage('', 'ai');
-            streamingMessage.classList.add('streaming');
-            const contentElement = streamingMessage.querySelector('.message-content');
-           
-            currentStreamingMessage = streamingMessage;
-            currentStreamingContent = '';
-            isStreaming = true;
-            abortController = new AbortController();
-            cancelButton.classList.add('active');
-           
-            try {
-                const currentRoom = getCurrentRoom();
-                const roomPrompt = currentRoom.prompt || systemPrompt;
-                const params = currentRoom.params || defaultParams;
-               
-                // Limitar historial según chatMemory
-                const contextMessages = conversationHistory.slice(-params.chatMemory);
-               
-                const payload = {
-                    model: currentModel,
-                    messages: [
-                        {
-                            role: 'system',
-                            content: roomPrompt
-                        },
-                        ...contextMessages
-                    ],
-                    stream: true
+
+                div.innerHTML = `
+                ${imageHTML}
+                <div class="message-content">${processMarkdown(text)}</div>
+                <div class="message-footer" style="${isTemp ? 'display:none' : ''}">
+                    <span class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    <button class="message-action-btn" title="Copiar">📋</button>
+                    <button class="message-action-btn" title="Editar">✏️</button>
+                    <button class="message-action-btn" title="Reintentar">🔄</button>
+                </div>
+            `;
+
+                if (isTemp) {
+                    containers.messages.appendChild(div);
+                    scrollToBottom();
+                    return div;
+                }
+
+                const msgIndex = index !== null ? index : rooms.find(r => r.id === currentRoomId).history.length - 1;
+                const btns = div.querySelectorAll('.message-action-btn');
+
+                // --- Copiar ---
+                btns[0].onclick = () => {
+                    navigator.clipboard.writeText(text);
+                    // Feedback visual simple
+                    btns[0].textContent = '✅';
+                    setTimeout(() => btns[0].textContent = '📋', 1000);
                 };
-               
-                // Agregar parámetros de muestreo
-                if (params.maxTokens > 0) {
-                    payload.max_tokens = params.maxTokens;
-                }
-                if (params.temperature !== defaultParams.temperature) {
-                    payload.temperature = params.temperature;
-                }
-                if (params.top_p !== defaultParams.top_p) {
-                    payload.top_p = params.top_p;
-                }
-               
-                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`,
-                        'HTTP-Referer': window.location.href,
-                        'X-Title': 'Chat IA con Memoria'
-                    },
-                    body: JSON.stringify(payload),
-                    signal: abortController.signal
+
+                // --- Editar ---
+                btns[1].onclick = () => {
+                    editingMessageIndex = msgIndex;
+                    inputs.editMsgText.value = text;
+                    modals.msgEdit.style.display = 'flex';
+                };
+
+                // --- Reintentar ---
+                btns[2].onclick = async () => {
+                    if (confirm('⚠️ Se eliminarán todos los mensajes posteriores a este. ¿Deseas reintentar la respuesta?')) {
+                        const room = rooms.find(r => r.id === currentRoomId);
+                        room.history.splice(msgIndex + 1);
+                        if (role === 'assistant') {
+                            room.history.splice(msgIndex);
+                        }
+                        refreshChatUI();
+                        await generateAI(room);
+                    }
+                };
+
+                containers.messages.appendChild(div);
+                scrollToBottom();
+                return div;
+            }
+
+            function refreshChatUI() {
+                containers.messages.innerHTML = '';
+                const room = rooms.find(r => r.id === currentRoomId);
+                room.history.forEach((msg, idx) => addMessageToUI(msg.content, msg.role, idx, msg.image));
+            }
+
+            // Configuración de Marked
+            marked.setOptions({
+                highlight: function (code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        return hljs.highlight(code, { language: lang }).value;
+                    }
+                    return hljs.highlightAuto(code).value;
+                },
+                breaks: true
+            });
+
+            function processMarkdown(text) {
+                // 1. Generar HTML base con Marked
+                let rawHTML = marked.parse(text);
+
+                // 2. Crear un elemento temporal para manipular el DOM
+                const temp = document.createElement('div');
+                temp.innerHTML = rawHTML;
+
+                // 3. Aplicar resaltado personalizado solo a nodos de texto fuera de <pre> y <code>
+                applyHighlightsToNode(temp);
+
+                return temp.innerHTML;
+            }
+
+            function applyHighlightsToNode(node) {
+                // Si es un bloque de código o pre, no tocar nada adentro
+                if (node.tagName === 'PRE' || node.tagName === 'CODE') return;
+
+                const children = Array.from(node.childNodes);
+                children.forEach(child => {
+                    if (child.nodeType === 3) { // Nodo de Texto
+                        let text = child.nodeValue;
+                        let hasChanges = false;
+
+                        // Resaltar entre comillas (solo si hay contenido)
+                        const quoteRegex = /"([^"]+)"/g;
+                        if (quoteRegex.test(text)) {
+                            text = text.replace(quoteRegex, `<span class="custom-highlight" style="color: ${quoteColor}">"$1"</span>`);
+                            hasChanges = true;
+                        }
+
+                        // Resaltar entre asteriscos (en caso de que marked no los haya capturado como strong/em)
+                        const asteriskRegex = /\*([^*]+)\*/g;
+                        if (asteriskRegex.test(text)) {
+                            text = text.replace(asteriskRegex, `<span class="custom-highlight" style="color: ${asteriskColor}">$1</span>`);
+                            hasChanges = true;
+                        }
+
+                        if (hasChanges) {
+                            const span = document.createElement('span');
+                            span.innerHTML = text;
+                            node.replaceChild(span, child);
+                        }
+                    } else if (child.nodeType === 1) { // Nodo Elemento
+                        applyHighlightsToNode(child);
+                    }
                 });
-               
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || `Error HTTP: ${response.status}`);
+            }
+
+            // --- Gestión de APIs (Firebase) ---
+            async function loadFirebaseKeys() {
+                const list = document.getElementById('firebase-keys-list');
+                list.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-dim);">Cargando...</div>';
+                
+                try {
+                    const snapshot = await database.ref('apiKeys').once('value');
+                    const keys = snapshot.val();
+                    list.innerHTML = '';
+                    
+                    if (!keys) {
+                        list.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-dim);">No hay llaves guardadas</div>';
+                        return;
+                    }
+
+                    Object.entries(keys).forEach(([dbId, k]) => {
+                        const div = document.createElement('div');
+                        div.style.padding = '12px 15px';
+                        div.style.display = 'flex';
+                        div.style.justifyContent = 'space-between';
+                        div.style.alignItems = 'center';
+                        div.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                        div.style.cursor = 'pointer';
+                        
+                        const isActive = k.id === apiKey;
+                        div.innerHTML = `
+                            <div>
+                                <div style="font-weight: 600; color: ${isActive ? 'var(--primary-light)' : 'white'}">${k.name || 'API Key'} ${isActive ? '✅' : ''}</div>
+                                <div style="font-size: 0.7rem; color: var(--text-dim);">${k.id.substring(0, 12)}...</div>
+                            </div>
+                            <button class="delete-btn" style="background: none; border: none; color: var(--danger); cursor: pointer; padding: 5px;">🗑️</button>
+                        `;
+
+                        div.onclick = () => selectApiKey(k.id);
+                        div.querySelector('.delete-btn').onclick = (e) => {
+                            e.stopPropagation();
+                            if (confirm('¿Borrar esta API Key?')) {
+                                database.ref(`apiKeys/${dbId}`).remove();
+                                loadFirebaseKeys();
+                            }
+                        };
+                        list.appendChild(div);
+                    });
+                } catch (e) {
+                    list.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--danger);">Error al cargar Firebase</div>';
                 }
-               
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let done = false;
-               
-                while (!done && isStreaming) {
-                    const { value, done: doneReading } = await reader.read();
-                    done = doneReading;
-                   
-                    if (value) {
+            }
+
+            async function selectApiKey(key, silent = false) {
+                apiKey = key;
+                // Guardar localmente
+                await DB.set(DB.storeNames.settings, { id: 'apiKey', value: apiKey });
+                // Sincronizar con Firebase como "última usada"
+                database.ref('lastUsedKeyId').set(key);
+                
+                if (!silent) {
+                    modals.api.style.display = 'none';
+                    loadModels();
+                    alert('API Key activada y sincronizada en la nube');
+                }
+            }
+
+            async function sendMessage() {
+                const text = inputs.user.value.trim();
+                if (!text && !pendingImage || isStreaming) return;
+
+                const room = rooms.find(r => r.id === currentRoomId);
+                const msgEntry = { role: 'user', content: text, image: pendingImage };
+                room.history.push(msgEntry);
+                addMessageToUI(text, 'user', null, pendingImage);
+                
+                inputs.user.value = '';
+                inputs.user.style.height = 'auto';
+                clearPendingImage();
+
+                await generateAI(room);
+            }
+
+            function clearPendingImage() {
+                pendingImage = null;
+                document.getElementById('image-preview-container').classList.add('hidden');
+                document.getElementById('chat-image-input').value = '';
+            }
+
+            async function generateAI(room) {
+                if (!apiKey) { alert('Configura tu API Key primero'); return; }
+
+                isStreaming = true;
+                buttons.send.classList.add('hidden');
+                buttons.cancel.classList.remove('hidden');
+                abortController = new AbortController();
+
+                const aiMsgDiv = addMessageToUI('...', 'ai', null, null, true);
+                const contentDiv = aiMsgDiv.querySelector('.message-content');
+                let fullContent = '';
+
+                try {
+                    const historyLimit = room.params?.chatMemory || 10;
+                    const context = room.history.slice(-historyLimit).map(m => {
+                        // Solo usamos el formato multimodal si hay una imagen
+                        if (m.image) {
+                            return {
+                                role: m.role,
+                                content: [
+                                    { type: 'text', text: m.content || "" },
+                                    { type: 'image_url', image_url: { url: m.image } }
+                                ]
+                            };
+                        }
+                        return { role: m.role, content: m.content };
+                    });
+
+                    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`,
+                            'X-Title': 'WhatsApp Morado'
+                        },
+                        body: JSON.stringify({
+                            model: room.model || currentModel,
+                            messages: [{ role: 'system', content: room.prompt }, ...context],
+                            temperature: room.params?.temperature ?? 1.0,
+                            top_p: room.params?.top_p ?? 1.0,
+                            max_tokens: room.params?.max_tokens > 0 ? room.params.max_tokens : undefined,
+                            stream: true
+                        }),
+                        signal: abortController.signal
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error?.message || `Error ${response.status}`);
+                    }
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
                         const chunk = decoder.decode(value);
                         const lines = chunk.split('\n');
-                       
                         for (const line of lines) {
                             if (line.startsWith('data: ') && line !== 'data: [DONE]') {
                                 try {
                                     const data = JSON.parse(line.slice(6));
-                                    if (data.choices[0].delta.content) {
-                                        currentStreamingContent += data.choices[0].delta.content;
-                                        contentElement.innerHTML = processSpecialText(currentStreamingContent);
-                                        if (autoScrollEnabled) {
-                                            scrollToBottomSmooth();
-                                        }
-                                    }
-                                } catch (e) {
-                                    // Ignorar errores de parsing en chunks parciales
-                                }
+                                    const delta = data.choices[0].delta.content || '';
+                                    fullContent += delta;
+                                    contentDiv.innerHTML = processMarkdown(fullContent);
+                                    scrollToBottom();
+                                } catch (e) { }
                             }
                         }
                     }
+
+                    room.history.push({ role: 'assistant', content: fullContent });
+                    saveRooms();
+
+                } catch (e) {
+                    if (e.name !== 'AbortError') contentDiv.textContent = 'Error: ' + e.message;
+                } finally {
+                    isStreaming = false;
+                    buttons.send.classList.remove('hidden');
+                    buttons.cancel.classList.add('hidden');
                 }
-               
-                // Finalizar streaming
-                if (isStreaming) {
-                    streamingMessage.classList.remove('streaming');
-                    const aiIndex = conversationHistory.length;
-                    conversationHistory.push({ role: 'assistant', content: currentStreamingContent });
-                    saveCurrentRoomHistory();
-                    showMemoryInfo();
-                }
-               
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    console.log('Streaming cancelado por el usuario');
-                    return;
-                }
-               
-                console.error('Error:', error);
-               
-                // Limpiar mensaje de streaming en caso de error
-                if (currentStreamingMessage) {
-                    currentStreamingMessage.remove();
-                }
-               
-                let errorMsg = 'Error al conectar con la IA. ';
-               
-                if (error.message.includes('API') || error.message.includes('key')) {
-                    errorMsg += 'Verifica tu API Key.';
-                } else if (error.message.includes('model')) {
-                    errorMsg += 'El modelo seleccionado no está disponible.';
-                } else {
-                    errorMsg += error.message;
-                }
-               
-                showError(errorMsg);
-            } finally {
-                isStreaming = false;
-                abortController = null;
-                currentStreamingMessage = null;
-                currentStreamingContent = '';
-                cancelButton.classList.remove('active');
             }
-        }
-       
-        function initEdit(messageElement, historyIndex) {
-            const header = messageElement.querySelector('.message-header');
-            const content = messageElement.querySelector('.message-content');
-            const originalText = content.textContent;
-           
-            const editForm = document.createElement('div');
-            editForm.classList.add('edit-form');
-           
-            const textarea = document.createElement('textarea');
-            textarea.classList.add('edit-textarea');
-            textarea.value = originalText;
-            textarea.placeholder = 'Edita el mensaje...';
-           
-            const buttons = document.createElement('div');
-            buttons.classList.add('edit-buttons');
-           
-            const saveBtn = document.createElement('button');
-            saveBtn.classList.add('btn-small', 'btn-save');
-            saveBtn.textContent = 'Guardar';
-            saveBtn.addEventListener('click', () => {
-                const newText = textarea.value.trim();
-                if (newText) {
-                    content.innerHTML = processSpecialText(newText);
-                    conversationHistory[historyIndex].content = newText;
-                    messageElement.classList.remove('editing');
-                    editForm.remove();
-                    saveCurrentRoomHistory();
-                    showSuccess('Mensaje editado y memoria actualizada');
-                }
-            });
-           
-            const cancelBtn = document.createElement('button');
-            cancelBtn.classList.add('btn-small', 'btn-cancel-small');
-            cancelBtn.textContent = 'Cancelar';
-            cancelBtn.addEventListener('click', () => {
-                messageElement.classList.remove('editing');
-                editForm.remove();
-            });
-           
-            buttons.appendChild(saveBtn);
-            buttons.appendChild(cancelBtn);
-            editForm.appendChild(textarea);
-            editForm.appendChild(buttons);
-           
-            messageElement.appendChild(editForm);
-            messageElement.classList.add('editing');
-            textarea.focus();
-        }
-       
-        async function initRegenerate(messageElement, historyIndex) {
-            const role = conversationHistory[historyIndex].role;
-            let truncateTo;
-           
-            if (role === 'user') {
-                truncateTo = historyIndex + 1;
-            } else {
-                truncateTo = historyIndex;
+
+            function scrollToBottom() {
+                containers.messages.scrollTop = containers.messages.scrollHeight;
             }
-           
-            conversationHistory = conversationHistory.slice(0, truncateTo);
-           
-            let startRemove;
-            if (role === 'user') {
-                startRemove = messageElement.nextSibling;
-            } else {
-                startRemove = messageElement;
-            }
-            while (startRemove) {
-                const next = startRemove.nextSibling;
-                startRemove.remove();
-                startRemove = next;
-            }
-           
-            sendButton.disabled = true;
-            await generateAssistantResponse();
-            sendButton.disabled = false;
-            showSuccess('Respuesta regenerada');
-        }
-       
-        function copyMessage(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showSuccess('Mensaje copiado al portapapeles');
-            }).catch(err => {
-                console.error('Error al copiar:', err);
-                showError('Error al copiar mensaje');
-            });
-        }
-       
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message || !currentModel) {
-                showError('Selecciona un modelo antes de enviar.');
-                return;
-            }
-           
-            if (!apiKey) {
-                showError('Selecciona una API Key válida.');
-                return;
-            }
-           
-            const userIndex = conversationHistory.length;
-            conversationHistory.push({ role: 'user', content: message });
-           
-            addMessage(message, 'user', userIndex);
-            userInput.value = '';
-            sendButton.disabled = true;
-           
-            await generateAssistantResponse();
-           
-            sendButton.disabled = false;
-            userInput.focus();
-        }
-       
-        function addMessage(text, sender, historyIndex = null) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
-           
-            if (historyIndex !== null) {
-                messageElement.dataset.historyIndex = historyIndex;
-            }
-           
-            const header = document.createElement('div');
-            header.classList.add('message-header');
-           
-            const senderLabel = document.createElement('span');
-            senderLabel.textContent = sender === 'user' ? 'Tú' : 'Asistente IA';
-           
-            header.appendChild(senderLabel);
-           
-            if (historyIndex !== null) {
-                const actions = document.createElement('div');
-                actions.classList.add('actions');
-               
-                const copyBtn = document.createElement('button');
-                copyBtn.classList.add('action-btn');
-                copyBtn.textContent = '📋';
-                copyBtn.title = 'Copiar mensaje';
-                copyBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    copyMessage(text);
-                });
-                actions.appendChild(copyBtn);
-               
-                const editBtn = document.createElement('button');
-                editBtn.classList.add('action-btn');
-                editBtn.textContent = '✏️';
-                editBtn.title = 'Editar';
-                editBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    initEdit(messageElement, historyIndex);
-                });
-                actions.appendChild(editBtn);
-               
-                const regenBtn = document.createElement('button');
-                regenBtn.classList.add('action-btn');
-                regenBtn.textContent = '🔄';
-                regenBtn.title = 'Regenerar';
-                regenBtn.addEventListener('click', async (e) => {
-                    e.stopPropagation();
-                    await initRegenerate(messageElement, historyIndex);
-                });
-                actions.appendChild(regenBtn);
-               
-                header.appendChild(actions);
-            }
-           
-            const content = document.createElement('div');
-            content.classList.add('message-content');
-            content.innerHTML = processSpecialText(text);
-           
-            messageElement.appendChild(header);
-            messageElement.appendChild(content);
-           
-            messagesContainer.appendChild(messageElement);
-            if (autoScrollEnabled) {
-                scrollToBottomSmooth();
-            }
-           
-            return messageElement;
-        }
-       
-        function showTypingIndicator() {
-            const typingElement = document.createElement('div');
-            typingElement.classList.add('typing-indicator');
-            typingElement.innerHTML = `
-                Procesando...
-                <div class="typing-dots">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
-           
-            messagesContainer.appendChild(typingElement);
-            if (autoScrollEnabled) {
-                scrollToBottomSmooth();
-            }
-           
-            return typingElement;
-        }
-       
-        function showMemoryInfo() {
-            const existingInfo = document.querySelector('.memory-info');
-            if (existingInfo) {
-                existingInfo.remove();
-            }
-           
-            const memoryElement = document.createElement('div');
-            memoryElement.classList.add('memory-info');
-            memoryElement.textContent = `Memoria: ${conversationHistory.length} mensajes en esta conversación`;
-           
-            messagesContainer.appendChild(memoryElement);
-            if (autoScrollEnabled) {
-                scrollToBottomSmooth();
-            }
-           
-            setTimeout(() => {
-                if (memoryElement.parentNode) {
-                    memoryElement.remove();
-                }
-            }, 5000);
-        }
-       
-        function showError(message) {
-            const errorElement = document.createElement('div');
-            errorElement.classList.add('error-message');
-            errorElement.textContent = message;
-           
-            messagesContainer.appendChild(errorElement);
-            if (autoScrollEnabled) {
-                scrollToBottomSmooth();
-            }
-           
-            setTimeout(() => {
-                if (errorElement.parentNode) {
-                    errorElement.remove();
-                }
-            }, 7000);
-        }
-       
-        function showSuccess(message) {
-            const successElement = document.createElement('div');
-            successElement.classList.add('success-message');
-            successElement.textContent = message;
-           
-            messagesContainer.appendChild(successElement);
-            if (autoScrollEnabled) {
-                scrollToBottomSmooth();
-            }
-           
-            setTimeout(() => {
-                if (successElement.parentNode) {
-                    successElement.remove();
-                }
-            }, 3000);
-        }
-       
-        function scrollToBottomSmooth() {
-            if (autoScrollEnabled) {
-                messagesContainer.scrollTo({
-                    top: messagesContainer.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }
-        }
-       
-        function updateConfig() {
-            if (currentModel) {
-                const model = allModels.find(m => m.id === currentModel);
-                const confirmation = addMessage(`Configuración actualizada: ${model ? model.name : currentModel}`, 'ai');
-                setTimeout(() => {
-                    if (confirmation.parentNode) {
-                        confirmation.remove();
+
+            // --- Event Listeners ---
+            buttons.newRoom.onclick = () => {
+                tempRoomAvatar = null;
+                document.getElementById('avatar-preview').innerHTML = 'AI' + `<input type="file" id="avatar-input" accept="image/*" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">`;
+                // Re-bind listener because we replaced innerHTML
+                document.getElementById('avatar-input').onchange = async (e) => {
+                    if (e.target.files[0]) {
+                        tempRoomAvatar = await compressImage(e.target.files[0]);
+                        document.getElementById('avatar-preview').innerHTML = `<img src="${tempRoomAvatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
                     }
-                }, 3000);
-            }
-        }
-       
-        function clearChat() {
-            conversationHistory = [];
-            saveCurrentRoomHistory();
-            messagesContainer.innerHTML = '';
-            showSuccess('Chat limpiado');
-        }
-        
-        // FUNCIONES PARA EL SISTEMA DE SALAS
-       
-        function getCurrentRoom() {
-            return rooms.find(room => room.id === currentRoomId) || rooms[0];
-        }
-       
-        function saveCurrentRoomHistory() {
-            const currentRoom = getCurrentRoom();
-            if (currentRoom) {
-                currentRoom.history = [...conversationHistory];
-                saveRooms();
-            }
-        }
-       
-        function saveRooms() {
-            localStorage.setItem('rooms', JSON.stringify(rooms));
-        }
-       
-        function createRoom(name, prompt) {
-            const newRoom = {
-                id: 'room_' + Date.now(),
-                name: name,
-                prompt: prompt || systemPrompt,
-                params: { ...defaultParams },
-                history: [],
-                createdAt: new Date().toISOString()
+                };
+                modals.newRoom.style.display = 'flex';
             };
-           
-            rooms.push(newRoom);
-            saveRooms();
-            renderRoomsList();
-            switchToRoom(newRoom.id);
-            showSuccess(`Sala "${name}" creada`);
-        }
-       
-        function deleteRoom(roomId) {
-            if (rooms.length <= 1) {
-                showError('No puedes eliminar la única sala existente');
-                return;
-            }
-           
-            const roomName = rooms.find(r => r.id === roomId).name;
-            rooms = rooms.filter(room => room.id !== roomId);
-            saveRooms();
-            renderRoomsList();
-           
-            if (currentRoomId === roomId) {
-                switchToRoom(rooms[0].id);
-            }
-           
-            showSuccess(`Sala "${roomName}" eliminada`);
-        }
-       
-        function switchToRoom(roomId) {
-            currentRoomId = roomId;
-            localStorage.setItem('currentRoomId', roomId);
-           
-            const room = getCurrentRoom();
-            conversationHistory = [...room.history];
-           
-            updateCurrentRoomDisplay();
-            renderRoomsList();
-           
-            messagesContainer.innerHTML = '';
-            conversationHistory.forEach((message, index) => {
-                addMessage(message.content, message.role === 'user' ? 'user' : 'ai', index);
-            });
-           
-            scrollToBottomSmooth();
-            showSuccess(`Cambiado a sala: ${room.name}`);
-        }
-       
-        function updateCurrentRoomDisplay() {
-            const room = getCurrentRoom();
-            currentRoomDisplay.textContent = `Sala actual: ${room.name}`;
-        }
-       
-        function renderRoomsList() {
-            allRoomsList.innerHTML = '';
-            rooms.forEach(room => {
-                const roomElement = document.createElement('div');
-                roomElement.classList.add('room-item');
-                if (room.id === currentRoomId) {
-                    roomElement.classList.add('active');
-                }
-               
-                roomElement.innerHTML = `
-                    <div>
-                        <div class="room-name">${room.name}</div>
-                        <div class="room-meta">${room.history.length} mensajes</div>
-                    </div>
-                    <div class="room-actions">
-                        <button class="room-action-btn delete-room-btn" title="Eliminar sala">🗑️</button>
-                    </div>
-                `;
-               
-                roomElement.addEventListener('click', (e) => {
-                    if (!e.target.closest('.room-actions')) {
-                        switchToRoom(room.id);
-                        roomsModal.style.display = 'none';
-                    }
+
+            document.getElementById('close-new-room').onclick = () => modals.newRoom.style.display = 'none';
+
+            function renderModelsInList(listId, displayId, stateSetter, models) {
+                const list = document.getElementById(listId);
+                list.innerHTML = '';
+                models.slice(0, 30).forEach(m => {
+                    const d = document.createElement('div');
+                    d.style.padding = '8px 12px';
+                    d.style.cursor = 'pointer';
+                    d.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                    d.textContent = m.name || m.id;
+                    d.onclick = () => {
+                        stateSetter(m.id);
+                        document.getElementById(displayId).textContent = m.name || m.id;
+                        list.classList.add('hidden');
+                    };
+                    list.appendChild(d);
                 });
-               
-                const deleteBtn = roomElement.querySelector('.delete-room-btn');
-                deleteBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (confirm(`¿Estás seguro de que quieres eliminar la sala "${room.name}"?`)) {
-                        deleteRoom(room.id);
-                    }
-                });
-               
-                allRoomsList.appendChild(roomElement);
-            });
-        }
-        
-        // FUNCIÓN PARA CARGAR PARÁMETROS EN SLIDERS
-        function loadParamsToSliders(params) {
-            chatMemorySlider.value = params.chatMemory;
-            chatMemoryValue.textContent = params.chatMemory;
-            maxTokensSlider.value = params.maxTokens;
-            maxTokensValue.textContent = params.maxTokens;
-            temperatureSlider.value = params.temperature;
-            temperatureValue.textContent = params.temperature.toFixed(3);
-            topPSlider.value = params.top_p;
-            topPValue.textContent = params.top_p.toFixed(3);
-        }
-        
-        // FUNCIÓN PARA OBTENER PARÁMETROS DE SLIDERS
-        function getParamsFromSliders() {
-            return {
-                chatMemory: parseInt(chatMemorySlider.value),
-                maxTokens: parseInt(maxTokensSlider.value),
-                temperature: parseFloat(temperatureSlider.value),
-                top_p: parseFloat(topPSlider.value),
-                top_k: defaultParams.top_k,
-                frequency_penalty: defaultParams.frequency_penalty,
-                presence_penalty: defaultParams.presence_penalty,
-                repetition_penalty: defaultParams.repetition_penalty,
-                min_p: defaultParams.min_p,
-                top_a: defaultParams.top_a
+                list.classList.remove('hidden');
+            }
+
+            inputs.roomModelSearch.onfocus = async () => {
+                if (allModels.length === 0 && apiKey) await loadModels();
+                if (allModels.length > 0) renderModelsInList('room-models-list', 'room-model-display', (id) => tempRoomModel = id, allModels);
             };
-        }
-        
-        // FUNCIÓN PARA ACTUALIZAR VALORES EN SLIDERS
-        function updateSliderValue(slider, valueElement, format = (v) => v) {
-            valueElement.textContent = format(slider.value);
-        }
-        
-        // FUNCIÓN PARA ABRIR EL MODAL DE EDICIÓN
-        function openEditRoomModal() {
-            const currentRoom = getCurrentRoom();
-            if (!currentRoom) {
-                showError('No se pudo encontrar la sala actual');
-                return;
-            }
-           
-            systemPromptInput.value = currentRoom.prompt || systemPrompt;
-            quoteColorPicker.value = quoteColor;
-            asteriskColorPicker.value = asteriskColor;
-           
-            updateColorPreview();
-            updateAsteriskColorPreview();
-           
-            loadParamsToSliders(currentRoom.params || defaultParams);
-           
-            editRoomModal.style.display = 'block';
-            document.body.classList.remove('sidebar-open');
-        }
-        
-        // FUNCIÓN PARA RESET A DEFAULTS
-        function resetToDefaults() {
-            loadParamsToSliders(defaultParams);
-            showSuccess('Configuración restablecida a valores por defecto');
-        }
-        
-        // FUNCIÓN PARA GUARDAR LOS CAMBIOS DE LA SALA
-        function saveRoomChanges() {
-            const currentRoom = getCurrentRoom();
-            if (!currentRoom) {
-                showError('No se pudo encontrar la sala actual');
-                return;
-            }
-           
-            currentRoom.prompt = systemPromptInput.value.trim();
-           
-            quoteColor = quoteColorPicker.value;
-            asteriskColor = asteriskColorPicker.value;
-           
-            currentRoom.params = getParamsFromSliders();
-           
-            localStorage.setItem('quoteColor', quoteColor);
-            localStorage.setItem('asteriskColor', asteriskColor);
-            saveRooms();
-           
-            document.documentElement.style.setProperty('--quote-color', quoteColor);
-            document.documentElement.style.setProperty('--asterisk-color', asteriskColor);
-            document.documentElement.style.setProperty('--asterisk-rgb', hexToRgb(asteriskColor));
-           
-            editRoomModal.style.display = 'none';
-            reprocessAllMessages();
-            showSuccess(`Configuración de la sala "${currentRoom.name}" guardada correctamente`);
-        }
-        
-        // Sistema de gestión de APIs - MODIFICADA
-        function renderApiKeysList() {
-            apiKeysList.innerHTML = '';
-            apiKeys.forEach((api, index) => {
-                const apiElement = document.createElement('div');
-                apiElement.classList.add('api-key-item');
-                if (api.id === apiKey) {
-                    apiElement.classList.add('active');
-                }
-               
-                apiElement.innerHTML = `
-                    <div style="flex: 1;">
-                        <div class="api-key-name">${api.name}</div>
-                        <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 2px;">${api.id.substring(0, 20)}...</div>
-                    </div>
-                    <div class="api-key-actions">
-                        <button class="api-key-action-btn delete-api-key-btn" title="Eliminar API">🗑️</button>
-                    </div>
-                `;
-               
-                // Hacer clic en toda la fila para seleccionar esa API
-                apiElement.addEventListener('click', (e) => {
-                    // Si se hizo clic en el botón de eliminar, no seleccionar
-                    if (e.target.closest('.delete-api-key-btn')) {
-                        return;
-                    }
-                    // Si no es la API activa actual, seleccionarla
-                    if (api.id !== apiKey) {
-                        apiKey = api.id;
-                        apiKeyName = api.name;
-                        localStorage.setItem('activeApiKey', apiKey);
-                        localStorage.setItem('activeApiKeyName', apiKeyName);
-                        updateApiKeyDisplay();
-                        renderApiKeysList(); // Re-renderizar para actualizar el estado activo
-                        showSuccess(`API "${api.name}" seleccionada`);
-                    }
-                });
-               
-                const deleteBtn = apiElement.querySelector('.delete-api-key-btn');
-                deleteBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (confirm(`¿Estás seguro de que quieres eliminar la API "${api.name}"?`)) {
-                        deleteApiKey(index);
-                    }
-                });
-               
-                apiKeysList.appendChild(apiElement);
-            });
-        }
-        
-        async function addApiKey(name, key) {
-            if (!name.trim() || !key.trim()) {
-                showError('El nombre y la clave de API son obligatorios');
-                return;
-            }
-           
-            if (apiKeys.some(api => api.name === name)) {
-                showError('Ya existe una API con ese nombre');
-                return;
-            }
-           
-            const newApi = {
-                id: key,
-                name: name
+            inputs.roomModelSearch.oninput = (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allModels.filter(m => (m.name || '').toLowerCase().includes(term) || (m.id || '').toLowerCase().includes(term));
+                renderModelsInList('room-models-list', 'room-model-display', (id) => tempRoomModel = id, filtered);
             };
-           
-            apiKeys.push(newApi);
-           
-            const firebaseSuccess = await saveApiKeysToFirebase();
-            if (!firebaseSuccess) {
-                localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
-                showError('No se pudo guardar en Firebase. Los datos se guardarán localmente.');
-            }
-           
-            renderApiKeysList();
-           
-            // Si es la primera API, seleccionarla automáticamente
-            if (apiKeys.length === 1) {
-                apiKey = newApi.id;
-                apiKeyName = newApi.name;
-                localStorage.setItem('activeApiKey', apiKey);
-                localStorage.setItem('activeApiKeyName', apiKeyName);
-                updateApiKeyDisplay();
-            }
-           
-            newApiKeyName.value = '';
-            newApiKeyValue.value = '';
-            showSuccess(`API "${name}" añadida correctamente`);
-        }
-       
-        async function deleteApiKey(index) {
-            if (apiKeys.length <= 1) {
-                showError('No puedes eliminar la única API existente');
-                return;
-            }
-           
-            const apiName = apiKeys[index].name;
-            const deletedApiKey = apiKeys[index].id;
-           
-            // Si la API a eliminar es la activa, cambiar a otra API
-            if (deletedApiKey === apiKey) {
-                const newIndex = index === 0 ? 1 : 0;
-                apiKey = apiKeys[newIndex].id;
-                apiKeyName = apiKeys[newIndex].name;
-                localStorage.setItem('activeApiKey', apiKey);
-                localStorage.setItem('activeApiKeyName', apiKeyName);
-            }
-           
-            apiKeys.splice(index, 1);
-           
-            const firebaseSuccess = await saveApiKeysToFirebase();
-            if (!firebaseSuccess) {
-                localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
-                showError('No se pudo guardar en Firebase. Los datos se guardarán localmente.');
-            }
-           
-            renderApiKeysList();
-            updateApiKeyDisplay();
-            showSuccess(`API "${apiName}" eliminada`);
-        }
-        
-        async function testApiKey() {
-            if (!apiKey) {
-                showError('No hay API Key seleccionada');
-                return;
-            }
-           
-            try {
-                const response = await fetch('https://openrouter.ai/api/v1/models', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'HTTP-Referer': window.location.href,
-                        'X-Title': 'Chat IA con Memoria'
-                    }
-                });
-               
-                if (response.ok) {
-                    showSuccess(`API "${apiKeyName}" funciona correctamente`);
-                } else {
-                    showError(`API "${apiKeyName}" no funciona: Error ${response.status}`);
+
+            inputs.editModelSearch.onfocus = async () => {
+                if (allModels.length === 0 && apiKey) await loadModels();
+                if (allModels.length > 0) renderModelsInList('edit-models-list', 'edit-model-display', (id) => {
+                    const room = rooms.find(r => r.id === currentRoomId);
+                    room.model = id;
+                    document.getElementById('active-chat-status').textContent = id;
+                }, allModels);
+            };
+            inputs.editModelSearch.oninput = (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allModels.filter(m => (m.name || '').toLowerCase().includes(term) || (m.id || '').toLowerCase().includes(term));
+                renderModelsInList('edit-models-list', 'edit-model-display', (id) => {
+                    const room = rooms.find(r => r.id === currentRoomId);
+                    room.model = id;
+                    document.getElementById('active-chat-status').textContent = id;
+                }, filtered);
+            };
+
+            buttons.createRoom.onclick = async () => {
+                const name = inputs.roomName.value.trim();
+                if (!name) return alert('Ponle un nombre al chat');
+
+                const newRoom = {
+                    id: 'room-' + Date.now(),
+                    name: name,
+                    avatar: tempRoomAvatar,
+                    model: tempRoomModel,
+                    prompt: inputs.roomPrompt.value.trim() || 'Eres un asistente útil.',
+                    params: { 
+                        chatMemory: 10,
+                        temperature: 1.0,
+                        top_p: 1.0,
+                        max_tokens: 0
+                    },
+                    history: [],
+                    createdAt: new Date().toISOString()
+                };
+
+                rooms.unshift(newRoom);
+                await saveRooms();
+                renderRooms();
+                modals.newRoom.style.display = 'none';
+
+                // Limpiar inputs
+                inputs.roomName.value = '';
+                inputs.roomPrompt.value = '';
+                tempRoomAvatar = null;
+            };
+            buttons.back.onclick = () => showView('home');
+
+            document.getElementById('api-keys-btn').onclick = () => {
+                modals.settings.style.display = 'flex';
+            };
+
+            document.getElementById('close-settings-menu').onclick = () => modals.settings.style.display = 'none';
+
+            document.getElementById('open-highlight-settings').onclick = () => {
+                document.getElementById('color-quotes').value = quoteColor;
+                document.getElementById('color-asterisks').value = asteriskColor;
+                modals.settings.style.display = 'none';
+                modals.highlight.style.display = 'flex';
+            };
+
+            document.getElementById('save-highlight-btn').onclick = async () => {
+                quoteColor = document.getElementById('color-quotes').value;
+                asteriskColor = document.getElementById('color-asterisks').value;
+                await DB.set(DB.storeNames.settings, { id: 'quoteColor', value: quoteColor });
+                await DB.set(DB.storeNames.settings, { id: 'asteriskColor', value: asteriskColor });
+                modals.highlight.style.display = 'none';
+                // Refrescar mensajes para aplicar colores
+                if (currentRoomId) openChat(currentRoomId);
+            };
+
+            document.getElementById('close-highlight-modal').onclick = () => modals.highlight.style.display = 'none';
+
+            document.getElementById('open-api-settings').onclick = () => {
+                modals.settings.style.display = 'none';
+                modals.api.style.display = 'flex';
+                loadFirebaseKeys();
+            };
+
+            document.getElementById('close-api-modal').onclick = () => modals.api.style.display = 'none';
+
+            buttons.saveConfig.onclick = async () => {
+                const newKey = inputs.apiKey.value.trim();
+                if (newKey) {
+                    const name = prompt('Nombre para esta API Key:', 'Mi Key');
+                    await database.ref('apiKeys').push({ name: name || 'API Key', id: newKey });
+                    apiKey = newKey;
+                    await DB.set(DB.storeNames.settings, { id: 'apiKey', value: apiKey });
+                    inputs.apiKey.value = '';
+                    loadFirebaseKeys();
+                    loadModels();
                 }
-            } catch (error) {
-                showError(`Error probando API: ${error.message}`);
+            };
+
+            buttons.send.onclick = sendMessage;
+            buttons.cancel.onclick = () => { if (abortController) abortController.abort(); };
+
+            inputs.user.onkeydown = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
+            inputs.user.oninput = function () {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            };
+
+            // --- Multimodal (Imágenes) ---
+            document.getElementById('attach-btn').onclick = () => document.getElementById('chat-image-input').click();
+
+            document.getElementById('chat-image-input').onchange = async (e) => {
+                if (e.target.files[0]) {
+                    pendingImage = await compressImage(e.target.files[0]);
+                    document.getElementById('image-preview-img').src = pendingImage;
+                    document.getElementById('image-preview-container').classList.remove('hidden');
+                }
+            };
+
+            document.getElementById('remove-image-btn').onclick = clearPendingImage;
+
+            document.getElementById('edit-room-btn').onclick = () => {
+                const room = rooms.find(r => r.id === currentRoomId);
+                inputs.systemPrompt.value = room.prompt;
+                
+                // Cargar valores en sliders
+                const p = room.params || { chatMemory: 10, temperature: 1.0, top_p: 1.0, max_tokens: 0 };
+                inputs.chatMemory.value = p.chatMemory;
+                inputs.tempSlider.value = p.temperature;
+                inputs.topPSlider.value = p.top_p;
+                inputs.maxTokensInput.value = p.max_tokens || 0;
+
+                // Actualizar textos
+                document.getElementById('chat-memory-value').textContent = p.chatMemory;
+                document.getElementById('temp-value').textContent = p.temperature;
+                document.getElementById('top-p-value').textContent = p.top_p;
+                document.getElementById('edit-model-display').textContent = room.model || currentModel;
+                
+                modals.edit.style.display = 'flex';
+            };
+
+            inputs.chatMemory.oninput = (e) => document.getElementById('chat-memory-value').textContent = e.target.value;
+            inputs.tempSlider.oninput = (e) => document.getElementById('temp-value').textContent = e.target.value;
+            inputs.topPSlider.oninput = (e) => document.getElementById('top-p-value').textContent = e.target.value;
+
+            buttons.saveRoom.onclick = async () => {
+                const room = rooms.find(r => r.id === currentRoomId);
+                room.prompt = inputs.systemPrompt.value;
+                
+                room.params = {
+                    chatMemory: parseInt(inputs.chatMemory.value),
+                    temperature: parseFloat(inputs.tempSlider.value),
+                    top_p: parseFloat(inputs.topPSlider.value),
+                    max_tokens: parseInt(inputs.maxTokensInput.value) || 0
+                };
+
+                await saveRooms();
+                modals.edit.style.display = 'none';
+            };
+
+            document.getElementById('close-edit-modal').onclick = () => modals.edit.style.display = 'none';
+
+            // --- Edición de Mensajes ---
+            document.getElementById('cancel-msg-edit').onclick = () => modals.msgEdit.style.display = 'none';
+
+            buttons.saveMsgEdit.onclick = async () => {
+                const room = rooms.find(r => r.id === currentRoomId);
+                const newText = inputs.editMsgText.value.trim();
+                const msg = room.history[editingMessageIndex];
+                
+                if (newText !== null) {
+                    msg.content = newText;
+                    room.history.splice(editingMessageIndex + 1);
+                    modals.msgEdit.style.display = 'none';
+                    refreshChatUI();
+                    
+                    if (msg.role === 'user') {
+                        await generateAI(room);
+                    }
+                }
+            };
+
+            // --- Acciones de Sala ---
+            document.getElementById('close-room-actions').onclick = () => modals.roomActions.style.display = 'none';
+
+            document.getElementById('room-action-rename').onclick = async () => {
+                const room = rooms.find(r => r.id === selectedRoomId);
+                const newName = prompt('Nuevo nombre del chat:', room.name);
+                if (newName && newName !== room.name) {
+                    room.name = newName;
+                    await DB.set(DB.storeNames.rooms, room);
+                    renderRooms();
+                }
+                modals.roomActions.style.display = 'none';
+            };
+
+            document.getElementById('room-action-avatar').onclick = () => {
+                document.getElementById('room-avatar-update-input').click();
+            };
+
+            document.getElementById('room-avatar-update-input').onchange = async (e) => {
+                if (e.target.files[0]) {
+                    const room = rooms.find(r => r.id === selectedRoomId);
+                    room.avatar = await compressImage(e.target.files[0]);
+                    await DB.set(DB.storeNames.rooms, room);
+                    renderRooms();
+                    modals.roomActions.style.display = 'none';
+                }
+            };
+
+            document.getElementById('room-action-delete').onclick = async () => {
+                if (confirm('¿Estás seguro de eliminar este chat? Esta acción no se puede deshacer.')) {
+                    await DB.delete(DB.storeNames.rooms, selectedRoomId);
+                    rooms = rooms.filter(r => r.id !== selectedRoomId);
+                    renderRooms();
+                    modals.roomActions.style.display = 'none';
+                }
+            };
+
+            // Cerrar modales al hacer clic fuera
+            window.onclick = (e) => {
+                Object.values(modals).forEach(m => { if (e.target === m) m.style.display = 'none'; });
+            };
+
+            // --- Inicialización ---
+            async function initApp() {
+                try {
+                    // Cargar Salas
+                    const savedRooms = await DB.getAll(DB.storeNames.rooms);
+                    if (savedRooms && savedRooms.length > 0) {
+                        rooms = savedRooms.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    } else {
+                        rooms = [{
+                            id: 'general',
+                            name: 'IA General',
+                            prompt: 'Eres un asistente útil.',
+                            params: { chatMemory: 10 },
+                            history: [],
+                            createdAt: new Date().toISOString()
+                        }];
+                        await saveRooms();
+                    }
+
+                    // --- Sincronización de API con Firebase ---
+                    const firebaseKeySnap = await database.ref('lastUsedKeyId').once('value');
+                    const cloudLastUsedKey = firebaseKeySnap.val();
+
+                    if (cloudLastUsedKey) {
+                        apiKey = cloudLastUsedKey;
+                        console.log('API Key sincronizada desde Firebase:', apiKey.substring(0, 10) + '...');
+                        await DB.set(DB.storeNames.settings, { id: 'apiKey', value: apiKey });
+                    } else {
+                        // Fallback a IndexedDB local si Firebase no tiene nada
+                        const savedApiKey = await DB.get(DB.storeNames.settings, 'apiKey');
+                        if (savedApiKey) apiKey = savedApiKey.value;
+                    }
+
+                    const savedQuoteColor = await DB.get(DB.storeNames.settings, 'quoteColor');
+                    if (savedQuoteColor) quoteColor = savedQuoteColor.value;
+
+                    const savedAsteriskColor = await DB.get(DB.storeNames.settings, 'asteriskColor');
+                    if (savedAsteriskColor) asteriskColor = savedAsteriskColor.value;
+
+                    const savedModel = await DB.get(DB.storeNames.settings, 'selectedModel');
+                    if (savedModel) currentModel = savedModel.value;
+
+                    renderRooms();
+
+                    if (apiKey) {
+                        await loadModels();
+                    } else {
+                        console.warn('No hay API Key configurada. Los modelos no se cargarán.');
+                    }
+
+                    // Forzar tema morado
+                    document.documentElement.classList.remove('dark-mode');
+
+                    setTimeout(() => {
+                        scrollToBottom();
+                    }, 100);
+                } catch (e) {
+                    console.error('Error durante la inicialización:', e);
+                }
             }
-        }
-        
-        // Event Listeners
-        sendButton.addEventListener('click', sendMessage);
-        cancelButton.addEventListener('click', cancelStreaming);
-       
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-       
-        updateConfigButton.addEventListener('click', () => {
-            updateConfig();
-            loadModels();
-        });
-       
-        clearChatButton.addEventListener('click', clearChat);
-       
-        modelSearchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value;
-            if (searchTerm.length > 0) {
-                filterModels(searchTerm);
-                modelsList.classList.add('show');
-            } else {
-                populateModelsList(allModels);
-                modelsList.classList.remove('show');
-            }
-        });
-       
-        modelSearchInput.addEventListener('focus', () => {
-            if (allModels.length > 0) {
-                modelsList.classList.add('show');
-                filterModels(modelSearchInput.value);
-            }
-        });
-       
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.model-search-container')) {
-                modelsList.classList.remove('show');
-            }
-            if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') &&
-                !e.target.closest('.sidebar') && !e.target.closest('.mobile-menu-btn')) {
-                document.body.classList.remove('sidebar-open');
-            }
-        });
-       
-        userInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
-        });
-       
-        themeToggle.addEventListener('click', toggleDarkMode);
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.body.classList.toggle('sidebar-open');
-            });
-        }
-       
-        newRoomBtn.addEventListener('click', () => {
-            newRoomModal.style.display = 'block';
-            roomNameInput.value = '';
-            roomPromptInput.value = '';
-            document.body.classList.remove('sidebar-open');
-        });
-       
-        closeNewRoom.addEventListener('click', () => {
-            newRoomModal.style.display = 'none';
-        });
-       
-        createRoomBtn.addEventListener('click', () => {
-            const name = roomNameInput.value.trim();
-            const prompt = roomPromptInput.value.trim();
-           
-            if (!name) {
-                showError('El nombre de la sala es obligatorio');
-                return;
-            }
-           
-            createRoom(name, prompt);
-            newRoomModal.style.display = 'none';
-        });
-       
-        window.addEventListener('click', (e) => {
-            if (e.target === newRoomModal) {
-                newRoomModal.style.display = 'none';
-            }
-        });
-       
-        roomsBtn.addEventListener('click', () => {
-            roomsModal.style.display = 'block';
-            document.body.classList.remove('sidebar-open');
-        });
-       
-        closeRooms.addEventListener('click', () => {
-            roomsModal.style.display = 'none';
-        });
-       
-        window.addEventListener('click', (e) => {
-            if (e.target === roomsModal) {
-                roomsModal.style.display = 'none';
-            }
-        });
-        
-        // Event Listeners para sliders
-        chatMemorySlider.addEventListener('input', () => updateSliderValue(chatMemorySlider, chatMemoryValue, (v) => parseInt(v)));
-        maxTokensSlider.addEventListener('input', () => updateSliderValue(maxTokensSlider, maxTokensValue, (v) => parseInt(v)));
-        temperatureSlider.addEventListener('input', () => updateSliderValue(temperatureSlider, temperatureValue, (v) => parseFloat(v).toFixed(3)));
-        topPSlider.addEventListener('input', () => updateSliderValue(topPSlider, topPValue, (v) => parseFloat(v).toFixed(3)));
-        
-        // Event Listeners para editar sala
-        editRoomBtn.addEventListener('click', openEditRoomModal);
-       
-        closeEditRoom.addEventListener('click', () => {
-            editRoomModal.style.display = 'none';
-        });
-       
-        quoteColorPicker.addEventListener('input', (e) => {
-            quoteColor = e.target.value;
-            updateColorPreview();
-        });
-       
-        asteriskColorPicker.addEventListener('input', (e) => {
-            asteriskColor = e.target.value;
-            updateAsteriskColorPreview();
-        });
-       
-        saveRoomBtn.addEventListener('click', saveRoomChanges);
-       
-        defaultParamsBtn.addEventListener('click', resetToDefaults);
-       
-        window.addEventListener('click', (e) => {
-            if (e.target === editRoomModal) {
-                editRoomModal.style.display = 'none';
-            }
-        });
-        
-        // Event Listeners para APIs
-        apiKeysBtn.addEventListener('click', () => {
-            renderApiKeysList(); // Actualizar la lista al abrir el modal
-            apiKeysModal.style.display = 'block';
-            document.body.classList.remove('sidebar-open');
-        });
-       
-        closeApiKeys.addEventListener('click', () => {
-            apiKeysModal.style.display = 'none';
-        });
-       
-        addApiKeyBtn.addEventListener('click', () => {
-            addApiKey(newApiKeyName.value.trim(), newApiKeyValue.value.trim());
-        });
-        
-        testApiBtn.addEventListener('click', testApiKey);
-        
-        selectApiBtn.addEventListener('click', () => {
-            apiKeysModal.style.display = 'none';
-            showSuccess(`API "${apiKeyName}" seleccionada como activa`);
-        });
-        
-        closeApiModalBtn.addEventListener('click', () => {
-            apiKeysModal.style.display = 'none';
-        });
-       
-        window.addEventListener('click', (e) => {
-            if (e.target === apiKeysModal) {
-                apiKeysModal.style.display = 'none';
-            }
-        });
-        
-        window.addEventListener('resize', handleResize);
-       
-        // Inicializar
-        initializeTheme();
-        initializeFirebase();
-        setupSidebarScroll();
-        setupMessagesScroll();
-        
-        if (apiKeys.length > 0 && !apiKey) {
-            const firstApi = apiKeys[0];
-            apiKey = firstApi.id;
-            apiKeyName = firstApi.name;
-            localStorage.setItem('activeApiKey', apiKey);
-            localStorage.setItem('activeApiKeyName', apiKeyName);
-        }
-        
-        loadModels();
-        updateCurrentRoomDisplay();
-        renderRoomsList();
-        updateApiKeyDisplay();
-        handleResize();
-       
-        // Cargar historial de la sala actual al iniciar
-        const currentRoom = getCurrentRoom();
-        conversationHistory = [...currentRoom.history];
-        conversationHistory.forEach((message, index) => {
-            addMessage(message.content, message.role === 'user' ? 'user' : 'ai', index);
-        });
-        
-        // Configurar auto-scroll al inicio
-        setTimeout(() => {
-            scrollToBottomSmooth();
-        }, 100);
-    </script>
+
+            initApp();
+        </script>
 </body>
+
 </html>
